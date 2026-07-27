@@ -109,6 +109,19 @@ body {
   animation: sheet-in 0.24s ease-out both;
 }
 
+@keyframes nav-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(280%);
+  }
+}
+
+.animate-nav-progress {
+  animation: nav-progress 1.1s ease-in-out infinite;
+}
+
 .no-scrollbar {
   scrollbar-width: none;
 }

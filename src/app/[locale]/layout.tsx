@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { NavigationProgress } from "@/components/NavigationProgress";
 import { JsonLd } from "@/components/JsonLd";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import { CartProvider } from "@/lib/cart";
@@ -61,6 +62,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <JsonLd data={organizationJsonLd(locale)} />
         <LocaleProvider locale={locale}>
           <CartProvider>
+            <NavigationProgress />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
