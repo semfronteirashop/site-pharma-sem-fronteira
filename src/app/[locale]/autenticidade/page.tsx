@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AppLink } from "@/components/AppLink";
 import { site } from "@/data/site";
 import { createMetadata } from "@/lib/seo";
 import { buildSupportMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -77,12 +77,12 @@ export default async function AuthenticityPage({ params }: { params: Params }) {
         >
           {dictionary.helpPage.talkWhatsapp}
         </a>
-        <Link
+        <AppLink
           href={localizePath(locale, "/produtos")}
           className="inline-flex h-11 items-center rounded-lg border border-border bg-surface px-5 text-sm font-bold"
         >
           {dictionary.helpPage.seeProducts}
-        </Link>
+        </AppLink>
       </div>
     </div>
   );

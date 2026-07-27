@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 type SectionHeadingProps = {
@@ -29,12 +29,12 @@ export function SectionHeading({
         ) : null}
       </div>
       {href ? (
-        <Link
+        <AppLink
           href={localeHref(href)}
           className="shrink-0 pt-0.5 text-xs font-semibold text-teal-deep hover:underline sm:text-sm"
         >
           {linkLabel ?? dictionary.home.seeAll}
-        </Link>
+        </AppLink>
       ) : null}
     </div>
   );

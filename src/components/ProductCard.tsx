@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import type { Product } from "@/data/products";
 import { discountPercent, formatPrice } from "@/lib/format";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 type ProductCardProps = {
@@ -18,7 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_1px_0_rgba(17,24,39,0.03)] transition hover:shadow-[var(--shadow-soft)]">
       <div className="relative">
-        <Link
+        <AppLink
           href={href(`/produto/${product.slug}`)}
           className="relative block aspect-[1/1.05] overflow-hidden bg-[#eef3fa]"
         >
@@ -27,10 +27,10 @@ export function ProductCard({ product }: ProductCardProps) {
             src={product.image}
             alt={product.name}
             fill
-            sizes="(max-width: 768px) 50vw, 25vw"
+            sizes="(max-width: 419px) 100vw, (max-width: 768px) 50vw, 25vw"
             className="object-contain p-3 transition duration-300 group-hover:scale-[1.03] sm:p-4"
           />
-        </Link>
+        </AppLink>
 
         <div className="absolute left-2 top-2 z-10 flex max-w-[70%] flex-col gap-1">
           {discount ? (
@@ -55,11 +55,11 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.brand}
         </p>
 
-        <Link href={href(`/produto/${product.slug}`)} className="mt-0.5">
+        <AppLink href={href(`/produto/${product.slug}`)} className="mt-0.5">
           <h3 className="line-clamp-2 min-h-[2.4rem] text-[13px] font-bold leading-snug text-foreground group-hover:text-blue sm:min-h-[2.6rem] sm:text-sm">
             {product.name}
           </h3>
-        </Link>
+        </AppLink>
 
         <p className="mt-1 truncate text-[11px] text-muted">
           {product.dosage} · {product.unit}

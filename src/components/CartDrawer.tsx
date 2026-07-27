@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function CartDrawer() {
@@ -61,13 +61,13 @@ export function CartDrawer() {
           {items.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border px-4 py-12 text-center">
               <p className="text-sm text-muted">{dictionary.cartDrawer.empty}</p>
-              <Link
+              <AppLink
                 href={href("/produtos")}
                 onClick={closeCart}
                 className="mt-4 inline-flex rounded-full bg-teal px-4 py-2 text-sm font-bold text-foreground"
               >
                 {dictionary.cartDrawer.seeProducts}
-              </Link>
+              </AppLink>
             </div>
           ) : (
             <ul className="space-y-3">
@@ -86,13 +86,13 @@ export function CartDrawer() {
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <Link
+                    <AppLink
                       href={href(`/produto/${item.slug}`)}
                       onClick={closeCart}
                       className="line-clamp-2 text-sm font-semibold hover:text-blue"
                     >
                       {item.name}
-                    </Link>
+                    </AppLink>
                     <p className="mt-1 text-xs text-muted">{item.brand}</p>
                     <p className="mt-1 text-sm font-bold">
                       {formatPrice(item.price, locale)}
@@ -146,7 +146,7 @@ export function CartDrawer() {
               {formatPrice(subtotal, locale)}
             </span>
           </div>
-          <Link
+          <AppLink
             href={href("/checkout")}
             onClick={closeCart}
             className={`flex h-12 items-center justify-center rounded-full text-sm font-bold ${
@@ -156,7 +156,7 @@ export function CartDrawer() {
             }`}
           >
             {dictionary.cartDrawer.goCheckout}
-          </Link>
+          </AppLink>
         </div>
       </aside>
     </div>

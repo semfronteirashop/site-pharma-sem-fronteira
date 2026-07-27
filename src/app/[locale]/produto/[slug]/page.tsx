@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { AppLink } from "@/components/AppLink";
 import { JsonLd } from "@/components/JsonLd";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductMobileBuyBar } from "@/components/ProductMobileBuyBar";
@@ -56,21 +56,21 @@ export default async function ProductPage({ params }: { params: Params }) {
       <JsonLd data={productJsonLd(product, locale)} />
       <div className="mx-auto max-w-7xl px-3 py-5 pb-28 sm:px-4 sm:py-8 sm:pb-8 md:px-6">
         <nav className="mb-4 overflow-x-auto whitespace-nowrap text-xs text-muted no-scrollbar sm:mb-6 sm:text-sm">
-          <Link
+          <AppLink
             href={localizePath(locale, "/produtos")}
             className="hover:text-blue"
           >
             {dictionary.nav.products}
-          </Link>
+          </AppLink>
           <span className="mx-2">/</span>
           {category ? (
             <>
-              <Link
+              <AppLink
                 href={localizePath(locale, `/categoria/${category.slug}`)}
                 className="hover:text-blue"
               >
                 {categoryName(category, locale)}
-              </Link>
+              </AppLink>
               <span className="mx-2">/</span>
             </>
           ) : null}
@@ -133,12 +133,12 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <div className="mt-6 hidden flex-wrap gap-3 md:flex">
               <AddToCartButton product={product} />
-              <Link
+              <AppLink
                 href={localizePath(locale, "/checkout")}
                 className="inline-flex h-12 items-center rounded-full border border-border px-5 text-sm font-bold hover:border-blue hover:text-blue"
               >
                 {dictionary.productPage.goCheckout}
-              </Link>
+              </AppLink>
             </div>
           </div>
         </div>

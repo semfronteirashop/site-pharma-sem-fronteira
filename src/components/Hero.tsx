@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { site } from "@/data/site";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function Hero() {
@@ -30,18 +30,19 @@ export function Hero() {
             {dictionary.home.heroLead(site.supportHours)}
           </p>
           <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-3">
-            <Link
+            <AppLink
               href={href("/produtos")}
+              prefetch
               className="inline-flex h-12 items-center justify-center rounded-full bg-teal px-6 text-sm font-bold text-foreground hover:bg-teal-hover"
             >
               {dictionary.home.heroCtaProducts}
-            </Link>
-            <Link
+            </AppLink>
+            <AppLink
               href={href("/ofertas")}
               className="inline-flex h-12 items-center justify-center rounded-full border border-white/40 px-6 text-sm font-bold text-white hover:bg-white/10"
             >
               {dictionary.home.heroCtaOffers}
-            </Link>
+            </AppLink>
           </div>
         </div>
       </div>

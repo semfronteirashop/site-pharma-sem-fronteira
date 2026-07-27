@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AppLink } from "@/components/AppLink";
 import { CategoryCard } from "@/components/CategoryCard";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -121,7 +121,7 @@ function FilterChip({
   active?: boolean;
 }) {
   return (
-    <Link
+    <AppLink
       href={href}
       className={`shrink-0 rounded-full px-3 py-2 text-xs font-semibold ${
         active
@@ -130,6 +130,6 @@ function FilterChip({
       }`}
     >
       {label}
-    </Link>
+    </AppLink>
   );
 }

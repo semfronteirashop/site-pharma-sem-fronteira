@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { navHrefs, site } from "@/data/site";
 import { useCart } from "@/lib/cart";
+import { AppLink } from "@/components/AppLink";
 import { SearchForm } from "@/components/SearchForm";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLocale } from "@/components/LocaleProvider";
@@ -55,7 +55,7 @@ export function Header() {
             {menuOpen ? "✕" : "☰"}
           </button>
 
-          <Link href={href("/")} className="min-w-0 shrink">
+          <AppLink href={href("/")} prefetch className="min-w-0 shrink">
             <span className="flex items-center gap-2">
               <span className="relative h-8 w-24 sm:h-9 sm:w-28">
                 <Image
@@ -71,7 +71,7 @@ export function Header() {
                 Sem Fronteira {dictionary.brandSubtitle}
               </span>
             </span>
-          </Link>
+          </AppLink>
 
           <div className="mx-auto hidden w-full max-w-xl flex-1 md:block">
             <SearchForm />
@@ -125,13 +125,13 @@ export function Header() {
         <nav className="hidden border-t border-border lg:block">
           <div className="mx-auto flex max-w-7xl items-center gap-1 px-4 md:px-6">
             {navHrefs.map((link) => (
-              <Link
+              <AppLink
                 key={link.href + link.key}
                 href={href(link.href)}
                 className="px-3 py-3 text-sm font-medium text-foreground/80 hover:text-teal-deep"
               >
                 {dictionary.nav[link.key]}
-              </Link>
+              </AppLink>
             ))}
           </div>
         </nav>
@@ -140,13 +140,13 @@ export function Header() {
         <div className="border-t border-border px-3 py-2 lg:hidden">
           <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {navHrefs.map((link) => (
-              <Link
+              <AppLink
                 key={`chip-${link.href}-${link.key}`}
                 href={href(link.href)}
                 className="shrink-0 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground"
               >
                 {dictionary.nav[link.key]}
-              </Link>
+              </AppLink>
             ))}
           </div>
         </div>
@@ -160,14 +160,14 @@ export function Header() {
             </div>
             <nav className="flex flex-col gap-1">
               {navHrefs.map((link) => (
-                <Link
+                <AppLink
                   key={link.href + link.key}
                   href={href(link.href)}
                   onClick={() => setMenuOpen(false)}
                   className="rounded-2xl px-3 py-3.5 text-base font-medium hover:bg-background"
                 >
                   {dictionary.nav[link.key]}
-                </Link>
+                </AppLink>
               ))}
             </nav>
             <a

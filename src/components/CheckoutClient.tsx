@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
 import { buildCheckoutMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function CheckoutClient() {
@@ -16,12 +16,12 @@ export function CheckoutClient() {
       <div className="rounded-xl border border-dashed border-border bg-surface px-6 py-14 text-center">
         <p className="font-semibold">{dictionary.checkout.emptyTitle}</p>
         <p className="mt-1 text-sm text-muted">{dictionary.checkout.emptyLead}</p>
-        <Link
+        <AppLink
           href={href("/produtos")}
           className="mt-5 inline-flex h-11 items-center rounded-full bg-teal px-5 text-sm font-bold text-foreground"
         >
           {dictionary.checkout.seeProducts}
-        </Link>
+        </AppLink>
       </div>
     );
   }
@@ -113,12 +113,12 @@ export function CheckoutClient() {
             {dictionary.checkout.sendWhatsapp}
           </a>
           <div className="flex gap-2">
-            <Link
+            <AppLink
               href={href("/produtos")}
               className="inline-flex h-11 flex-1 items-center justify-center rounded-full border border-border text-sm font-semibold"
             >
               {dictionary.checkout.keepShopping}
-            </Link>
+            </AppLink>
             <button
               type="button"
               onClick={() => clearCart()}

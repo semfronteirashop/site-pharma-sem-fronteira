@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import type { Category } from "@/data/categories";
 import { categoryDescription, categoryName } from "@/data/categories";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 const pastelBySlug: Record<string, string> = {
@@ -23,7 +23,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
   const name = categoryName(category, locale);
 
   return (
-    <Link
+    <AppLink
       href={href(`/categoria/${category.slug}`)}
       className={`group flex h-full flex-col items-center rounded-2xl p-3 text-center transition active:scale-[0.98] sm:flex-row sm:items-center sm:gap-3 sm:p-4 sm:text-left hover:shadow-[var(--shadow-soft)] ${pastel}`}
     >
@@ -45,6 +45,6 @@ export function CategoryCard({ category }: CategoryCardProps) {
           {categoryDescription(category, locale)}
         </p>
       </div>
-    </Link>
+    </AppLink>
   );
 }

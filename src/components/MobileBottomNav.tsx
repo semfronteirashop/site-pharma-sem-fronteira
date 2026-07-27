@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/data/site";
 import { useCart } from "@/lib/cart";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 import { stripLocalePrefix } from "@/i18n/paths";
 
@@ -116,7 +116,7 @@ export function MobileBottomNav() {
     >
       <div className="mx-auto grid max-w-lg grid-cols-5 gap-0.5 px-1.5 pt-1.5">
         {items.map((item) => (
-          <Link
+          <AppLink
             key={item.key}
             href={item.href}
             className={`flex min-h-12 flex-col items-center justify-center rounded-xl text-[10px] font-semibold ${
@@ -125,7 +125,7 @@ export function MobileBottomNav() {
           >
             {item.icon}
             <span className="mt-1 truncate px-0.5">{item.label}</span>
-          </Link>
+          </AppLink>
         ))}
 
         <button

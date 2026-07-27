@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Hero } from "@/components/Hero";
+import { AppLink } from "@/components/AppLink";
 import { CategoryCard } from "@/components/CategoryCard";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -38,9 +38,9 @@ export default async function HomePage({ params }: { params: Params }) {
   const dictionary = getDictionary(locale);
 
   const categories = getFeaturedCategories();
-  const featured = getFeaturedProducts().slice(0, 8);
-  const bestSellers = getBestSellers().slice(0, 8);
-  const offers = getSaleProducts().slice(0, 8);
+  const featured = getFeaturedProducts().slice(0, 4);
+  const bestSellers = getBestSellers().slice(0, 4);
+  const offers = getSaleProducts().slice(0, 4);
 
   return (
     <>
@@ -103,12 +103,12 @@ export default async function HomePage({ params }: { params: Params }) {
               {dictionary.home.authDesc(site.supportHours)}
             </p>
           </div>
-          <Link
+          <AppLink
             href={localizePath(locale, "/autenticidade")}
             className="inline-flex h-11 w-full items-center justify-center rounded-full bg-blue px-5 text-sm font-bold text-white hover:bg-blue-hover md:w-auto"
           >
             {dictionary.home.howToAuth}
-          </Link>
+          </AppLink>
         </div>
       </section>
     </>

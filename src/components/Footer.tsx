@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { site, tSite } from "@/data/site";
 import { buildSupportMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
+import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function Footer() {
@@ -46,9 +46,9 @@ export function Footer() {
           <ul className="mt-3 space-y-2">
             {institutional.map((link) => (
               <li key={link.label}>
-                <Link href={href(link.href)} className="text-sm text-muted hover:text-teal-deep">
+                <AppLink href={href(link.href)} className="text-sm text-muted hover:text-teal-deep">
                   {link.label}
-                </Link>
+                </AppLink>
               </li>
             ))}
           </ul>
@@ -61,9 +61,9 @@ export function Footer() {
           <ul className="mt-3 space-y-2">
             {politicas.map((link) => (
               <li key={link.label}>
-                <Link href={href(link.href)} className="text-sm text-muted hover:text-teal-deep">
+                <AppLink href={href(link.href)} className="text-sm text-muted hover:text-teal-deep">
                   {link.label}
-                </Link>
+                </AppLink>
               </li>
             ))}
           </ul>
