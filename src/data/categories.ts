@@ -13,50 +13,62 @@ export type Category = {
 
 export const categories: Category[] = [
   {
-    id: "cat-orales",
-    name: { es: "Orales", pt: "Orais" },
-    slug: "orales",
-    description: {
-      es: "Comprimidos y capsulas listos para pedido.",
-      pt: "Comprimidos e capsulas prontos para pedido.",
+    id: "cat-anabolizantes",
+    name: {
+      es: "Anabolizantes",
+      pt: "Anabolizantes",
     },
-    image: "/categories/orales.svg",
+    slug: "anabolizantes",
+    description: {
+      es: "Linea anabolica con stock rotativo.",
+      pt: "Linha anabolica com estoque rotativo.",
+    },
+    image: "/categories/anabolizantes.svg",
     featured: true,
     sortOrder: 1,
   },
   {
-    id: "cat-inyectables",
-    name: { es: "Inyectables", pt: "Injetaveis" },
-    slug: "inyectables",
-    description: {
-      es: "Linea inyectable con stock rotativo.",
-      pt: "Linha injetavel com estoque rotativo.",
+    id: "cat-esteroide",
+    name: {
+      es: "Esteroide",
+      pt: "Esteroide",
     },
-    image: "/categories/inyectables.svg",
+    slug: "esteroide",
+    description: {
+      es: "Esteroides con lote confirmado por WhatsApp.",
+      pt: "Esteroides com lote confirmado pelo WhatsApp.",
+    },
+    image: "/categories/esteroide.svg",
     featured: true,
     sortOrder: 2,
   },
   {
+    id: "cat-emagrecedores",
+    name: {
+      es: "Emagrecedores",
+      pt: "Emagrecedores",
+    },
+    slug: "emagrecedores",
+    description: {
+      es: "Opciones para corte y control de peso.",
+      pt: "Opcoes para corte e controle de peso.",
+    },
+    image: "/categories/emagrecedores.svg",
+    featured: true,
+    sortOrder: 3,
+  },
+  {
     id: "cat-hormonios",
-    name: { es: "Hormonios", pt: "Hormonios" },
+    name: {
+      es: "Hormonios",
+      pt: "Hormonios",
+    },
     slug: "hormonios",
     description: {
       es: "Soporte hormonal. Confirmamos lote por WhatsApp.",
       pt: "Suporte hormonal. Confirmamos lote pelo WhatsApp.",
     },
     image: "/categories/hormonios.svg",
-    featured: true,
-    sortOrder: 3,
-  },
-  {
-    id: "cat-combos",
-    name: { es: "Combos", pt: "Combos" },
-    slug: "combos",
-    description: {
-      es: "Kits armados para bajar el costo por producto.",
-      pt: "Kits montados para baixar o custo por produto.",
-    },
-    image: "/categories/combos.svg",
     featured: true,
     sortOrder: 4,
   },

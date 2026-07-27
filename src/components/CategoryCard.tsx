@@ -7,10 +7,10 @@ import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 const pastelBySlug: Record<string, string> = {
-  orales: "bg-pastel-1",
-  inyectables: "bg-pastel-2",
-  hormonios: "bg-pastel-3",
-  combos: "bg-pastel-4",
+  anabolizantes: "bg-pastel-1",
+  esteroide: "bg-pastel-2",
+  emagrecedores: "bg-pastel-3",
+  hormonios: "bg-pastel-4",
 };
 
 type CategoryCardProps = {

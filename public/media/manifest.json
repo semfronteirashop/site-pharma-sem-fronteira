@@ -15,145 +15,715 @@
   ],
   "products": [
     {
-      "id": 36,
       "name": "Deposteron Cipionato de Testo 10ml",
-      "slug": null,
+      "slug": "deposteron-cipionato-de-testo-10ml",
       "src": "/products/remote/deposteron-cipionato-de-testo-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/deposteron-cipionato-de-testo-10ml-200-00-3768ac6b.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/deposteron-cipionato-de-testo-10ml-200-00-3768ac6b.webp",
+      "category": "anabolizantes",
+      "price": 200000,
+      "brand": "Landerlan"
     },
     {
-      "id": 28,
       "name": "Masteron Propionato 100mg 10ml",
-      "slug": null,
+      "slug": "masteron-propionato-100mg-10ml",
       "src": "/products/remote/masteron-propionato-100mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-propionato-100mg-10ml-220-00-856f928d.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-propionato-100mg-10ml-220-00-856f928d.webp",
+      "category": "anabolizantes",
+      "price": 220000,
+      "brand": "King"
     },
     {
-      "id": 26,
       "name": "Dianabol 10mg 100Cp",
-      "slug": null,
+      "slug": "dianabol-10mg-100cp",
       "src": "/products/remote/dianabol-10mg-100cp.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-10mg-100cp-110-00-b51f9661.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-10mg-100cp-110-00-b51f9661.webp",
+      "category": "anabolizantes",
+      "price": 110000,
+      "brand": "King"
     },
     {
-      "id": 24,
       "name": "Cut Stack 150mg 10ml",
-      "slug": null,
+      "slug": "cut-stack-150mg-10ml",
       "src": "/products/remote/cut-stack-150mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/cut-stack-150mg-10ml-230-00-c4ae15e7.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/cut-stack-150mg-10ml-230-00-c4ae15e7.webp",
+      "category": "emagrecedores",
+      "price": 230000,
+      "brand": "King"
     },
     {
-      "id": 21,
       "name": "T.G Tirzepatida 15mg 4 Ampolas",
-      "slug": null,
+      "slug": "t-g-tirzepatida-15mg-4-ampolas",
       "src": "/products/remote/t-g-tirzepatida-15mg-4-ampolas.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/tg-tirzec-4dbd1b28-e726f0ef.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/tg-tirzec-4dbd1b28-e726f0ef.webp",
+      "category": "emagrecedores",
+      "price": 1000000,
+      "brand": "Sem Fronteira"
     },
     {
-      "id": 77,
       "name": "Trestolone Enantato 100mg 10ml",
-      "slug": null,
-      "src": "/products/remote/trestolone-enantato-100mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/zphc-trestolone-enantato-50mg-10ml-1778080687739-31f47947.avif"
+      "slug": "trestolone-enantato-100mg-10ml",
+      "src": "/products/remote/trestolone-enantato-100mg-10ml.avif",
+      "remote": "https://pharmasemfronteira.com/api/media/products/zphc-trestolone-enantato-50mg-10ml-1778080687739-31f47947.avif",
+      "category": "anabolizantes",
+      "price": 1190000,
+      "brand": "ZPHC"
     },
     {
-      "id": 76,
       "name": "Trestolona Enantato 50mg 10ml",
-      "slug": null,
+      "slug": "trestolona-enantato-50mg-10ml",
       "src": "/products/remote/trestolona-enantato-50mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/trestolona-enantato-50mg-10ml-940-00-be446b86.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/trestolona-enantato-50mg-10ml-940-00-be446b86.webp",
+      "category": "anabolizantes",
+      "price": 940000,
+      "brand": "ZPHC"
     },
     {
-      "id": 75,
       "name": "Trestolona Acetato 50mg 10ml",
-      "slug": null,
+      "slug": "trestolona-acetato-50mg-10ml",
       "src": "/products/remote/trestolona-acetato-50mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/trestolona-acetato-50mg-10ml-780-00-22f62566.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/trestolona-acetato-50mg-10ml-780-00-22f62566.webp",
+      "category": "anabolizantes",
+      "price": 780000,
+      "brand": "ZPHC"
     },
     {
-      "id": 74,
       "name": "Trembolona Enantato 200mg 10 Ampolas",
-      "slug": null,
+      "slug": "trembolona-enantato-200mg-10-ampolas",
       "src": "/products/remote/trembolona-enantato-200mg-10-ampolas.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-enantato-200mg-10-ampolas-590-00-bf54ce3a.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-enantato-200mg-10-ampolas-590-00-bf54ce3a.webp",
+      "category": "anabolizantes",
+      "price": 590000,
+      "brand": "ZPHC"
     },
     {
-      "id": 73,
       "name": "Trembolona Acetato 100mg 10 Ampolas",
-      "slug": null,
+      "slug": "trembolona-acetato-100mg-10-ampolas",
       "src": "/products/remote/trembolona-acetato-100mg-10-ampolas.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-acetato-100mg-10-ampolas-490-00-8054d2c2.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-acetato-100mg-10-ampolas-490-00-8054d2c2.webp",
+      "category": "anabolizantes",
+      "price": 490000,
+      "brand": "ZPHC"
     },
     {
-      "id": 72,
       "name": "TB500 5mg 5 Ampolas",
-      "slug": null,
+      "slug": "tb500-5mg-5-ampolas",
       "src": "/products/remote/tb500-5mg-5-ampolas.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/tb-500-5mg-r2-research-labs-peptideo-416-800x-b1b3678c.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/tb-500-5mg-r2-research-labs-peptideo-416-800x-b1b3678c.webp",
+      "category": "anabolizantes",
+      "price": 1900000,
+      "brand": "ZPHC"
     },
     {
-      "id": 71,
-      "name": "NPP 100mg 10ml $390,00",
-      "slug": null,
-      "src": "/products/remote/npp-100mg-10ml-390-00.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/npp-100mg-10ml-390-00-f446f376.webp"
+      "name": "NPP 100mg 10ml",
+      "slug": "npp-100mg-10ml",
+      "src": "/products/remote/npp-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/npp-100mg-10ml-390-00-f446f376.webp",
+      "category": "anabolizantes",
+      "price": 390000,
+      "brand": "ZPHC"
     },
     {
-      "id": 70,
       "name": "Mega Mix 250mg 10ml",
-      "slug": null,
+      "slug": "mega-mix-250mg-10ml",
       "src": "/products/remote/mega-mix-250mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/mega-mix-250mg-10ml-490-00-f890bbc6.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/mega-mix-250mg-10ml-490-00-f890bbc6.webp",
+      "category": "anabolizantes",
+      "price": 490000,
+      "brand": "ZPHC"
     },
     {
-      "id": 69,
       "name": "Masteron 100mg 10ml",
-      "slug": null,
+      "slug": "masteron-100mg-10ml",
       "src": "/products/remote/masteron-100mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-100mg-10ml-540-00-65e46e04.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-100mg-10ml-540-00-65e46e04.webp",
+      "category": "anabolizantes",
+      "price": 540000,
+      "brand": "ZPHC"
     },
     {
-      "id": 68,
       "name": "Hemogenin 25mg 100cp",
-      "slug": null,
+      "slug": "hemogenin-25mg-100cp",
       "src": "/products/remote/hemogenin-25mg-100cp.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/hemogenin-25mg-100cp-390-00-dfcd15a8.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/hemogenin-25mg-100cp-390-00-dfcd15a8.webp",
+      "category": "anabolizantes",
+      "price": 390000,
+      "brand": "ZPHC"
     },
     {
-      "id": 67,
       "name": "Durateston 250mg 10Ampolas",
-      "slug": null,
+      "slug": "durateston-250mg-10ampolas",
       "src": "/products/remote/durateston-250mg-10ampolas.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/durateston-250mg-10ampolas-390-00-98e4a4bf.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/durateston-250mg-10ampolas-390-00-98e4a4bf.webp",
+      "category": "anabolizantes",
+      "price": 390000,
+      "brand": "ZPHC"
     },
     {
-      "id": 66,
       "name": "Dianabol 20mg 100cp",
-      "slug": null,
+      "slug": "dianabol-20mg-100cp",
       "src": "/products/remote/dianabol-20mg-100cp.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-20mg-100cp-350-00-c5929337.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-20mg-100cp-350-00-c5929337.webp",
+      "category": "anabolizantes",
+      "price": 350000,
+      "brand": "ZPHC"
     },
     {
-      "id": 65,
-      "name": "Testoviron (Enantato Testo)  250mg 10ml",
-      "slug": null,
+      "name": "Testoviron (Enantato Testo) 250mg 10ml",
+      "slug": "testoviron-enantato-testo-250mg-10ml",
       "src": "/products/remote/testoviron-enantato-testo-250mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/testoviron-enantato-testo-250mg-10ml-240-00-5a821cac.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/testoviron-enantato-testo-250mg-10ml-240-00-5a821cac.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Muscle Lab"
     },
     {
-      "id": 64,
       "name": "Testex ( Cipionato Testo) 250mg 10ml",
-      "slug": null,
+      "slug": "testex-cipionato-testo-250mg-10ml",
       "src": "/products/remote/testex-cipionato-testo-250mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/testex-cipionato-testo-250mg-10ml-240-00-d76c91df.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/testex-cipionato-testo-250mg-10ml-240-00-d76c91df.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Muscle Lab"
     },
     {
-      "id": 63,
       "name": "Sustan Xt (Durateston) 250mg 10ml",
-      "slug": null,
+      "slug": "sustan-xt-durateston-250mg-10ml",
       "src": "/products/remote/sustan-xt-durateston-250mg-10ml.webp",
-      "remote": "https://pharmasemfronteira.com/api/media/products/sustan-xt-durateston-250mg-10ml-240-00-63aa3b8d.webp"
+      "remote": "https://pharmasemfronteira.com/api/media/products/sustan-xt-durateston-250mg-10ml-240-00-63aa3b8d.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Muscle Lab"
+    },
+    {
+      "name": "Primobolan 100mg 10ml",
+      "slug": "primobolan-100mg-10ml",
+      "src": "/products/remote/primobolan-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/primobolan-100mg-10ml-480-00-5b6e1930.webp",
+      "category": "anabolizantes",
+      "price": 480000,
+      "brand": "Muscle Lab"
+    },
+    {
+      "name": "Dianabol Inj. 50mg 10ml",
+      "slug": "dianabol-inj-50mg-10ml",
+      "src": "/products/remote/dianabol-inj-50mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-inj-50mg-10ml-240-00-364ecbe9.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Muscle Lab"
+    },
+    {
+      "name": "Deca 300mg 10ml",
+      "slug": "deca-300mg-10ml",
+      "src": "/products/remote/deca-300mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/deca-300mg-10ml-240-00-525db890.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Muscle Lab"
+    },
+    {
+      "name": "Cut Stack 200mg 10ml",
+      "slug": "cut-stack-200mg-10ml",
+      "src": "/products/remote/cut-stack-200mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/cut-stack-200mg-10ml-240-00-97154d51.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Muscle Lab"
+    },
+    {
+      "name": "TriTrembo 200mg 10ml",
+      "slug": "tritrembo-200mg-10ml",
+      "src": "/products/remote/tritrembo-200mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/tritrembo-200mg-10ml-280-00-8c8f541a.webp",
+      "category": "anabolizantes",
+      "price": 280000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Trembolona Enantato 100mg 10ml",
+      "slug": "trembolona-enantato-100mg-10ml",
+      "src": "/products/remote/trembolona-enantato-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-enantato-100mg-10ml-230-00-c19df163.webp",
+      "category": "anabolizantes",
+      "price": 230000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Trembolona Acetato 100mg 10ml",
+      "slug": "trembolona-acetato-100mg-10ml",
+      "src": "/products/remote/trembolona-acetato-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-acetato-100mg-10ml-250-00-1add115b.webp",
+      "category": "anabolizantes",
+      "price": 250000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Stanozolol 30 ml Aquoso",
+      "slug": "stanozolol-30-ml-aquoso",
+      "src": "/products/remote/stanozolol-30-ml-aquoso.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/stanozolol-15-e-30-ml-aquoso-110-e-160-7ed117bc.webp",
+      "category": "anabolizantes",
+      "price": 160000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Stanozolol 15m lAquoso",
+      "slug": "stanozolol-15m-laquoso",
+      "src": "/products/remote/stanozolol-15m-laquoso.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/stanozolol-15-e-30-ml-aquoso-110-e-160-8845f73a.webp",
+      "category": "anabolizantes",
+      "price": 110000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Stanozolol 10mg 100cp",
+      "slug": "stanozolol-10mg-100cp",
+      "src": "/products/remote/stanozolol-10mg-100cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/stanozolol-10mg-100cp-100-00-1b9b9edb.webp",
+      "category": "anabolizantes",
+      "price": 100000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Proviron 25mg 20cp",
+      "slug": "proviron-25mg-20cp",
+      "src": "/products/remote/proviron-25mg-20cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/proviron-25mg-20cp-140-e9406176.webp",
+      "category": "anabolizantes",
+      "price": 140000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Propionato de Testo 100mg 10ml",
+      "slug": "propionato-de-testo-100mg-10ml",
+      "src": "/products/remote/propionato-de-testo-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/propionato-de-testo-100mg-10ml-190-00-7f4b9ef9.webp",
+      "category": "anabolizantes",
+      "price": 190000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Primobolan Oral 25mg 30cp",
+      "slug": "primobolan-oral-25mg-30cp",
+      "src": "/products/remote/primobolan-oral-25mg-30cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/proviron-25mg-20cp-140-2eb462ed.webp",
+      "category": "anabolizantes",
+      "price": 500000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Primobolan 100mg 10ml",
+      "slug": "primobolan-100mg-10ml-landerlan",
+      "src": "/products/remote/primobolan-100mg-10ml-landerlan.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/npp-100mg-10ml-210-00-b76f61dc.webp",
+      "category": "anabolizantes",
+      "price": 420000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Oxandrolona 10mg 50cp",
+      "slug": "oxandrolona-10mg-50cp",
+      "src": "/products/remote/oxandrolona-10mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/oxandrolona-10mg-50cp-240-00-7612fcfc.webp",
+      "category": "emagrecedores",
+      "price": 240000,
+      "brand": "Sem Fronteira"
+    },
+    {
+      "name": "Oxandrolona 5mg 100cp",
+      "slug": "oxandrolona-5mg-100cp",
+      "src": "/products/remote/oxandrolona-5mg-100cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/oxandrolona-5mg-100cp-240-00-c8b995db.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "NPP 100mg 10ml",
+      "slug": "npp-100mg-10ml-landerlan",
+      "src": "/products/remote/npp-100mg-10ml-landerlan.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/npp-100mg-10ml-210-00-d8e45507.webp",
+      "category": "anabolizantes",
+      "price": 210000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Masteron Oral 10mg 50cp",
+      "slug": "masteron-oral-10mg-50cp",
+      "src": "/products/remote/masteron-oral-10mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-oral-10mg-50cp-210-00-bae07111.webp",
+      "category": "anabolizantes",
+      "price": 210000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Masteron 100mg 10ml",
+      "slug": "masteron-100mg-10ml-landerlan",
+      "src": "/products/remote/masteron-100mg-10ml-landerlan.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-100mg-10ml-240-00-38e3d3ed.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Hemogenin 50mg 20cp",
+      "slug": "hemogenin-50mg-20cp",
+      "src": "/products/remote/hemogenin-50mg-20cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/hemogenin-50mg-20cp-110-00-504ea4f4.webp",
+      "category": "hormonios",
+      "price": 110000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "HCG 5000UI",
+      "slug": "hcg-5000ui",
+      "src": "/products/remote/hcg-5000ui.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/hcg-5000ui-350-00-2279fdf6.webp",
+      "category": "hormonios",
+      "price": 350000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Enantato de Testosterona 250mg 4ml",
+      "slug": "enantato-de-testosterona-250mg-4ml",
+      "src": "/products/remote/enantato-de-testosterona-250mg-4ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/enantato-de-testosterona-250mg-4ml-100-00-7be66f07.webp",
+      "category": "anabolizantes",
+      "price": 100000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Enantato de Testo 250mg 10ml",
+      "slug": "enantato-de-testo-250mg-10ml",
+      "src": "/products/remote/enantato-de-testo-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/enantato-de-testo-250mg-10ml-210-00-e717ca1e.webp",
+      "category": "anabolizantes",
+      "price": 210000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Durateston 250mg 10ml",
+      "slug": "durateston-250mg-10ml",
+      "src": "/products/remote/durateston-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/durateston-250mg-10ml-210-00-8b48b3fb.webp",
+      "category": "anabolizantes",
+      "price": 210000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Durasteston 250mg 1ml",
+      "slug": "durasteston-250mg-1ml",
+      "src": "/products/remote/durasteston-250mg-1ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/durasteston-250mg-1ml-30-00-53d1ee0a.webp",
+      "category": "anabolizantes",
+      "price": 30000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Dianabol 10mg 100cps",
+      "slug": "dianabol-10mg-100cps",
+      "src": "/products/remote/dianabol-10mg-100cps.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-10mg-100cps-120-00-ef3736d1.webp",
+      "category": "anabolizantes",
+      "price": 120000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Deca 200mg 10ml",
+      "slug": "deca-200mg-10ml",
+      "src": "/products/remote/deca-200mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/deca-200mg-10ml-210-00-ca991fc5.webp",
+      "category": "anabolizantes",
+      "price": 210000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Deca 200mg 5ml",
+      "slug": "deca-200mg-5ml",
+      "src": "/products/remote/deca-200mg-5ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/deca-200mg-5ml-110-00-2d3c3f30.webp",
+      "category": "anabolizantes",
+      "price": 110000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Boldenona 250mg 10ml",
+      "slug": "boldenona-250mg-10ml",
+      "src": "/products/remote/boldenona-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/boldenona-250mg-10ml-220-00-2088cb01.webp",
+      "category": "anabolizantes",
+      "price": 220000,
+      "brand": "Landerlan"
+    },
+    {
+      "name": "Testoviron (Enantato Testo) 250mg 10ml",
+      "slug": "testoviron-enantato-testo-250mg-10ml-king",
+      "src": "/products/remote/testoviron-enantato-testo-250mg-10ml-king.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/testoviron-enantato-testo-250mg-10ml-200-00-77d51769.webp",
+      "category": "anabolizantes",
+      "price": 200000,
+      "brand": "King"
+    },
+    {
+      "name": "Testex ( Cipionato Testo) 250mg 10ml",
+      "slug": "testex-cipionato-testo-250mg-10ml-king",
+      "src": "/products/remote/testex-cipionato-testo-250mg-10ml-king.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/testex-cipionato-testo-250mg-10ml-200-00-e7dbb585.webp",
+      "category": "anabolizantes",
+      "price": 200000,
+      "brand": "King"
+    },
+    {
+      "name": "Sustan (Durateston) 250mg 10ml",
+      "slug": "sustan-durateston-250mg-10ml",
+      "src": "/products/remote/sustan-durateston-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/sustan-durateston-250mg-10ml-200-00-ae379f53.webp",
+      "category": "anabolizantes",
+      "price": 200000,
+      "brand": "King"
+    },
+    {
+      "name": "Proviron 25mg 20cp",
+      "slug": "proviron-25mg-20cp-king",
+      "src": "/products/remote/proviron-25mg-20cp-king.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/proviron-25mg-20cp-140-00-d6572e5e.webp",
+      "category": "anabolizantes",
+      "price": 140000,
+      "brand": "King"
+    },
+    {
+      "name": "Masteron Enantato 100mg 10ml",
+      "slug": "masteron-enantato-100mg-10ml",
+      "src": "/products/remote/masteron-enantato-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-enantato-100mg-10ml-240-00-298a8128.webp",
+      "category": "anabolizantes",
+      "price": 240000,
+      "brand": "King"
+    },
+    {
+      "name": "Deca 300mg 10ml",
+      "slug": "deca-300mg-10ml-king",
+      "src": "/products/remote/deca-300mg-10ml-king.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/deca-300mg-10-ml-200-00-58c43bfb.webp",
+      "category": "anabolizantes",
+      "price": 200000,
+      "brand": "King"
+    },
+    {
+      "name": "Tirzepatida (Tirzec) 15mg",
+      "slug": "tirzepatida-tirzec-15mg",
+      "src": "/products/remote/tirzepatida-tirzec-15mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/images-1-e76652e3.webp",
+      "category": "emagrecedores",
+      "price": 1100000,
+      "brand": "Sem Fronteira"
+    },
+    {
+      "name": "Tirzepatida (Lipoless) 15mg 4 Ampolas",
+      "slug": "tirzepatida-lipoless-15mg-4-ampolas",
+      "src": "/products/remote/tirzepatida-lipoless-15mg-4-ampolas.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/9940-54-1024x768-d99fdfb3.webp",
+      "category": "emagrecedores",
+      "price": 1000000,
+      "brand": "Sem Fronteira"
+    },
+    {
+      "name": "Caneta Retatrutida (Synedica) 40mg",
+      "slug": "caneta-retatrutida-synedica-40mg",
+      "src": "/products/remote/caneta-retatrutida-synedica-40mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/caneta-retatrutida-synedica-40mg-1-400-3c2308a9-9d32893a.webp",
+      "category": "emagrecedores",
+      "price": 1400000,
+      "brand": "Sem Fronteira"
+    },
+    {
+      "name": "Turinabol 10mg 50cp",
+      "slug": "turinabol-10mg-50cp",
+      "src": "/products/remote/turinabol-10mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/turinabol-10mg-50cp-300-00-c3411997.webp",
+      "category": "emagrecedores",
+      "price": 300000,
+      "brand": "Sem Fronteira"
+    },
+    {
+      "name": "Trembolona Enantato 200mg",
+      "slug": "trembolona-enantato-200mg",
+      "src": "/products/remote/trembolona-enantato-200mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-enantato-200mg-450-00-99389211.webp",
+      "category": "esteroide",
+      "price": 450000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Trembolona Acetato 100mg",
+      "slug": "trembolona-acetato-100mg",
+      "src": "/products/remote/trembolona-acetato-100mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-acetato-100mg-350-00-37decb31.webp",
+      "category": "esteroide",
+      "price": 350000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Stanozolol 10mg 50cp",
+      "slug": "stanozolol-10mg-50cp",
+      "src": "/products/remote/stanozolol-10mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/stanozolol-100mg-350-00-b8aaa9d2.webp",
+      "category": "esteroide",
+      "price": 350000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Propionato de Testo 100mg",
+      "slug": "propionato-de-testo-100mg",
+      "src": "/products/remote/propionato-de-testo-100mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/propionato-de-testo-100mg-360-00-97d17c71.webp",
+      "category": "esteroide",
+      "price": 360000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Primobolan 100mg",
+      "slug": "primobolan-100mg",
+      "src": "/products/remote/primobolan-100mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/primobolan-100mg-890-00-c6300484.webp",
+      "category": "esteroide",
+      "price": 890000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Primobolan 25mg 50cp",
+      "slug": "primobolan-25mg-50cp",
+      "src": "/products/remote/primobolan-25mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/primobolan-25mg-50cp-890-00-6e10ed99.webp",
+      "category": "esteroide",
+      "price": 890000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Oxandrolona 10mg 50cp",
+      "slug": "oxandrolona-10mg-50cp-cooper",
+      "src": "/products/remote/oxandrolona-10mg-50cp-cooper.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/oxandrolona-10mg-50cp-300-00-758fdccf.webp",
+      "category": "esteroide",
+      "price": 300000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "NPP 100mg",
+      "slug": "npp-100mg",
+      "src": "/products/remote/npp-100mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/npp-100mg-390-00-580f3a48.webp",
+      "category": "esteroide",
+      "price": 390000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Masteron Enantato 200mg",
+      "slug": "masteron-enantato-200mg",
+      "src": "/products/remote/masteron-enantato-200mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-enantato-200mg-600-00-5f0d1104.webp",
+      "category": "esteroide",
+      "price": 600000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Masteron 100mg",
+      "slug": "masteron-100mg",
+      "src": "/products/remote/masteron-100mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-100mg-500-00-4a1693d1.webp",
+      "category": "esteroide",
+      "price": 500000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Hemogenin 50mg 50cp",
+      "slug": "hemogenin-50mg-50cp",
+      "src": "/products/remote/hemogenin-50mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/hemogenin-50mg-50cp-6a872870.webp",
+      "category": "esteroide",
+      "price": 390000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Halorestin 5mg 50cp",
+      "slug": "halorestin-5mg-50cp",
+      "src": "/products/remote/halorestin-5mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/halorestin-5mg-50cp-450-f8d6ba98.webp",
+      "category": "esteroide",
+      "price": 450000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Enantato de Testo 250mg",
+      "slug": "enantato-de-testo-250mg",
+      "src": "/products/remote/enantato-de-testo-250mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/enantato-de-testo-250mg-390-00-45a1a5d7.webp",
+      "category": "esteroide",
+      "price": 390000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Durateston 250mg",
+      "slug": "durateston-250mg",
+      "src": "/products/remote/durateston-250mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/durateston-250mg-390-00-71b24504.webp",
+      "category": "esteroide",
+      "price": 390000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Dianabol 10mg 50cp",
+      "slug": "dianabol-10mg-50cp",
+      "src": "/products/remote/dianabol-10mg-50cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-10mg-50cp-180-00-a0c21dd1.webp",
+      "category": "esteroide",
+      "price": 180000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Deca 250mg",
+      "slug": "deca-250mg",
+      "src": "/products/remote/deca-250mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/deca-250mg-390-00-47ac6874.webp",
+      "category": "esteroide",
+      "price": 390000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Cipionato de Testo 250mg",
+      "slug": "cipionato-de-testo-250mg",
+      "src": "/products/remote/cipionato-de-testo-250mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/cipionato-de-testo-250mg-360-00-0e8193ba.webp",
+      "category": "esteroide",
+      "price": 360000,
+      "brand": "Cooper"
+    },
+    {
+      "name": "Boldenona 250mg",
+      "slug": "boldenona-250mg",
+      "src": "/products/remote/boldenona-250mg.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/boldenona-250mg-420-00-3867dceb.webp",
+      "category": "esteroide",
+      "price": 420000,
+      "brand": "Cooper"
     }
   ],
-  "categories": []
+  "categories": [
+    {
+      "slug": "anabolizantes",
+      "src": "/categories/anabolizantes.svg"
+    },
+    {
+      "slug": "esteroide",
+      "src": "/categories/esteroide.svg"
+    },
+    {
+      "slug": "emagrecedores",
+      "src": "/categories/emagrecedores.svg"
+    },
+    {
+      "slug": "hormonios",
+      "src": "/categories/hormonios.svg"
+    }
+  ]
 }

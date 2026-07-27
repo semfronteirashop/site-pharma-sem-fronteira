@@ -231,7 +231,7 @@ const es: Dictionary = {
     emptyFilter: "Ningun producto con ese filtro.",
     categoriesTitle: "Categorias",
     metaDescription:
-      "Catalogo Sem Fronteira: orales, inyectables, hormonios y combos.",
+      "Catalogo Sem Fronteira: anabolizantes, esteroide, hormonios y emagrecedores.",
   },
   categoryPage: {
     back: "Volver al catalogo",
@@ -415,7 +415,7 @@ const pt: Dictionary = {
     emptyFilter: "Nenhum produto com esse filtro.",
     categoriesTitle: "Categorias",
     metaDescription:
-      "Catalogo Sem Fronteira: orais, injetaveis, hormonios e combos.",
+      "Catalogo Sem Fronteira: anabolizantes, esteroide, hormonios e emagrecedores.",
   },
   categoryPage: {
     back: "Voltar ao catalogo",
