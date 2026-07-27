@@ -1,0 +1,159 @@
+{
+  "source": "https://pharmasemfronteira.com",
+  "logo": "/brand/logo.png",
+  "banners": [
+    {
+      "id": 1,
+      "src": "/banners/remote/banner-1.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/banners/27abc0d8-eba8-42ea-8cb6-4729fed8ac1a-b1f35b36.webp"
+    },
+    {
+      "id": 2,
+      "src": "/banners/remote/banner-2.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/banners/gemini-generated-image-sh9nupsh9nupsh9n-0c44b5e1-8946bb25.webp"
+    }
+  ],
+  "products": [
+    {
+      "id": 36,
+      "name": "Deposteron Cipionato de Testo 10ml",
+      "slug": null,
+      "src": "/products/remote/deposteron-cipionato-de-testo-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/deposteron-cipionato-de-testo-10ml-200-00-3768ac6b.webp"
+    },
+    {
+      "id": 28,
+      "name": "Masteron Propionato 100mg 10ml",
+      "slug": null,
+      "src": "/products/remote/masteron-propionato-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-propionato-100mg-10ml-220-00-856f928d.webp"
+    },
+    {
+      "id": 26,
+      "name": "Dianabol 10mg 100Cp",
+      "slug": null,
+      "src": "/products/remote/dianabol-10mg-100cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-10mg-100cp-110-00-b51f9661.webp"
+    },
+    {
+      "id": 24,
+      "name": "Cut Stack 150mg 10ml",
+      "slug": null,
+      "src": "/products/remote/cut-stack-150mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/cut-stack-150mg-10ml-230-00-c4ae15e7.webp"
+    },
+    {
+      "id": 21,
+      "name": "T.G Tirzepatida 15mg 4 Ampolas",
+      "slug": null,
+      "src": "/products/remote/t-g-tirzepatida-15mg-4-ampolas.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/tg-tirzec-4dbd1b28-e726f0ef.webp"
+    },
+    {
+      "id": 77,
+      "name": "Trestolone Enantato 100mg 10ml",
+      "slug": null,
+      "src": "/products/remote/trestolone-enantato-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/zphc-trestolone-enantato-50mg-10ml-1778080687739-31f47947.avif"
+    },
+    {
+      "id": 76,
+      "name": "Trestolona Enantato 50mg 10ml",
+      "slug": null,
+      "src": "/products/remote/trestolona-enantato-50mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trestolona-enantato-50mg-10ml-940-00-be446b86.webp"
+    },
+    {
+      "id": 75,
+      "name": "Trestolona Acetato 50mg 10ml",
+      "slug": null,
+      "src": "/products/remote/trestolona-acetato-50mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trestolona-acetato-50mg-10ml-780-00-22f62566.webp"
+    },
+    {
+      "id": 74,
+      "name": "Trembolona Enantato 200mg 10 Ampolas",
+      "slug": null,
+      "src": "/products/remote/trembolona-enantato-200mg-10-ampolas.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-enantato-200mg-10-ampolas-590-00-bf54ce3a.webp"
+    },
+    {
+      "id": 73,
+      "name": "Trembolona Acetato 100mg 10 Ampolas",
+      "slug": null,
+      "src": "/products/remote/trembolona-acetato-100mg-10-ampolas.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/trembolona-acetato-100mg-10-ampolas-490-00-8054d2c2.webp"
+    },
+    {
+      "id": 72,
+      "name": "TB500 5mg 5 Ampolas",
+      "slug": null,
+      "src": "/products/remote/tb500-5mg-5-ampolas.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/tb-500-5mg-r2-research-labs-peptideo-416-800x-b1b3678c.webp"
+    },
+    {
+      "id": 71,
+      "name": "NPP 100mg 10ml $390,00",
+      "slug": null,
+      "src": "/products/remote/npp-100mg-10ml-390-00.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/npp-100mg-10ml-390-00-f446f376.webp"
+    },
+    {
+      "id": 70,
+      "name": "Mega Mix 250mg 10ml",
+      "slug": null,
+      "src": "/products/remote/mega-mix-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/mega-mix-250mg-10ml-490-00-f890bbc6.webp"
+    },
+    {
+      "id": 69,
+      "name": "Masteron 100mg 10ml",
+      "slug": null,
+      "src": "/products/remote/masteron-100mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/masteron-100mg-10ml-540-00-65e46e04.webp"
+    },
+    {
+      "id": 68,
+      "name": "Hemogenin 25mg 100cp",
+      "slug": null,
+      "src": "/products/remote/hemogenin-25mg-100cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/hemogenin-25mg-100cp-390-00-dfcd15a8.webp"
+    },
+    {
+      "id": 67,
+      "name": "Durateston 250mg 10Ampolas",
+      "slug": null,
+      "src": "/products/remote/durateston-250mg-10ampolas.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/durateston-250mg-10ampolas-390-00-98e4a4bf.webp"
+    },
+    {
+      "id": 66,
+      "name": "Dianabol 20mg 100cp",
+      "slug": null,
+      "src": "/products/remote/dianabol-20mg-100cp.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/dianabol-20mg-100cp-350-00-c5929337.webp"
+    },
+    {
+      "id": 65,
+      "name": "Testoviron (Enantato Testo)  250mg 10ml",
+      "slug": null,
+      "src": "/products/remote/testoviron-enantato-testo-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/testoviron-enantato-testo-250mg-10ml-240-00-5a821cac.webp"
+    },
+    {
+      "id": 64,
+      "name": "Testex ( Cipionato Testo) 250mg 10ml",
+      "slug": null,
+      "src": "/products/remote/testex-cipionato-testo-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/testex-cipionato-testo-250mg-10ml-240-00-d76c91df.webp"
+    },
+    {
+      "id": 63,
+      "name": "Sustan Xt (Durateston) 250mg 10ml",
+      "slug": null,
+      "src": "/products/remote/sustan-xt-durateston-250mg-10ml.webp",
+      "remote": "https://pharmasemfronteira.com/api/media/products/sustan-xt-durateston-250mg-10ml-240-00-63aa3b8d.webp"
+    }
+  ],
+  "categories": []
+}

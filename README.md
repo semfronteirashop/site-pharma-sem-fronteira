@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sem Fronteira Suplementos
 
-## Getting Started
+Loja pública em Next.js (App Router) com SEO, catálogo local e checkout por WhatsApp.
 
-First, run the development server:
+Visual de farmácia digital (azul + teal). Design system em [docs/design-system.md](docs/design-system.md).
+
+## Idiomas
+
+- Espanhol (`/es`) — padrão
+- Português (`/pt`)
+
+O middleware detecta o idioma pelo cookie ou pelo `Accept-Language` do navegador. Dá para trocar manualmente no header (ES/PT).
+
+## Começar
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — desenvolvimento
+- `npm run build` — build
+- `npm run start` — produção
+- `npm run lint` — ESLint
 
-## Learn More
+## Onde editar
 
-To learn more about Next.js, take a look at the following resources:
+- `src/data/site.ts` — nome, WhatsApp, textos
+- `src/data/products.ts` / `categories.ts` — catálogo
+- `public/` — imagens
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Baixar imagens do site ao vivo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+python3 scripts/download_site_images.py
+```
 
-## Deploy on Vercel
+Salva em:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `public/brand/` — logo
+- `public/banners/remote/` — banners
+- `public/products/remote/` — fotos de produtos
+- `public/media/manifest.json` — mapa id → arquivo local
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## SEO
+
+Metadata por página, `sitemap.xml`, `robots.txt` e JSON-LD (Organization + Product).
