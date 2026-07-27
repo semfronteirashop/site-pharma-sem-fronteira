@@ -22,14 +22,12 @@ export function Header() {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-40">
-      <div className="bg-topbar text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-1.5 text-[11px] sm:px-4 sm:py-2 sm:text-xs md:px-6 md:text-sm">
+    <>
+      {/* Fora do sticky no mobile: não compete por altura fixa */}
+      <div className="hidden bg-topbar text-white sm:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-2 text-xs md:px-6 md:text-sm">
           <p className="truncate">
-            <span className="sm:hidden">Brasil / Paraguay</span>
-            <span className="hidden sm:inline">
-              {dictionary.topbar} {site.supportHours}
-            </span>
+            {dictionary.topbar} {site.supportHours}
           </p>
           <a
             href={`https://wa.me/${site.whatsapp.replace(/\D/g, "")}`}
@@ -37,17 +35,16 @@ export function Header() {
             rel="noopener noreferrer"
             className="shrink-0 font-semibold underline-offset-2 hover:underline"
           >
-            <span className="sm:hidden">WhatsApp</span>
-            <span className="hidden sm:inline">{site.whatsappDisplay}</span>
+            {site.whatsappDisplay}
           </a>
         </div>
       </div>
 
-      <div className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3 md:gap-5 md:px-6 md:py-4">
+      <header className="relative sticky top-0 z-40 border-b border-border bg-surface">
+        <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2 sm:gap-3 sm:px-4 sm:py-3 md:gap-5 md:px-6 md:py-4">
           <button
             type="button"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-lg lg:hidden"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border text-base lg:hidden"
             aria-label={dictionary.openMenu}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -57,7 +54,7 @@ export function Header() {
 
           <AppLink href={href("/")} prefetch className="min-w-0 shrink">
             <span className="flex items-center gap-2">
-              <span className="relative h-8 w-24 sm:h-9 sm:w-28">
+              <span className="relative h-7 w-20 sm:h-9 sm:w-28">
                 <Image
                   src="/brand/logo.png"
                   alt="Sem Fronteira"
@@ -94,7 +91,7 @@ export function Header() {
             <button
               type="button"
               onClick={openCart}
-              className="relative inline-flex h-10 items-center justify-center gap-2 rounded-full bg-blue px-3 text-sm font-bold text-white hover:bg-blue-hover sm:h-11 sm:px-4"
+              className="relative inline-flex h-9 items-center justify-center gap-2 rounded-full bg-blue px-2.5 text-sm font-bold text-white hover:bg-blue-hover sm:h-11 sm:px-4"
               aria-label={dictionary.openCart}
             >
               <span className="hidden sm:inline">{dictionary.cart}</span>
@@ -118,8 +115,22 @@ export function Header() {
           </div>
         </div>
 
-        <div className="border-t border-border px-3 py-2 sm:px-4 md:hidden md:px-6">
-          <SearchForm />
+        <div className="px-3 pb-1.5 md:hidden">
+          <SearchForm compact />
+        </div>
+
+        <div className="px-3 pb-2 lg:hidden">
+          <div className="-mx-0.5 flex gap-1.5 overflow-x-auto px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {navHrefs.map((link) => (
+              <AppLink
+                key={`chip-${link.href}-${link.key}`}
+                href={href(link.href)}
+                className="shrink-0 rounded-full border border-border bg-background px-2.5 py-1 text-[11px] font-semibold leading-none text-foreground"
+              >
+                {dictionary.nav[link.key]}
+              </AppLink>
+            ))}
+          </div>
         </div>
 
         <nav className="hidden border-t border-border lg:block">
@@ -136,35 +147,20 @@ export function Header() {
           </div>
         </nav>
 
-        {/* Mobile quick chips */}
-        <div className="border-t border-border px-3 py-2 lg:hidden">
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {navHrefs.map((link) => (
-              <AppLink
-                key={`chip-${link.href}-${link.key}`}
-                href={href(link.href)}
-                className="shrink-0 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-foreground"
-              >
-                {dictionary.nav[link.key]}
-              </AppLink>
-            ))}
-          </div>
-        </div>
-
         {menuOpen ? (
-          <div className="border-t border-border bg-surface px-3 py-4 lg:hidden sm:px-4">
-            <div className="mb-4 sm:hidden">
+          <div className="absolute inset-x-0 top-full z-50 max-h-[min(70vh,520px)] overflow-y-auto border-b border-border bg-surface px-3 py-3 shadow-[var(--shadow-soft)] lg:hidden sm:px-4">
+            <div className="mb-3 sm:hidden">
               <Suspense fallback={null}>
                 <LanguageSwitcher />
               </Suspense>
             </div>
-            <nav className="flex flex-col gap-1">
+            <nav className="flex flex-col gap-0.5">
               {navHrefs.map((link) => (
                 <AppLink
                   key={link.href + link.key}
                   href={href(link.href)}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-2xl px-3 py-3.5 text-base font-medium hover:bg-background"
+                  className="rounded-xl px-3 py-3 text-[15px] font-medium hover:bg-background"
                 >
                   {dictionary.nav[link.key]}
                 </AppLink>
@@ -174,14 +170,14 @@ export function Header() {
               href={`https://wa.me/${site.whatsapp.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex h-12 items-center justify-center rounded-full bg-whatsapp text-sm font-bold text-white"
+              className="mt-3 flex h-11 items-center justify-center rounded-full bg-whatsapp text-sm font-bold text-white"
               onClick={() => setMenuOpen(false)}
             >
               {dictionary.whatsapp}
             </a>
           </div>
         ) : null}
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
