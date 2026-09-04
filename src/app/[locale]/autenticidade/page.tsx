@@ -73,7 +73,7 @@ export default async function AuthenticityPage({ params }: { params: Params }) {
           href={supportUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-11 items-center rounded-lg bg-whatsapp px-5 text-sm font-bold text-white"
+          className="inline-flex h-11 items-center rounded-lg bg-brand-green px-5 text-sm font-bold text-white hover:bg-brand-green-dark"
         >
           {dictionary.helpPage.talkWhatsapp}
         </a>

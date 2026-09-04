@@ -1,22 +1,25 @@
+import { InstagramBanner } from "@/components/InstagramBanner";
+import { InstagramSection } from "@/components/InstagramSection";
 import { Hero } from "@/components/Hero";
-import { AppLink } from "@/components/AppLink";
-import { CategoryCard } from "@/components/CategoryCard";
-import { ProductGrid } from "@/components/ProductGrid";
+import { FadeInSection } from "@/components/FadeInSection";
+import { ProductCarousel } from "@/components/ProductCarousel";
+import { ProductGroupCard } from "@/components/ProductGroupCard";
 import { SectionHeading } from "@/components/SectionHeading";
+import { productGroups } from "@/data/productGroups";
 import { site, tSite } from "@/data/site";
 import {
   getBestSellers,
-  getFeaturedCategories,
-  getFeaturedProducts,
+  getNewLaunches,
   getSaleProducts,
 } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, type Locale } from "@/i18n/config";
-import { localizePath } from "@/i18n/paths";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ locale: string }>;
+
+const sectionShell = "mx-auto max-w-7xl px-3 py-5 sm:px-4 sm:py-6 md:px-6 md:py-7";
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { locale: raw } = await params;
@@ -37,80 +40,102 @@ export default async function HomePage({ params }: { params: Params }) {
   const locale = raw as Locale;
   const dictionary = getDictionary(locale);
 
-  const categories = getFeaturedCategories();
-  const featured = getFeaturedProducts().slice(0, 4);
-  const bestSellers = getBestSellers().slice(0, 4);
-  const offers = getSaleProducts().slice(0, 4);
+  const groups = [...productGroups].sort((a, b) => a.sortOrder - b.sortOrder);
+  const bestSellers = getBestSellers().slice(0, 8);
+  const offers = getSaleProducts().slice(0, 8);
+  const launches = getNewLaunches().slice(0, 8);
+  const whatsappUrl = `https://wa.me/${site.whatsapp.replace(/\D/g, "")}`;
 
   return (
-    <>
+    <div className="overflow-x-clip">
       <Hero />
 
-      <section className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">
-        <SectionHeading
-          title={dictionary.home.categoriesTitle}
-          description={dictionary.home.categoriesDesc}
-          href="/produtos#categorias"
-          linkLabel={dictionary.home.seeAll}
-        />
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
-          {categories.map((category) => (
-            <CategoryCard key={category.id} category={category} />
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">
+      <FadeInSection className="bg-brand-light" delayMs={60}>
+        <div className={sectionShell}>
           <SectionHeading
-            title={dictionary.home.featuredTitle}
-            description={dictionary.home.featuredDesc}
+            title={dictionary.home.categoriesTitle}
+            description={dictionary.home.categoriesDesc}
             href="/produtos"
-            linkLabel={dictionary.home.catalog}
+            linkLabel={dictionary.home.seeAll}
+            accent
           />
-          <ProductGrid products={featured} />
+          <div className="grid grid-cols-2 gap-2 sm:gap-2.5 md:grid-cols-3 lg:grid-cols-4 lg:gap-3">
+            {groups.map((group) => (
+              <ProductGroupCard key={group.id} group={group} />
+            ))}
+          </div>
         </div>
-      </section>
+      </FadeInSection>
 
-      <section className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">
-        <SectionHeading
-          title={dictionary.home.bestSellersTitle}
-          href="/mas-vendidos"
-          linkLabel={dictionary.home.seeRanking}
-        />
-        <ProductGrid products={bestSellers} />
-      </section>
-
-      <section className="bg-surface">
-        <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">
+      <FadeInSection delayMs={90}>
+        <div className={sectionShell}>
           <SectionHeading
             title={dictionary.home.offersTitle}
             description={dictionary.home.offersDesc}
             href="/ofertas"
             linkLabel={dictionary.home.seeOffers}
+            accent
           />
-          <ProductGrid products={offers} />
+          <ProductCarousel
+            products={offers}
+            emptyMessage={dictionary.offersPage.empty}
+          />
         </div>
-      </section>
+      </FadeInSection>
 
-      <section className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-3 py-6 sm:px-4 sm:py-8 md:flex-row md:items-center md:justify-between md:px-6">
+      <FadeInSection className="bg-brand-light" delayMs={120}>
+        <div className={sectionShell}>
+          <SectionHeading
+            title={dictionary.bestSellersPage.title}
+            description={dictionary.bestSellersPage.lead}
+            href="/mais-procurados"
+            linkLabel={dictionary.home.seeRanking}
+            accent
+          />
+          <ProductCarousel products={bestSellers} />
+        </div>
+      </FadeInSection>
+
+      <FadeInSection delayMs={150}>
+        <div className={sectionShell}>
+          <SectionHeading
+            title={dictionary.home.launchesTitle}
+            description={dictionary.home.launchesDesc}
+            href="/lancamentos"
+            linkLabel={dictionary.home.seeLaunches}
+            accent
+          />
+          <ProductCarousel
+            products={launches}
+            emptyMessage={dictionary.launchesPage.empty}
+          />
+        </div>
+      </FadeInSection>
+
+      <InstagramSection />
+
+      <InstagramBanner />
+
+      <FadeInSection className="bg-brand-purple" delayMs={260}>
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-3 px-3 py-6 sm:px-4 sm:py-7 md:flex-row md:items-center md:justify-between md:px-6">
           <div>
-            <h2 className="text-lg font-extrabold md:text-xl">
-              {dictionary.home.authTitle}
+            <h2 className="text-lg font-extrabold text-white sm:text-xl md:text-2xl">
+              {dictionary.home.whatsappCta}
             </h2>
-            <p className="mt-1 text-sm text-muted">
-              {dictionary.home.authDesc(site.supportHours)}
+            <p className="mt-0.5 text-sm text-white/85">
+              {dictionary.home.whatsappCtaDesc} {site.supportHours}
             </p>
           </div>
-          <AppLink
-            href={localizePath(locale, "/autenticidade")}
-            className="inline-flex h-11 w-full items-center justify-center rounded-full bg-blue px-5 text-sm font-bold text-white hover:bg-blue-hover md:w-auto"
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 w-full items-center justify-center rounded-full bg-brand-green px-6 text-sm font-bold text-white hover:bg-brand-green-dark md:w-auto"
           >
-            {dictionary.home.howToAuth}
-          </AppLink>
+            {dictionary.whatsapp}
+          </a>
         </div>
-      </section>
-    </>
+      </FadeInSection>
+    </div>
   );
 }

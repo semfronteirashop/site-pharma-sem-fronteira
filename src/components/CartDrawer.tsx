@@ -38,7 +38,7 @@ export function CartDrawer() {
         onClick={closeCart}
       />
 
-      <aside className="absolute inset-x-0 bottom-0 flex max-h-[92vh] w-full flex-col rounded-t-3xl bg-surface shadow-2xl animate-sheet-in sm:inset-y-0 sm:right-0 sm:left-auto sm:max-h-none sm:max-w-md sm:rounded-none sm:animate-drawer-in">
+      <aside className="absolute inset-x-0 bottom-0 flex max-h-[92vh] w-full flex-col rounded-t-3xl bg-brand-white shadow-2xl animate-sheet-in sm:inset-y-0 sm:right-0 sm:left-auto sm:max-h-none sm:max-w-md sm:rounded-none sm:animate-drawer-in">
         <div className="mx-auto mt-2 h-1.5 w-10 rounded-full bg-border sm:hidden" />
 
         <div className="flex items-center justify-between border-b border-border px-4 py-3 sm:py-4">
@@ -51,7 +51,7 @@ export function CartDrawer() {
           <button
             type="button"
             onClick={closeCart}
-            className="rounded-full px-3 py-2 text-sm font-medium text-muted hover:bg-background"
+            className="rounded-full px-3 py-2 text-sm font-medium text-muted hover:bg-brand-light"
           >
             {dictionary.cartDrawer.close}
           </button>
@@ -64,7 +64,7 @@ export function CartDrawer() {
               <AppLink
                 href={href("/produtos")}
                 onClick={closeCart}
-                className="mt-4 inline-flex rounded-full bg-teal px-4 py-2 text-sm font-bold text-foreground"
+                className="mt-4 inline-flex rounded-full bg-brand-purple px-4 py-2 text-sm font-bold text-white hover:bg-brand-purple-hover"
               >
                 {dictionary.cartDrawer.seeProducts}
               </AppLink>
@@ -76,7 +76,7 @@ export function CartDrawer() {
                   key={item.productId}
                   className="flex gap-3 rounded-2xl border border-border p-3"
                 >
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-background sm:h-20 sm:w-20">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-brand-light sm:h-20 sm:w-20">
                     <Image
                       src={item.image}
                       alt={item.name}
@@ -89,7 +89,7 @@ export function CartDrawer() {
                     <AppLink
                       href={href(`/produto/${item.slug}`)}
                       onClick={closeCart}
-                      className="line-clamp-2 text-sm font-semibold hover:text-blue"
+                      className="line-clamp-2 text-sm font-semibold hover:text-brand-purple"
                     >
                       {item.name}
                     </AppLink>
@@ -149,11 +149,10 @@ export function CartDrawer() {
           <AppLink
             href={href("/checkout")}
             onClick={closeCart}
-            className={`flex h-12 items-center justify-center rounded-full text-sm font-bold ${
-              items.length === 0
+            className={`flex h-12 items-center justify-center rounded-full text-sm font-bold ${items.length === 0
                 ? "pointer-events-none bg-border text-muted"
-                : "bg-teal text-foreground hover:bg-teal-hover"
-            }`}
+                : "bg-brand-purple text-white hover:bg-brand-purple-hover"
+              }`}
           >
             {dictionary.cartDrawer.goCheckout}
           </AppLink>

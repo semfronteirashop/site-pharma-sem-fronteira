@@ -1,21 +1,32 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import { AddToCartButton } from "@/components/AddToCartButton";
 import { AppLink } from "@/components/AppLink";
 import { JsonLd } from "@/components/JsonLd";
+import { ProductDetailActions } from "@/components/ProductDetailActions";
+import { ProductDetailGallery } from "@/components/ProductDetailGallery";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductMobileBuyBar } from "@/components/ProductMobileBuyBar";
+import { ProductWhatsAppPriceButton } from "@/components/ProductWhatsAppPriceButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
   getAllProducts,
-  getCategoryBySlug,
   getProductBySlug,
   getRelatedProducts,
 } from "@/lib/catalog";
+import {
+  getProductGroupById,
+  groupName,
+} from "@/data/productGroups";
 import { discountPercent, formatPrice } from "@/lib/format";
 import { productJsonLd, productMetadata } from "@/lib/seo";
-import { productDescription } from "@/data/products";
-import { categoryName } from "@/data/categories";
+import {
+  productFullDescription,
+  productGroupId,
+  productHasPrice,
+  productName,
+  productQuantityLabel,
+  productShortDescription,
+  type Product,
+} from "@/data/products";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { localizePath } from "@/i18n/paths";
@@ -39,6 +50,37 @@ export async function generateMetadata({ params }: { params: Params }) {
   return productMetadata(product, raw as Locale);
 }
 
+function ProductBadges({
+  product,
+  dictionary,
+}: {
+  product: Product;
+  dictionary: ReturnType<typeof getDictionary>;
+}) {
+  const badges: string[] = [];
+  if (product.onSale) badges.push(dictionary.productCard.offer);
+  if (product.newLaunch) badges.push(dictionary.productCard.launch);
+  if (product.bestSeller) badges.push(dictionary.productCard.bestSeller);
+  if (product.featured && badges.length === 0) {
+    badges.push(dictionary.home.featuredTitle);
+  }
+
+  if (badges.length === 0) return null;
+
+  return (
+    <div className="mt-3 flex flex-wrap gap-1.5">
+      {badges.map((label) => (
+        <span
+          key={label}
+          className="rounded-full bg-brand-purple/10 px-2.5 py-0.5 text-[11px] font-semibold text-brand-purple"
+        >
+          {label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default async function ProductPage({ params }: { params: Params }) {
   const { locale: raw, slug } = await params;
   if (!isLocale(raw)) notFound();
@@ -47,108 +89,144 @@ export default async function ProductPage({ params }: { params: Params }) {
   const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  const category = getCategoryBySlug(product.categorySlug);
   const related = getRelatedProducts(product);
   const discount = discountPercent(product.price, product.originalPrice);
+  const name = productName(product, locale);
+  const shortDescription = productShortDescription(product, locale);
+  const fullDescription = productFullDescription(product, locale);
+  const quantityLabel = productQuantityLabel(product);
+  const groupId = productGroupId(product);
+  const group = groupId ? getProductGroupById(groupId) : undefined;
 
   return (
     <>
       <JsonLd data={productJsonLd(product, locale)} />
-      <div className="mx-auto max-w-7xl px-3 py-5 pb-28 sm:px-4 sm:py-8 sm:pb-8 md:px-6">
-        <nav className="mb-4 overflow-x-auto whitespace-nowrap text-xs text-muted no-scrollbar sm:mb-6 sm:text-sm">
-          <AppLink
-            href={localizePath(locale, "/produtos")}
-            className="hover:text-blue"
-          >
-            {dictionary.nav.products}
-          </AppLink>
-          <span className="mx-2">/</span>
-          {category ? (
-            <>
-              <AppLink
-                href={localizePath(locale, `/categoria/${category.slug}`)}
-                className="hover:text-blue"
-              >
-                {categoryName(category, locale)}
-              </AppLink>
-              <span className="mx-2">/</span>
-            </>
-          ) : null}
-          <span className="text-foreground">{product.name}</span>
-        </nav>
+      <div className="overflow-x-clip">
+        <div className="mx-auto max-w-7xl px-3 py-5 pb-36 sm:px-4 sm:py-8 sm:pb-8 md:px-6">
+          <nav className="mb-4 text-xs text-muted sm:mb-6 sm:text-sm">
+            <AppLink
+              href={localizePath(locale, "/produtos")}
+              className="hover:text-brand-purple"
+            >
+              {dictionary.nav.products}
+            </AppLink>
+            <span className="mx-2">/</span>
+            {group ? (
+              <>
+                <AppLink
+                  href={localizePath(locale, `/categoria/${group.id}`)}
+                  className="hover:text-brand-purple"
+                >
+                  {groupName(group, locale)}
+                </AppLink>
+                <span className="mx-2">/</span>
+              </>
+            ) : null}
+            <span className="text-foreground">{name}</span>
+          </nav>
 
-        <div className="grid gap-5 rounded-2xl border border-border bg-surface p-3 sm:gap-8 sm:p-4 md:grid-cols-2 md:p-6 lg:gap-10">
-          <div className="relative aspect-square overflow-hidden rounded-2xl bg-background">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+          <div className="grid gap-5 rounded-2xl border border-border bg-brand-white p-3 sm:gap-8 sm:p-4 md:grid-cols-2 md:p-6 lg:gap-10">
+            <ProductDetailGallery product={product} />
 
-          <div>
-            <p className="text-sm font-medium uppercase text-muted">
-              {product.brand}
-            </p>
-            <h1 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl">
-              {product.name}
-            </h1>
-            <p className="mt-2 text-sm text-muted">
-              {product.dosage} · {product.unit}
-            </p>
-
-            <div className="mt-4 flex flex-wrap items-end gap-2 sm:mt-5">
-              <p className="text-2xl font-extrabold text-price sm:text-3xl">
-                {formatPrice(product.price, locale)}
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted sm:text-sm">
+                {product.brand}
               </p>
-              {product.originalPrice ? (
-                <p className="text-base text-muted line-through">
-                  {formatPrice(product.originalPrice, locale)}
+              <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-foreground sm:mt-2 sm:text-3xl md:text-4xl">
+                {name}
+              </h1>
+
+              {group ? (
+                <p className="mt-2 text-sm text-muted">
+                  {dictionary.productPage.categoryLabel}:{" "}
+                  <AppLink
+                    href={localizePath(locale, `/categoria/${group.id}`)}
+                    className="font-semibold text-brand-purple hover:text-brand-purple-hover"
+                  >
+                    {groupName(group, locale)}
+                  </AppLink>
                 </p>
               ) : null}
-              {discount ? (
-                <span className="rounded-full bg-sale px-2 py-0.5 text-xs font-bold text-white">
-                  -{discount}%
-                </span>
+
+              {quantityLabel ? (
+                <p className="mt-1 text-sm text-muted">
+                  {dictionary.productPage.quantityLabel}:{" "}
+                  <span className="font-medium text-foreground">
+                    {quantityLabel}
+                  </span>
+                </p>
               ) : null}
-            </div>
 
-            <p className="mt-4 text-sm leading-relaxed text-foreground/85 sm:mt-5">
-              {productDescription(product, locale)}
-            </p>
+              <ProductBadges product={product} dictionary={dictionary} />
 
-            <ul className="mt-4 space-y-1 text-sm text-muted sm:mt-5">
-              <li>
-                {dictionary.productPage.stock}:{" "}
-                {product.stock > 0
-                  ? dictionary.productPage.inStock
-                  : dictionary.productPage.outOfStock}
-              </li>
-              <li>{dictionary.productPage.shipCountry}</li>
-              <li>{dictionary.productPage.discreetPack}</li>
-            </ul>
+              <div className="mt-4 flex flex-wrap items-end gap-2 sm:mt-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+                  {dictionary.productPage.priceLabel}
+                </p>
+                {productHasPrice(product) ? (
+                  <>
+                    <p className="w-full text-2xl font-extrabold text-brand-purple sm:text-3xl">
+                      {formatPrice(product.price, locale)}
+                    </p>
+                    {product.originalPrice ? (
+                      <p className="text-base text-muted line-through">
+                        {formatPrice(product.originalPrice, locale)}
+                      </p>
+                    ) : null}
+                    {discount ? (
+                      <span className="rounded-full bg-sale px-2 py-0.5 text-xs font-bold text-white">
+                        -{discount}%
+                      </span>
+                    ) : null}
+                  </>
+                ) : (
+                  <div className="w-full">
+                    <ProductWhatsAppPriceButton product={product} variant="detail" />
+                  </div>
+                )}
+              </div>
 
-            <div className="mt-6 hidden flex-wrap gap-3 md:flex">
-              <AddToCartButton product={product} />
-              <AppLink
-                href={localizePath(locale, "/checkout")}
-                className="inline-flex h-12 items-center rounded-full border border-border px-5 text-sm font-bold hover:border-blue hover:text-blue"
-              >
-                {dictionary.productPage.goCheckout}
-              </AppLink>
+              <ul className="mt-4 space-y-1 text-sm text-muted sm:mt-5">
+                <li>{dictionary.productPage.shipCountry}</li>
+                <li>{dictionary.productPage.discreetPack}</li>
+              </ul>
+
+              <div className="mt-5 border-t border-border pt-5">
+                <h2 className="text-sm font-bold text-foreground">
+                  {dictionary.productPage.shortDescriptionLabel}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+                  {shortDescription}
+                </p>
+              </div>
+
+              {fullDescription ? (
+                <div className="mt-5 border-t border-border pt-5">
+                  <h2 className="text-sm font-bold text-foreground">
+                    {dictionary.productPage.fullDescriptionLabel}
+                  </h2>
+                  <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-foreground/85">
+                    {fullDescription}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="mt-6 hidden md:block">
+                <ProductDetailActions product={product} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {related.length > 0 ? (
-          <section className="mt-8 sm:mt-12">
-            <SectionHeading title={dictionary.productPage.related} />
-            <ProductGrid products={related} />
-          </section>
-        ) : null}
+          {related.length > 0 ? (
+            <section className="mt-8 sm:mt-10">
+              <SectionHeading
+                title={dictionary.productPage.related}
+                accent
+              />
+              <ProductGrid products={related} />
+            </section>
+          ) : null}
+        </div>
       </div>
       <ProductMobileBuyBar product={product} />
     </>

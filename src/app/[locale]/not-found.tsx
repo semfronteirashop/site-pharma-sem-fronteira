@@ -15,7 +15,7 @@ export default function NotFound() {
         <AppLink
           href={localizePath(defaultLocale, "/")}
           prefetch
-          className="inline-flex h-11 items-center rounded-full bg-teal px-5 text-sm font-bold text-foreground"
+          className="inline-flex h-11 items-center rounded-full bg-brand-purple px-5 text-sm font-bold text-white hover:bg-brand-purple-hover"
         >
           {dictionary.notFound.home}
         </AppLink>

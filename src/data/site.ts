@@ -14,8 +14,8 @@ export const site = {
     pt: "Compras pelo WhatsApp, embalagem discreta e suporte das 08:00 as 18:00.",
   } satisfies LocalizedString,
   url: "https://pharmasemfronteira.com",
-  currency: "PYG",
-  currencySymbol: "Gs.",
+  currency: "BRL",
+  currencySymbol: "R$",
   whatsapp: "+595992307471",
   whatsappDisplay: "+595 992 307 471",
   supportHours: "08:00 - 18:00",
@@ -24,7 +24,11 @@ export const site = {
     es: "Paraguay",
     pt: "Paraguai",
   } satisfies LocalizedString,
-  freeShippingMin: 500000,
+  freeShippingMin: 400,
+  instagram: {
+    handle: "@semfronteiras.py",
+    url: "https://www.instagram.com/semfronteiras.py/",
+  },
 } as const;
 
 export function tSite(
@@ -38,8 +42,13 @@ export function tSite(
 export const navHrefs = [
   { href: "/", key: "home" as const },
   { href: "/produtos", key: "products" as const },
-  { href: "/produtos#categorias", key: "categories" as const },
-  { href: "/mas-vendidos", key: "bestSellers" as const },
   { href: "/ofertas", key: "offers" as const },
-  { href: "/autenticidade", key: "help" as const },
-];
+  { href: "/lancamentos", key: "launches" as const },
+  { href: "/mais-procurados", key: "bestSellers" as const },
+] as const;
+
+export const institutionalHrefs = [
+  { href: "/sobre-nos", key: "about" as const },
+  { href: "/privacidade", key: "privacy" as const },
+  { href: "/termos", key: "terms" as const },
+] as const;

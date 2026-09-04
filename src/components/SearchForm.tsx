@@ -40,18 +40,16 @@ export function SearchForm({
         onChange={(e) => setQuery(e.target.value)}
         placeholder={dictionary.searchPlaceholder}
         autoFocus={autoFocus}
-        className={`w-full rounded-full border border-transparent bg-[#eef2f7] text-sm outline-none ring-teal/30 placeholder:text-muted focus:border-teal focus:bg-white focus:ring-2 ${
-          compact
+        className={`w-full rounded-full border border-transparent bg-brand-light text-sm outline-none ring-brand-purple/20 placeholder:text-muted focus:border-brand-purple focus:bg-brand-white focus:ring-2 ${compact
             ? "h-9 pl-3.5 pr-20 text-[13px]"
             : "h-11 pl-4 pr-24"
-        }`}
+          }`}
         aria-label={dictionary.search}
       />
       <button
         type="submit"
-        className={`absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-blue font-bold text-white hover:bg-blue-hover ${
-          compact ? "px-3 py-1 text-[11px]" : "right-1.5 px-3.5 py-1.5 text-xs"
-        }`}
+        className={`absolute right-1 top-1/2 -translate-y-1/2 rounded-full bg-brand-purple font-bold text-white hover:bg-brand-purple-hover ${compact ? "px-3 py-1 text-[11px]" : "right-1.5 px-3.5 py-1.5 text-xs"
+          }`}
       >
         {dictionary.search}
       </button>

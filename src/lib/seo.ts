@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { site, tSite } from "@/data/site";
 import type { Product } from "@/data/products";
-import { productDescription } from "@/data/products";
+import { productDescription, productHasPrice } from "@/data/products";
 import type { Category } from "@/data/categories";
 import { categoryDescription, categoryName } from "@/data/categories";
+import type { ProductGroup } from "@/data/productGroups";
+import { groupDescription, groupName } from "@/data/productGroups";
 import { locales, localeToOg, type Locale } from "@/i18n/config";
 import { localizePath } from "@/i18n/paths";
 import { formatPrice } from "@/lib/format";
@@ -92,33 +94,38 @@ export function organizationJsonLd(locale: Locale) {
 }
 
 export function productJsonLd(product: Product, locale: Locale) {
-  return {
+  const json: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: productDescription(product, locale),
-    image: [absoluteUrl(product.image)],
     brand: {
       "@type": "Brand",
       name: product.brand,
     },
     sku: product.id,
-    offers: {
+  };
+
+  if (product.image) {
+    json.image = [absoluteUrl(product.image)];
+  }
+
+  if (productHasPrice(product)) {
+    json.offers = {
       "@type": "Offer",
       url: absoluteUrl(localizePath(locale, `/produto/${product.slug}`)),
-      priceCurrency: "PYG",
+      priceCurrency: "BRL",
       price: product.price,
-      availability:
-        product.stock > 0
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
+      availability: "https://schema.org/InStock",
       priceValidUntil: new Date(
         new Date().setFullYear(new Date().getFullYear() + 1),
       )
         .toISOString()
         .slice(0, 10),
-    },
-  };
+    };
+  }
+
+  return json;
 }
 
 export function categoryMetadata(
@@ -134,12 +141,24 @@ export function categoryMetadata(
   });
 }
 
+export function groupMetadata(group: ProductGroup, locale: Locale): Metadata {
+  return createMetadata({
+    title: groupName(group, locale),
+    description: groupDescription(group, locale),
+    path: `/categoria/${group.id}`,
+    locale,
+  });
+}
+
 export function productMetadata(product: Product, locale: Locale): Metadata {
+  const priceSuffix = productHasPrice(product)
+    ? ` ${formatPrice(product.price, locale)}.`
+    : "";
   return createMetadata({
     title: product.name,
-    description: `${productDescription(product, locale)} ${formatPrice(product.price, locale)}.`,
+    description: `${productDescription(product, locale)}${priceSuffix}`,
     path: `/produto/${product.slug}`,
-    image: product.image,
+    image: product.image ?? defaultOg,
     locale,
   });
 }

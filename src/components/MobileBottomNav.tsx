@@ -97,7 +97,10 @@ export function MobileBottomNav() {
       active:
         bare.startsWith("/produtos") ||
         bare.startsWith("/produto") ||
-        bare.startsWith("/categoria"),
+        bare.startsWith("/categoria") ||
+        bare.startsWith("/lancamentos") ||
+        bare.startsWith("/mais-procurados") ||
+        bare.startsWith("/mas-vendidos"),
       icon: <IconGrid />,
     },
     {
@@ -119,9 +122,8 @@ export function MobileBottomNav() {
           <AppLink
             key={item.key}
             href={item.href}
-            className={`flex min-h-12 flex-col items-center justify-center rounded-xl text-[10px] font-semibold ${
-              item.active ? "bg-blue/10 text-blue" : "text-muted"
-            }`}
+            className={`flex min-h-12 flex-col items-center justify-center rounded-xl text-[10px] font-semibold ${item.active ? "bg-brand-purple/10 text-brand-purple" : "text-muted"
+              }`}
           >
             {item.icon}
             <span className="mt-1 truncate px-0.5">{item.label}</span>
@@ -146,7 +148,7 @@ export function MobileBottomNav() {
           href={`https://wa.me/${site.whatsapp.replace(/\D/g, "")}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex min-h-12 flex-col items-center justify-center rounded-xl text-[10px] font-semibold text-whatsapp"
+          className="flex min-h-12 flex-col items-center justify-center rounded-xl text-[10px] font-semibold text-brand-green"
         >
           <IconChat />
           <span className="mt-1">{dictionary.whatsapp}</span>

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
   <rect width="120" height="120" rx="24" fill="#F8E0EC"/>
-  <circle cx="60" cy="48" r="20" fill="#1B57C4"/>
+  <circle cx="60" cy="48" r="20" fill="#4A168C"/>
   <path d="M60 38v20M50 48h20" stroke="white" stroke-width="4" stroke-linecap="round"/>
   <text x="60" y="96" text-anchor="middle" fill="#374151" font-family="Arial, sans-serif" font-size="12" font-weight="700">Horm.</text>
 </svg>

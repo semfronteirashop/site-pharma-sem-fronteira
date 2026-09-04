@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ProductGrid } from "@/components/ProductGrid";
+import { FadeInSection } from "@/components/FadeInSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getSaleProducts } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
@@ -29,17 +30,18 @@ export default async function OffersPage({ params }: { params: Params }) {
   const products = getSaleProducts();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
-      <SectionHeading
-        title={dictionary.offersPage.title}
-        description={dictionary.offersPage.lead}
-        href="/produtos"
-        linkLabel={dictionary.home.catalog}
-      />
-      <ProductGrid
-        products={products}
-        emptyMessage={dictionary.offersPage.empty}
-      />
+    <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">
+      <FadeInSection>
+        <SectionHeading
+          title={dictionary.offersPage.title}
+          description={dictionary.offersPage.lead}
+        />
+        <ProductGrid
+          products={products}
+          variant="offer"
+          emptyMessage={dictionary.offersPage.empty}
+        />
+      </FadeInSection>
     </div>
   );
 }

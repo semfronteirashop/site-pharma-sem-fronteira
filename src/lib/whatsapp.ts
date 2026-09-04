@@ -40,3 +40,24 @@ export function buildSupportMessage(locale: Locale, topic?: string): string {
   const t = getDictionary(locale).whatsappMsg;
   return t.support(topic ?? t.defaultTopic, site.name);
 }
+
+export function buildProductOrderMessage(
+  product: {
+    name: string;
+    brand: string;
+    price: number;
+  },
+  locale: Locale,
+  quantity = 1,
+): string {
+  const t = getDictionary(locale).whatsappMsg;
+  const lineTotal = formatPrice(product.price * quantity, locale);
+
+  return [
+    t.orderIntro(site.name),
+    "",
+    `• ${quantity}x ${product.name} (${product.brand}) — ${lineTotal}`,
+    "",
+    t.confirm,
+  ].join("\n");
+}

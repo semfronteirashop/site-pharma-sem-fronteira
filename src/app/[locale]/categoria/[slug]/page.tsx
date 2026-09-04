@@ -2,22 +2,32 @@ import { notFound } from "next/navigation";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
-  getAllCategories,
+  categoryDescription,
+  categoryName,
+} from "@/data/categories";
+import {
+  groupDescription,
+  groupName,
+  getAllCategoryRouteSlugs,
+  getProductGroupById,
+} from "@/data/productGroups";
+import {
   getCategoryBySlug,
   getProductsByCategory,
+  getProductsByGroupId,
 } from "@/lib/catalog";
-import { categoryMetadata } from "@/lib/seo";
-import { categoryDescription, categoryName } from "@/data/categories";
+import { categoryMetadata, groupMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 
 type Params = Promise<{ locale: string; slug: string }>;
 
+/** Rotas principais (grupos) + aliases legados para links antigos. */
 export function generateStaticParams() {
   return locales.flatMap((locale) =>
-    getAllCategories().map((category) => ({
+    getAllCategoryRouteSlugs().map((slug) => ({
       locale,
-      slug: category.slug,
+      slug,
     })),
   );
 }
@@ -25,9 +35,15 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }) {
   const { locale: raw, slug } = await params;
   if (!isLocale(raw)) return {};
+  const locale = raw as Locale;
+
+  const group = getProductGroupById(slug);
+  if (group) return groupMetadata(group, locale);
+
   const category = getCategoryBySlug(slug);
-  if (!category) return {};
-  return categoryMetadata(category, raw as Locale);
+  if (category) return categoryMetadata(category, locale);
+
+  return {};
 }
 
 export default async function CategoryPage({ params }: { params: Params }) {
@@ -35,6 +51,33 @@ export default async function CategoryPage({ params }: { params: Params }) {
   if (!isLocale(raw)) notFound();
   const locale = raw as Locale;
   const dictionary = getDictionary(locale);
+
+  const group = getProductGroupById(slug);
+  if (group) {
+    const products = getProductsByGroupId(group.id);
+    const isEmpty = group.categorySlugs.length === 0;
+
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
+        <SectionHeading
+          title={groupName(group, locale)}
+          description={groupDescription(group, locale)}
+          href="/produtos"
+          linkLabel={dictionary.categoryPage.back}
+        />
+        <ProductGrid
+          products={products}
+          emptyMessage={dictionary.categoryPage.empty}
+          emptyHint={
+            isEmpty || products.length === 0
+              ? dictionary.categoryPage.emptyHint
+              : undefined
+          }
+        />
+      </div>
+    );
+  }
+
   const category = getCategoryBySlug(slug);
   if (!category) notFound();
 
@@ -51,6 +94,9 @@ export default async function CategoryPage({ params }: { params: Params }) {
       <ProductGrid
         products={products}
         emptyMessage={dictionary.categoryPage.empty}
+        emptyHint={
+          products.length === 0 ? dictionary.categoryPage.emptyHint : undefined
+        }
       />
     </div>
   );

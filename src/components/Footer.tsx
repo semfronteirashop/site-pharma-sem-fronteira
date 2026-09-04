@@ -1,42 +1,54 @@
 "use client";
 
-import { site, tSite } from "@/data/site";
-import { buildSupportMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
+import Image from "next/image";
+import { institutionalHrefs, navHrefs, site } from "@/data/site";
 import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function Footer() {
-  const { dictionary, href, locale } = useLocale();
-  const supportUrl = buildWhatsAppUrl(
-    buildSupportMessage(locale, dictionary.whatsappMsg.defaultTopic),
-  );
-
-  const institutional = [
-    { href: "/autenticidade", label: dictionary.footer.company },
-    { href: "/checkout", label: dictionary.footer.myOrder },
-    { href: "/autenticidade", label: dictionary.footer.supportLink },
-  ];
-  const politicas = [
-    { href: "/privacidade", label: dictionary.footer.terms },
-    { href: "/privacidade", label: dictionary.footer.privacy },
-    { href: "/autenticidade", label: dictionary.footer.shipping },
-    { href: "/privacidade", label: dictionary.footer.refunds },
-  ];
+  const { dictionary, href } = useLocale();
+  const whatsappUrl = `https://wa.me/${site.whatsapp.replace(/\D/g, "")}`;
 
   return (
-    <footer className="mt-auto border-t border-border bg-surface">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-2 md:px-6 lg:grid-cols-4">
+    <footer className="mt-auto border-t border-border bg-brand-white">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-2 sm:gap-10 md:px-6 lg:grid-cols-4">
         <div>
-          <p className="flex items-center gap-2 text-lg font-extrabold text-blue">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-teal text-sm text-white">
-              +
+          <h2 className="text-sm font-bold uppercase tracking-wide text-brand-purple">
+            {dictionary.footer.brandName}
+          </h2>
+          <AppLink href={href("/")} className="mt-3 inline-flex items-center gap-3">
+            <span className="relative block h-11 w-[3.65rem]">
+              <Image
+                src="/brand/logo.png"
+                alt="Sem Fronteira"
+                fill
+                className="object-contain object-left"
+                sizes="58px"
+              />
             </span>
-            Sem Fronteira
+            <span className="sr-only">Sem Fronteira {dictionary.brandSubtitle}</span>
+          </AppLink>
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
+            {dictionary.footer.brandDescription}
           </p>
-          <p className="mt-1 text-sm text-muted">{dictionary.brandSubtitle}</p>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-foreground/80">
-            {tSite(site.tagline, locale)} {tSite(site.description, locale)}
-          </p>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-bold uppercase tracking-wide text-foreground">
+            {dictionary.footer.explore}
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {navHrefs.map((link) => (
+              <li key={link.href}>
+                <AppLink
+                  href={href(link.href)}
+                  className="text-sm text-muted hover:text-brand-purple"
+                >
+                  {dictionary.nav[link.key]}
+                </AppLink>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div>
@@ -44,10 +56,15 @@ export function Footer() {
             {dictionary.footer.institutional}
           </h2>
           <ul className="mt-3 space-y-2">
-            {institutional.map((link) => (
-              <li key={link.label}>
-                <AppLink href={href(link.href)} className="text-sm text-muted hover:text-teal-deep">
-                  {link.label}
+            {institutionalHrefs.map((link) => (
+              <li key={`${link.href}-${link.key}`}>
+                <AppLink
+                  href={href(link.href)}
+                  className="text-sm text-muted hover:text-brand-purple"
+                >
+                  {link.key === "about"
+                    ? dictionary.nav.about
+                    : dictionary.footer[link.key]}
                 </AppLink>
               </li>
             ))}
@@ -56,45 +73,32 @@ export function Footer() {
 
         <div>
           <h2 className="text-sm font-bold uppercase tracking-wide text-foreground">
-            {dictionary.footer.policies}
+            {dictionary.footer.contacts}
           </h2>
-          <ul className="mt-3 space-y-2">
-            {politicas.map((link) => (
-              <li key={link.label}>
-                <AppLink href={href(link.href)} className="text-sm text-muted hover:text-teal-deep">
-                  {link.label}
-                </AppLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-wide text-foreground">
-            {dictionary.footer.support}
-          </h2>
-          <ul className="mt-3 space-y-2 text-sm text-muted">
-            <li>
-              {dictionary.footer.support}: {site.supportHours}
-            </li>
+          <ul className="mt-3 space-y-2 text-sm">
             <li>
               <a
-                href={supportUrl}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-teal-deep hover:underline"
+                className="font-semibold text-brand-green-dark hover:text-brand-green"
               >
                 WhatsApp {site.whatsappDisplay}
               </a>
             </li>
-          </ul>
-          <h3 className="mt-5 text-sm font-bold uppercase tracking-wide text-foreground">
-            {dictionary.footer.payments}
-          </h3>
-          <ul className="mt-2 space-y-1 text-sm text-muted">
-            {dictionary.footer.paymentMethods.map((method) => (
-              <li key={method}>{method}</li>
-            ))}
+            <li>
+              <a
+                href={site.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand-purple hover:text-brand-purple-hover"
+              >
+                Instagram {site.instagram.handle}
+              </a>
+            </li>
+            <li className="text-muted">
+              {dictionary.footer.supportHours}: {site.supportHours}
+            </li>
           </ul>
         </div>
       </div>

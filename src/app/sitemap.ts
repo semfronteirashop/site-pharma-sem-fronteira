@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getAllCategories, getAllProducts } from "@/lib/catalog";
+import { getAllProductGroups, getAllProducts } from "@/lib/catalog";
+import { getAllCategoryRouteSlugs } from "@/data/productGroups";
 import { absoluteUrl } from "@/lib/seo";
 import { locales } from "@/i18n/config";
 import { localizePath } from "@/i18n/paths";
@@ -9,9 +10,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "/",
     "/produtos",
-    "/mas-vendidos",
     "/ofertas",
+    "/lancamentos",
+    "/mais-procurados",
+    "/sobre-nos",
+    "/como-comprar",
     "/privacidade",
+    "/termos",
     "/autenticidade",
   ];
 
@@ -27,9 +32,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       });
     }
 
-    for (const category of getAllCategories()) {
+    for (const slug of getAllCategoryRouteSlugs()) {
       entries.push({
-        url: absoluteUrl(localizePath(locale, `/categoria/${category.slug}`)),
+        url: absoluteUrl(localizePath(locale, `/categoria/${slug}`)),
         lastModified: now,
         changeFrequency: "weekly",
         priority: 0.8,

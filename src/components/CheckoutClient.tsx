@@ -18,7 +18,7 @@ export function CheckoutClient() {
         <p className="mt-1 text-sm text-muted">{dictionary.checkout.emptyLead}</p>
         <AppLink
           href={href("/produtos")}
-          className="mt-5 inline-flex h-11 items-center rounded-full bg-teal px-5 text-sm font-bold text-foreground"
+          className="mt-5 inline-flex h-11 items-center rounded-full bg-brand-purple px-5 text-sm font-bold text-white hover:bg-brand-purple-hover"
         >
           {dictionary.checkout.seeProducts}
         </AppLink>
@@ -108,7 +108,7 @@ export function CheckoutClient() {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-12 w-full items-center justify-center rounded-full bg-whatsapp text-sm font-bold text-white"
+            className="inline-flex h-12 w-full items-center justify-center rounded-full bg-brand-green text-sm font-bold text-white hover:bg-brand-green-dark"
           >
             {dictionary.checkout.sendWhatsapp}
           </a>

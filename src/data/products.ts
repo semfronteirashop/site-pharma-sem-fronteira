@@ -1,34 +1,100 @@
 import type { LocalizedString } from "@/data/site";
+import { site } from "@/data/site";
 import type { Locale } from "@/i18n/config";
+import { getGroupIdForCategorySlug } from "@/data/productGroups";
 
+/** Versao do schema — incrementar se campos obrigatorios mudarem no futuro. */
+export const PRODUCT_CATALOG_SCHEMA_VERSION = 1;
+
+/**
+ * Schema do catalogo para cadastro real.
+ *
+ * Campos de cadastro:
+ * - nome: `name` + `nameLocalized?` (PT/ES)
+ * - marca: `brand`
+ * - categoria: `categorySlug` (slug tecnico em categories.ts)
+ * - grupo: `groupId?` (productGroups.id; inferido de categorySlug se omitido)
+ * - preco: `price` (+ `originalPrice?` quando onSale)
+ * - moeda: `currency?` (omitido = site.currency / PYG)
+ * - imagem principal: `image`
+ * - imagens adicionais: `images?`
+ * - descricao curta: `description` (PT/ES)
+ * - descricao completa: `fullDescription?` (PT/ES)
+ * - estoque/disponibilidade: `stock` (> 0 = disponivel)
+ * - destaque: `featured`
+ * - lancamento: `newLaunch?`
+ * - mais procurado: `bestSeller`
+ * - oferta: `onSale` (+ originalPrice quando aplicavel)
+ *
+ * Campos legados (produtos atuais): dosage, unit, tags, slug, id.
+ * Produtos existentes permanecem compativeis sem alteracao.
+ */
 export type Product = {
   id: string;
+  /** Nome padrao. Use nameLocalized para PT/ES distintos. */
   name: string;
+  nameLocalized?: LocalizedString;
   slug: string;
   brand: string;
   dosage: string;
   unit: string;
-  price: number;
+  /** Omitido quando vazio na planilha de cadastro. */
+  price?: number;
+  /** Codigo ISO ou identificador de moeda. Omitido = moeda padrao do site (PYG). */
+  currency?: string;
+  /** Preco promocional anterior (exibido tachado quando onSale). */
   originalPrice?: number;
+  /** Slug da categoria tecnica (categories.ts). */
   categorySlug: string;
-  image: string;
+  /** Grupo de catalogo (productGroups.id). Inferido de categorySlug se omitido. */
+  groupId?: string;
+  /** Omitido quando vazio na planilha de cadastro. */
+  image?: string;
+  /** Imagens adicionais alem da principal. */
+  images?: string[];
+  /** Descricao curta localizada (PT/ES) — ficha e listagens. */
   description: LocalizedString;
-  stock: number;
+  /** Descricao completa localizada (PT/ES) — pagina do produto. */
+  fullDescription?: LocalizedString;
+  /** Omitido quando vazio na planilha de cadastro. */
+  stock?: number;
   featured: boolean;
   bestSeller: boolean;
   onSale: boolean;
+  /** Lancamento — marcar manualmente nos dados; omitido = nao e lancamento. */
+  newLaunch?: boolean;
   tags: string[];
 };
 
+/** Subconjunto documentado para flags de merchandising no cadastro. */
+export type ProductCatalogFlags = Pick<
+  Product,
+  "featured" | "bestSeller" | "onSale" | "newLaunch"
+>;
+
+/** Textos localizados do produto (PT/ES). */
+export type ProductCatalogTexts = {
+  name?: LocalizedString;
+  description: LocalizedString;
+  fullDescription?: LocalizedString;
+};
+
+/** Shape minimo para entrada de cadastro (geracao de id/slug feita separadamente). */
+export type ProductCatalogInput = Omit<
+  Product,
+  "id" | "slug" | "dosage" | "unit" | "tags"
+> &
+  Partial<Pick<Product, "id" | "slug" | "dosage" | "unit" | "tags">>;
+
 export const products: Product[] = [
-  {
+{
     id: "p-1",
     name: "Deposteron Cipionato de Testo 10ml",
     slug: "deposteron-cipionato-de-testo-10ml",
     brand: "Landerlan",
     dosage: "10ml",
     unit: "ml",
-    price: 200000,
+    price: 160,
     categorySlug: "anabolizantes",
     image: "/products/remote/deposteron-cipionato-de-testo-10ml.webp",
     description: {
@@ -41,14 +107,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-2",
     name: "Masteron Propionato 100mg 10ml",
     slug: "masteron-propionato-100mg-10ml",
     brand: "King",
     dosage: "100mg",
     unit: "ml",
-    price: 220000,
+    price: 176,
     categorySlug: "anabolizantes",
     image: "/products/remote/masteron-propionato-100mg-10ml.webp",
     description: {
@@ -57,18 +123,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: true,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-3",
     name: "Dianabol 10mg 100Cp",
     slug: "dianabol-10mg-100cp",
     brand: "King",
     dosage: "10mg",
     unit: "un",
-    price: 110000,
+    price: 88,
     categorySlug: "anabolizantes",
     image: "/products/remote/dianabol-10mg-100cp.webp",
     description: {
@@ -77,18 +143,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: true,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-4",
     name: "Cut Stack 150mg 10ml",
     slug: "cut-stack-150mg-10ml",
     brand: "King",
     dosage: "10ml",
     unit: "ml",
-    price: 230000,
+    price: 184,
     categorySlug: "emagrecedores",
     image: "/products/remote/cut-stack-150mg-10ml.webp",
     description: {
@@ -97,38 +163,40 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: true,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["emagrecedores", "king"],
   },
   {
-    id: "p-5",
-    name: "T.G Tirzepatida 15mg 4 Ampolas",
-    slug: "t-g-tirzepatida-15mg-4-ampolas",
-    brand: "Sem Fronteira",
+    id: "TG-15MG",
+    name: "T.G. 15 Tirzepatida ",
+    slug: "tg-15mg",
+    brand: "Indufar  ",
     dosage: "15mg",
     unit: "un",
-    price: 1000000,
     categorySlug: "emagrecedores",
     image: "/products/remote/t-g-tirzepatida-15mg-4-ampolas.webp",
     description: {
-      es: "T.G Tirzepatida 15mg 4 Ampolas. 15mg · un. Pedi por WhatsApp.",
-      pt: "T.G Tirzepatida 15mg 4 Ampolas. 15mg · un. Peca pelo WhatsApp.",
+      es: "Tirzepatida 15 mg/0,5 mL, apresentação com 4 frascos de 0,5 mL de solução injetável.                                                  ",
+      pt: "Tirzepatida 15 mg/0,5 mL, apresentação com 4 frascos de 0,5 mL de solução injetável.                                                  ",
     },
-    stock: 100,
+    fullDescription: {
+      es: "Tirzepatida 15 mg/0,5 mL, apresentação com 4 frascos de 0,5 mL de solução injetável.                                                  ",
+      pt: "Tirzepatida 15 mg/0,5 mL, apresentação com 4 frascos de 0,5 mL de solução injetável.                                                  ",
+    },
     featured: true,
     bestSeller: true,
     onSale: false,
-    tags: ["emagrecedores", "sem fronteira"],
+    tags: ["emagrecedores", "indufar", "tirzepatida"],
   },
-  {
+{
     id: "p-6",
     name: "Trestolone Enantato 100mg 10ml",
     slug: "trestolone-enantato-100mg-10ml",
     brand: "ZPHC",
     dosage: "100mg",
     unit: "ml",
-    price: 1190000,
+    price: 952,
     categorySlug: "anabolizantes",
     image: "/products/remote/trestolone-enantato-100mg-10ml.webp",
     description: {
@@ -137,18 +205,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: true,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-7",
     name: "Trestolona Enantato 50mg 10ml",
     slug: "trestolona-enantato-50mg-10ml",
     brand: "ZPHC",
     dosage: "50mg",
     unit: "ml",
-    price: 940000,
+    price: 752,
     categorySlug: "anabolizantes",
     image: "/products/remote/trestolona-enantato-50mg-10ml.webp",
     description: {
@@ -157,18 +225,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: true,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-8",
     name: "Trestolona Acetato 50mg 10ml",
     slug: "trestolona-acetato-50mg-10ml",
     brand: "ZPHC",
     dosage: "50mg",
     unit: "ml",
-    price: 780000,
+    price: 624,
     categorySlug: "anabolizantes",
     image: "/products/remote/trestolona-acetato-50mg-10ml.webp",
     description: {
@@ -177,18 +245,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: true,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-9",
     name: "Trembolona Enantato 200mg 10 Ampolas",
     slug: "trembolona-enantato-200mg-10-ampolas",
     brand: "ZPHC",
     dosage: "200mg",
     unit: "un",
-    price: 590000,
+    price: 472,
     categorySlug: "anabolizantes",
     image: "/products/remote/trembolona-enantato-200mg-10-ampolas.webp",
     description: {
@@ -197,18 +265,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-10",
     name: "Trembolona Acetato 100mg 10 Ampolas",
     slug: "trembolona-acetato-100mg-10-ampolas",
     brand: "ZPHC",
     dosage: "100mg",
     unit: "un",
-    price: 490000,
+    price: 392,
     categorySlug: "anabolizantes",
     image: "/products/remote/trembolona-acetato-100mg-10-ampolas.webp",
     description: {
@@ -217,18 +285,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-11",
     name: "TB500 5mg 5 Ampolas",
     slug: "tb500-5mg-5-ampolas",
     brand: "ZPHC",
     dosage: "5mg",
     unit: "un",
-    price: 1900000,
+    price: 1520,
     categorySlug: "anabolizantes",
     image: "/products/remote/tb500-5mg-5-ampolas.webp",
     description: {
@@ -237,18 +305,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-12",
     name: "NPP 100mg 10ml",
     slug: "npp-100mg-10ml",
     brand: "ZPHC",
     dosage: "10ml",
     unit: "ml",
-    price: 390000,
+    price: 312,
     categorySlug: "anabolizantes",
     image: "/products/remote/npp-100mg-10ml.webp",
     description: {
@@ -257,18 +325,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: true,
+    bestSeller: false,
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-13",
     name: "Mega Mix 250mg 10ml",
     slug: "mega-mix-250mg-10ml",
     brand: "ZPHC",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 490000,
+    price: 392,
     categorySlug: "anabolizantes",
     image: "/products/remote/mega-mix-250mg-10ml.webp",
     description: {
@@ -281,14 +349,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-14",
     name: "Masteron 100mg 10ml",
     slug: "masteron-100mg-10ml",
     brand: "ZPHC",
     dosage: "100mg",
     unit: "ml",
-    price: 540000,
+    price: 432,
     categorySlug: "anabolizantes",
     image: "/products/remote/masteron-100mg-10ml.webp",
     description: {
@@ -301,14 +369,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-15",
     name: "Hemogenin 25mg 100cp",
     slug: "hemogenin-25mg-100cp",
     brand: "ZPHC",
     dosage: "25mg",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "anabolizantes",
     image: "/products/remote/hemogenin-25mg-100cp.webp",
     description: {
@@ -321,14 +389,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-16",
     name: "Durateston 250mg 10Ampolas",
     slug: "durateston-250mg-10ampolas",
     brand: "ZPHC",
     dosage: "250ml",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "anabolizantes",
     image: "/products/remote/durateston-250mg-10ampolas.webp",
     description: {
@@ -341,14 +409,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-17",
     name: "Dianabol 20mg 100cp",
     slug: "dianabol-20mg-100cp",
     brand: "ZPHC",
     dosage: "20mg",
     unit: "un",
-    price: 350000,
+    price: 280,
     categorySlug: "anabolizantes",
     image: "/products/remote/dianabol-20mg-100cp.webp",
     description: {
@@ -361,14 +429,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "zphc"],
   },
-  {
+{
     id: "p-18",
     name: "Testoviron (Enantato Testo) 250mg 10ml",
     slug: "testoviron-enantato-testo-250mg-10ml",
     brand: "Muscle Lab",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/testoviron-enantato-testo-250mg-10ml.webp",
     description: {
@@ -381,14 +449,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-19",
     name: "Testex ( Cipionato Testo) 250mg 10ml",
     slug: "testex-cipionato-testo-250mg-10ml",
     brand: "Muscle Lab",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/testex-cipionato-testo-250mg-10ml.webp",
     description: {
@@ -401,14 +469,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-20",
     name: "Sustan Xt (Durateston) 250mg 10ml",
     slug: "sustan-xt-durateston-250mg-10ml",
     brand: "Muscle Lab",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/sustan-xt-durateston-250mg-10ml.webp",
     description: {
@@ -421,14 +489,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-21",
     name: "Primobolan 100mg 10ml",
     slug: "primobolan-100mg-10ml",
     brand: "Muscle Lab",
     dosage: "100mg/10ml",
     unit: "ml",
-    price: 480000,
+    price: 384,
     categorySlug: "anabolizantes",
     image: "/products/remote/primobolan-100mg-10ml.webp",
     description: {
@@ -441,14 +509,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-22",
     name: "Dianabol Inj. 50mg 10ml",
     slug: "dianabol-inj-50mg-10ml",
     brand: "Muscle Lab",
     dosage: "50mg/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/dianabol-inj-50mg-10ml.webp",
     description: {
@@ -461,14 +529,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-23",
     name: "Deca 300mg 10ml",
     slug: "deca-300mg-10ml",
     brand: "Muscle Lab",
     dosage: "300mg/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/deca-300mg-10ml.webp",
     description: {
@@ -481,14 +549,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-24",
     name: "Cut Stack 200mg 10ml",
     slug: "cut-stack-200mg-10ml",
     brand: "Muscle Lab",
     dosage: "200mg/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/cut-stack-200mg-10ml.webp",
     description: {
@@ -501,14 +569,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "muscle lab"],
   },
-  {
+{
     id: "p-25",
     name: "TriTrembo 200mg 10ml",
     slug: "tritrembo-200mg-10ml",
     brand: "Landerlan",
     dosage: "200mg/10ml",
     unit: "ml",
-    price: 280000,
+    price: 224,
     categorySlug: "anabolizantes",
     image: "/products/remote/tritrembo-200mg-10ml.webp",
     description: {
@@ -517,18 +585,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-26",
     name: "Trembolona Enantato 100mg 10ml",
     slug: "trembolona-enantato-100mg-10ml",
     brand: "Landerlan",
     dosage: "100mg/10ml",
     unit: "ml",
-    price: 230000,
+    price: 184,
     categorySlug: "anabolizantes",
     image: "/products/remote/trembolona-enantato-100mg-10ml.webp",
     description: {
@@ -537,18 +605,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-27",
     name: "Trembolona Acetato 100mg 10ml",
     slug: "trembolona-acetato-100mg-10ml",
     brand: "Landerlan",
     dosage: "100mg",
     unit: "ml",
-    price: 250000,
+    price: 200,
     categorySlug: "anabolizantes",
     image: "/products/remote/trembolona-acetato-100mg-10ml.webp",
     description: {
@@ -557,18 +625,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-28",
     name: "Stanozolol 30 ml Aquoso",
     slug: "stanozolol-30-ml-aquoso",
     brand: "Landerlan",
     dosage: "30ml",
     unit: "ml",
-    price: 160000,
+    price: 128,
     categorySlug: "anabolizantes",
     image: "/products/remote/stanozolol-30-ml-aquoso.webp",
     description: {
@@ -577,18 +645,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-29",
     name: "Stanozolol 15m lAquoso",
     slug: "stanozolol-15m-laquoso",
     brand: "Landerlan",
     dosage: "15ml",
     unit: "ml",
-    price: 110000,
+    price: 88,
     categorySlug: "anabolizantes",
     image: "/products/remote/stanozolol-15m-laquoso.webp",
     description: {
@@ -597,18 +665,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-30",
     name: "Stanozolol 10mg 100cp",
     slug: "stanozolol-10mg-100cp",
     brand: "Landerlan",
     dosage: "10mg",
     unit: "un",
-    price: 100000,
+    price: 80,
     categorySlug: "anabolizantes",
     image: "/products/remote/stanozolol-10mg-100cp.webp",
     description: {
@@ -617,18 +685,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-31",
     name: "Proviron 25mg 20cp",
     slug: "proviron-25mg-20cp",
     brand: "Landerlan",
     dosage: "25mg",
     unit: "un",
-    price: 140000,
+    price: 112,
     categorySlug: "anabolizantes",
     image: "/products/remote/proviron-25mg-20cp.webp",
     description: {
@@ -637,18 +705,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-32",
     name: "Propionato de Testo 100mg 10ml",
     slug: "propionato-de-testo-100mg-10ml",
     brand: "Landerlan",
     dosage: "100mg",
     unit: "ml",
-    price: 190000,
+    price: 152,
     categorySlug: "anabolizantes",
     image: "/products/remote/propionato-de-testo-100mg-10ml.webp",
     description: {
@@ -657,18 +725,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-33",
     name: "Primobolan Oral 25mg 30cp",
     slug: "primobolan-oral-25mg-30cp",
     brand: "Landerlan",
     dosage: "25mg",
     unit: "un",
-    price: 500000,
+    price: 400,
     categorySlug: "anabolizantes",
     image: "/products/remote/primobolan-oral-25mg-30cp.webp",
     description: {
@@ -677,18 +745,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-34",
     name: "Primobolan 100mg 10ml",
     slug: "primobolan-100mg-10ml-landerlan",
     brand: "Landerlan",
     dosage: "10mg",
     unit: "ml",
-    price: 420000,
+    price: 336,
     categorySlug: "anabolizantes",
     image: "/products/remote/primobolan-100mg-10ml-landerlan.webp",
     description: {
@@ -697,18 +765,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-35",
     name: "Oxandrolona 10mg 50cp",
     slug: "oxandrolona-10mg-50cp",
     brand: "Sem Fronteira",
     dosage: "10mg",
     unit: "un",
-    price: 240000,
+    price: 192,
     categorySlug: "emagrecedores",
     image: "/products/remote/oxandrolona-10mg-50cp.webp",
     description: {
@@ -721,14 +789,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["emagrecedores", "sem fronteira"],
   },
-  {
+{
     id: "p-36",
     name: "Oxandrolona 5mg 100cp",
     slug: "oxandrolona-5mg-100cp",
     brand: "Landerlan",
     dosage: "5mg",
     unit: "un",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/oxandrolona-5mg-100cp.webp",
     description: {
@@ -737,18 +805,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-37",
     name: "NPP 100mg 10ml",
     slug: "npp-100mg-10ml-landerlan",
     brand: "Landerlan",
     dosage: "100mg/10ml",
     unit: "ml",
-    price: 210000,
+    price: 168,
     categorySlug: "anabolizantes",
     image: "/products/remote/npp-100mg-10ml-landerlan.webp",
     description: {
@@ -757,18 +825,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-38",
     name: "Masteron Oral 10mg 50cp",
     slug: "masteron-oral-10mg-50cp",
     brand: "Landerlan",
     dosage: "10mg",
     unit: "un",
-    price: 210000,
+    price: 168,
     categorySlug: "anabolizantes",
     image: "/products/remote/masteron-oral-10mg-50cp.webp",
     description: {
@@ -777,18 +845,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-39",
     name: "Masteron 100mg 10ml",
     slug: "masteron-100mg-10ml-landerlan",
     brand: "Landerlan",
     dosage: "100mg/10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/masteron-100mg-10ml-landerlan.webp",
     description: {
@@ -797,18 +865,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-40",
     name: "Hemogenin 50mg 20cp",
     slug: "hemogenin-50mg-20cp",
     brand: "Landerlan",
     dosage: "50mg",
     unit: "un",
-    price: 110000,
+    price: 88,
     categorySlug: "hormonios",
     image: "/products/remote/hemogenin-50mg-20cp.webp",
     description: {
@@ -817,18 +885,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["hormonios", "landerlan"],
   },
-  {
+{
     id: "p-41",
     name: "HCG 5000UI",
     slug: "hcg-5000ui",
     brand: "Landerlan",
     dosage: "5000 UI",
     unit: "un",
-    price: 350000,
+    price: 280,
     categorySlug: "hormonios",
     image: "/products/remote/hcg-5000ui.webp",
     description: {
@@ -837,18 +905,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["hormonios", "landerlan"],
   },
-  {
+{
     id: "p-42",
     name: "Enantato de Testosterona 250mg 4ml",
     slug: "enantato-de-testosterona-250mg-4ml",
     brand: "Landerlan",
     dosage: "250ml/4ml",
     unit: "ml",
-    price: 100000,
+    price: 80,
     categorySlug: "anabolizantes",
     image: "/products/remote/enantato-de-testosterona-250mg-4ml.webp",
     description: {
@@ -857,18 +925,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-43",
     name: "Enantato de Testo 250mg 10ml",
     slug: "enantato-de-testo-250mg-10ml",
     brand: "Landerlan",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 210000,
+    price: 168,
     categorySlug: "anabolizantes",
     image: "/products/remote/enantato-de-testo-250mg-10ml.webp",
     description: {
@@ -877,18 +945,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-44",
     name: "Durateston 250mg 10ml",
     slug: "durateston-250mg-10ml",
     brand: "Landerlan",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 210000,
+    price: 168,
     categorySlug: "anabolizantes",
     image: "/products/remote/durateston-250mg-10ml.webp",
     description: {
@@ -897,18 +965,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-45",
     name: "Durasteston 250mg 1ml",
     slug: "durasteston-250mg-1ml",
     brand: "Landerlan",
     dosage: "250ml/1ml",
     unit: "ml",
-    price: 30000,
+    price: 24,
     categorySlug: "anabolizantes",
     image: "/products/remote/durasteston-250mg-1ml.webp",
     description: {
@@ -917,18 +985,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-46",
     name: "Dianabol 10mg 100cps",
     slug: "dianabol-10mg-100cps",
     brand: "Landerlan",
     dosage: "10mg/100cps",
     unit: "un",
-    price: 120000,
+    price: 96,
     categorySlug: "anabolizantes",
     image: "/products/remote/dianabol-10mg-100cps.webp",
     description: {
@@ -937,18 +1005,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-47",
     name: "Deca 200mg 10ml",
     slug: "deca-200mg-10ml",
     brand: "Landerlan",
     dosage: "200mg/10ml",
     unit: "ml",
-    price: 210000,
+    price: 168,
     categorySlug: "anabolizantes",
     image: "/products/remote/deca-200mg-10ml.webp",
     description: {
@@ -957,18 +1025,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-48",
     name: "Deca 200mg 5ml",
     slug: "deca-200mg-5ml",
     brand: "Landerlan",
     dosage: "200mg/5ml",
     unit: "ml",
-    price: 110000,
+    price: 88,
     categorySlug: "anabolizantes",
     image: "/products/remote/deca-200mg-5ml.webp",
     description: {
@@ -977,18 +1045,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-49",
     name: "Boldenona 250mg 10ml",
     slug: "boldenona-250mg-10ml",
     brand: "Landerlan",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 220000,
+    price: 176,
     categorySlug: "anabolizantes",
     image: "/products/remote/boldenona-250mg-10ml.webp",
     description: {
@@ -997,18 +1065,18 @@ export const products: Product[] = [
     },
     stock: 100,
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
     tags: ["anabolizantes", "landerlan"],
   },
-  {
+{
     id: "p-50",
     name: "Testoviron (Enantato Testo) 250mg 10ml",
     slug: "testoviron-enantato-testo-250mg-10ml-king",
     brand: "King",
     dosage: "250ml/10ml",
     unit: "ml",
-    price: 200000,
+    price: 160,
     categorySlug: "anabolizantes",
     image: "/products/remote/testoviron-enantato-testo-250mg-10ml-king.webp",
     description: {
@@ -1021,14 +1089,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-51",
     name: "Testex ( Cipionato Testo) 250mg 10ml",
     slug: "testex-cipionato-testo-250mg-10ml-king",
     brand: "King",
     dosage: "250mg/10ml",
     unit: "ml",
-    price: 200000,
+    price: 160,
     categorySlug: "anabolizantes",
     image: "/products/remote/testex-cipionato-testo-250mg-10ml-king.webp",
     description: {
@@ -1041,14 +1109,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-52",
     name: "Sustan (Durateston) 250mg 10ml",
     slug: "sustan-durateston-250mg-10ml",
     brand: "King",
     dosage: "10ml",
     unit: "ml",
-    price: 200000,
+    price: 160,
     categorySlug: "anabolizantes",
     image: "/products/remote/sustan-durateston-250mg-10ml.webp",
     description: {
@@ -1061,14 +1129,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-53",
     name: "Proviron 25mg 20cp",
     slug: "proviron-25mg-20cp-king",
     brand: "King",
     dosage: "25mg",
     unit: "un",
-    price: 140000,
+    price: 112,
     categorySlug: "anabolizantes",
     image: "/products/remote/proviron-25mg-20cp-king.webp",
     description: {
@@ -1081,14 +1149,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-54",
     name: "Masteron Enantato 100mg 10ml",
     slug: "masteron-enantato-100mg-10ml",
     brand: "King",
     dosage: "10ml",
     unit: "ml",
-    price: 240000,
+    price: 192,
     categorySlug: "anabolizantes",
     image: "/products/remote/masteron-enantato-100mg-10ml.webp",
     description: {
@@ -1101,14 +1169,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["anabolizantes", "king"],
   },
-  {
+{
     id: "p-55",
     name: "Deca 300mg 10ml",
     slug: "deca-300mg-10ml-king",
     brand: "King",
     dosage: "10ml",
     unit: "ml",
-    price: 200000,
+    price: 160,
     categorySlug: "anabolizantes",
     image: "/products/remote/deca-300mg-10ml-king.webp",
     description: {
@@ -1122,53 +1190,54 @@ export const products: Product[] = [
     tags: ["anabolizantes", "king"],
   },
   {
-    id: "p-56",
-    name: "Tirzepatida (Tirzec) 15mg",
-    slug: "tirzepatida-tirzec-15mg",
-    brand: "Sem Fronteira",
+    id: "TIRZEC-15MG",
+    name: "Tirzec 15 Tirzepatida 15 mg/0,5 mL",
+    slug: "tirzec-15mg",
+    brand: "Tirzec",
     dosage: "15mg",
     unit: "un",
-    price: 1100000,
+    price: 0.52,
     categorySlug: "emagrecedores",
     image: "/products/remote/tirzepatida-tirzec-15mg.webp",
     description: {
-      es: "Tirzepatida (Tirzec) 15mg. 15mg · un. Pedi por WhatsApp.",
-      pt: "Tirzepatida (Tirzec) 15mg. 15mg · un. Peca pelo WhatsApp.",
+      es: "Tirzec 15, Tirzepatida 15 mg/0,5 mL, apresentação com 1 vial de 2 mL e 4 seringas estéreis com agulha.",
+      pt: "Tirzec 15, Tirzepatida 15 mg/0,5 mL, apresentação com 1 vial de 2 mL e 4 seringas estéreis com agulha.",
     },
-    stock: 100,
+    fullDescription: {
+      es: "Tirzec 15 contém Tirzepatida 15 mg/0,5 mL em solução injetável. A apresentação possui 1 vial com 2 mL de solução injetável, acompanhado de 4 seringas estéreis com agulha.",
+      pt: "Tirzec 15 contém Tirzepatida 15 mg/0,5 mL em solução injetável. A apresentação possui 1 vial com 2 mL de solução injetável, acompanhado de 4 seringas estéreis com agulha.",
+    },
     featured: false,
-    bestSeller: false,
+    bestSeller: true,
     onSale: false,
-    tags: ["emagrecedores", "sem fronteira"],
+    tags: ["emagrecedores", "tirzec", "emagrecedores"],
   },
   {
-    id: "p-57",
-    name: "Tirzepatida (Lipoless) 15mg 4 Ampolas",
-    slug: "tirzepatida-lipoless-15mg-4-ampolas",
-    brand: "Sem Fronteira",
+    id: "LIP-15",
+    name: "Lipoless 15",
+    slug: "lip-15",
+    brand: "Eticos  ",
     dosage: "15mg",
     unit: "un",
-    price: 1000000,
     categorySlug: "emagrecedores",
-    image: "/products/remote/tirzepatida-lipoless-15mg-4-ampolas.webp",
+    image: "/products/LIP-15/main.jpg",
     description: {
-      es: "Tirzepatida (Lipoless) 15mg 4 Ampolas. 15mg · un. Pedi por WhatsApp.",
-      pt: "Tirzepatida (Lipoless) 15mg 4 Ampolas. 15mg · un. Peca pelo WhatsApp.",
+      es: "Lipoless 15, tirzepatida 15 mg/0,5 mL, solução injetável por via subcutânea.                                            ",
+      pt: "Lipoless 15, tirzepatida 15 mg/0,5 mL, solução injetável por via subcutânea.                                            ",
     },
-    stock: 100,
     featured: false,
     bestSeller: false,
     onSale: false,
-    tags: ["emagrecedores", "sem fronteira"],
+    tags: ["emagrecedores", "eticos", "tirzepatida"],
   },
-  {
+{
     id: "p-58",
     name: "Caneta Retatrutida (Synedica) 40mg",
     slug: "caneta-retatrutida-synedica-40mg",
     brand: "Sem Fronteira",
     dosage: "40mg",
     unit: "un",
-    price: 1400000,
+    price: 1120,
     categorySlug: "emagrecedores",
     image: "/products/remote/caneta-retatrutida-synedica-40mg.webp",
     description: {
@@ -1181,14 +1250,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["emagrecedores", "sem fronteira"],
   },
-  {
+{
     id: "p-59",
     name: "Turinabol 10mg 50cp",
     slug: "turinabol-10mg-50cp",
     brand: "Sem Fronteira",
     dosage: "10mg",
     unit: "un",
-    price: 300000,
+    price: 240,
     categorySlug: "emagrecedores",
     image: "/products/remote/turinabol-10mg-50cp.webp",
     description: {
@@ -1201,14 +1270,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["emagrecedores", "sem fronteira"],
   },
-  {
+{
     id: "p-60",
     name: "Trembolona Enantato 200mg",
     slug: "trembolona-enantato-200mg",
     brand: "Cooper",
     dosage: "200mg",
     unit: "un",
-    price: 450000,
+    price: 360,
     categorySlug: "esteroide",
     image: "/products/remote/trembolona-enantato-200mg.webp",
     description: {
@@ -1221,14 +1290,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-61",
     name: "Trembolona Acetato 100mg",
     slug: "trembolona-acetato-100mg",
     brand: "Cooper",
     dosage: "100mg",
     unit: "un",
-    price: 350000,
+    price: 280,
     categorySlug: "esteroide",
     image: "/products/remote/trembolona-acetato-100mg.webp",
     description: {
@@ -1241,14 +1310,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-62",
     name: "Stanozolol 10mg 50cp",
     slug: "stanozolol-10mg-50cp",
     brand: "Cooper",
     dosage: "10mg",
     unit: "un",
-    price: 350000,
+    price: 280,
     categorySlug: "esteroide",
     image: "/products/remote/stanozolol-10mg-50cp.webp",
     description: {
@@ -1261,14 +1330,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-63",
     name: "Propionato de Testo 100mg",
     slug: "propionato-de-testo-100mg",
     brand: "Cooper",
     dosage: "100mg",
     unit: "un",
-    price: 360000,
+    price: 288,
     categorySlug: "esteroide",
     image: "/products/remote/propionato-de-testo-100mg.webp",
     description: {
@@ -1281,14 +1350,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-64",
     name: "Primobolan 100mg",
     slug: "primobolan-100mg",
     brand: "Cooper",
     dosage: "100mg",
     unit: "un",
-    price: 890000,
+    price: 712,
     categorySlug: "esteroide",
     image: "/products/remote/primobolan-100mg.webp",
     description: {
@@ -1301,14 +1370,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-65",
     name: "Primobolan 25mg 50cp",
     slug: "primobolan-25mg-50cp",
     brand: "Cooper",
     dosage: "25mg",
     unit: "un",
-    price: 890000,
+    price: 712,
     categorySlug: "esteroide",
     image: "/products/remote/primobolan-25mg-50cp.webp",
     description: {
@@ -1321,14 +1390,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-66",
     name: "Oxandrolona 10mg 50cp",
     slug: "oxandrolona-10mg-50cp-cooper",
     brand: "Cooper",
     dosage: "10mg",
     unit: "un",
-    price: 300000,
+    price: 240,
     categorySlug: "esteroide",
     image: "/products/remote/oxandrolona-10mg-50cp-cooper.webp",
     description: {
@@ -1341,14 +1410,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-67",
     name: "NPP 100mg",
     slug: "npp-100mg",
     brand: "Cooper",
     dosage: "100mg",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "esteroide",
     image: "/products/remote/npp-100mg.webp",
     description: {
@@ -1361,14 +1430,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-68",
     name: "Masteron Enantato 200mg",
     slug: "masteron-enantato-200mg",
     brand: "Cooper",
     dosage: "200mg",
     unit: "un",
-    price: 600000,
+    price: 480,
     categorySlug: "esteroide",
     image: "/products/remote/masteron-enantato-200mg.webp",
     description: {
@@ -1381,14 +1450,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-69",
     name: "Masteron 100mg",
     slug: "masteron-100mg",
     brand: "Cooper",
     dosage: "100mg",
     unit: "un",
-    price: 500000,
+    price: 400,
     categorySlug: "esteroide",
     image: "/products/remote/masteron-100mg.webp",
     description: {
@@ -1401,14 +1470,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-70",
     name: "Hemogenin 50mg 50cp",
     slug: "hemogenin-50mg-50cp",
     brand: "Cooper",
     dosage: "50mg",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "esteroide",
     image: "/products/remote/hemogenin-50mg-50cp.webp",
     description: {
@@ -1421,14 +1490,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-71",
     name: "Halorestin 5mg 50cp",
     slug: "halorestin-5mg-50cp",
     brand: "Cooper",
     dosage: "450mg",
     unit: "un",
-    price: 450000,
+    price: 360,
     categorySlug: "esteroide",
     image: "/products/remote/halorestin-5mg-50cp.webp",
     description: {
@@ -1441,14 +1510,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-72",
     name: "Enantato de Testo 250mg",
     slug: "enantato-de-testo-250mg",
     brand: "Cooper",
     dosage: "250mg",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "esteroide",
     image: "/products/remote/enantato-de-testo-250mg.webp",
     description: {
@@ -1461,14 +1530,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-73",
     name: "Durateston 250mg",
     slug: "durateston-250mg",
     brand: "Cooper",
     dosage: "250mg",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "esteroide",
     image: "/products/remote/durateston-250mg.webp",
     description: {
@@ -1481,14 +1550,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-74",
     name: "Dianabol 10mg 50cp",
     slug: "dianabol-10mg-50cp",
     brand: "Cooper",
     dosage: "10mg",
     unit: "un",
-    price: 180000,
+    price: 144,
     categorySlug: "esteroide",
     image: "/products/remote/dianabol-10mg-50cp.webp",
     description: {
@@ -1501,14 +1570,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-75",
     name: "Deca 250mg",
     slug: "deca-250mg",
     brand: "Cooper",
     dosage: "250mg",
     unit: "un",
-    price: 390000,
+    price: 312,
     categorySlug: "esteroide",
     image: "/products/remote/deca-250mg.webp",
     description: {
@@ -1521,14 +1590,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-76",
     name: "Cipionato de Testo 250mg",
     slug: "cipionato-de-testo-250mg",
     brand: "Cooper",
     dosage: "250mg",
     unit: "un",
-    price: 360000,
+    price: 288,
     categorySlug: "esteroide",
     image: "/products/remote/cipionato-de-testo-250mg.webp",
     description: {
@@ -1541,14 +1610,14 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
-  {
+{
     id: "p-77",
     name: "Boldenona 250mg",
     slug: "boldenona-250mg",
     brand: "Cooper",
     dosage: "250mg",
     unit: "un",
-    price: 420000,
+    price: 336,
     categorySlug: "esteroide",
     image: "/products/remote/boldenona-250mg.webp",
     description: {
@@ -1561,8 +1630,569 @@ export const products: Product[] = [
     onSale: false,
     tags: ["esteroide", "cooper"],
   },
+  {
+    id: "HUT-100",
+    name: "Hutox Inj. 100 Units",
+    slug: "hut-100",
+    brand: "Huons",
+    dosage: "",
+    unit: "",
+    price: 700,
+    categorySlug: "estetica",
+    image: "/products/HUT-100/main.jpg",
+    description: {
+      es: "Toxina botulínica tipo A, apresentação com 100 unidades",
+      pt: "Toxina botulínica tipo A, apresentação com 100 unidades",
+    },
+    fullDescription: {
+      es: "Hutox Inj. é uma apresentação de toxina botulínica tipo A, com 100 unidades por vial.",
+      pt: "Hutox Inj. é uma apresentação de toxina botulínica tipo A, com 100 unidades por vial.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["estetica", "huons", "toxina-botulínica"],
+  },
+  {
+    id: "HUT-200",
+    name: "Hutox Inj. 200 Units",
+    slug: "hut-200",
+    brand: "Huons",
+    dosage: "",
+    unit: "",
+    categorySlug: "estetica",
+    image: "/products/HUT-200/main.jpg",
+    description: {
+      es: "Toxina botulínica tipo A, apresentação com 200 unidades",
+      pt: "Toxina botulínica tipo A, apresentação com 200 unidades",
+    },
+    fullDescription: {
+      es: "Hutox Inj. é uma apresentação de toxina botulínica tipo A, com 200 unidades por vial.",
+      pt: "Hutox Inj. é uma apresentação de toxina botulínica tipo A, com 200 unidades por vial.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["estetica", "huons", "toxina-botulínica"],
+  },
+  {
+    id: "DYS-500",
+    name: "Dysport 500 Units",
+    slug: "dys-500",
+    brand: "Ipsen",
+    dosage: "",
+    unit: "",
+    price: 1000,
+    categorySlug: "estetica",
+    image: "/products/DYS-500/main.jpg",
+    description: {
+      es: "Toxina botulínica tipo A, apresentação com 500 unidades",
+      pt: "Toxina botulínica tipo A, apresentação com 500 unidades",
+    },
+    fullDescription: {
+      es: "Dysport é uma apresentação de toxina botulínica tipo A, com 500 unidades por vial.",
+      pt: "Dysport é uma apresentação de toxina botulínica tipo A, com 500 unidades por vial.",
+    },
+    featured: false,
+    bestSeller: false,
+    newLaunch: true,
+    onSale: false,
+    tags: ["estetica", "ipsen", "toxina-botulínica"],
+  },
+  {
+    id: "SCU-150MG",
+    name: "Sculptra 150 mg",
+    slug: "scu-150mg",
+    brand: "Galderma",
+    dosage: "",
+    unit: "",
+    price: 1200,
+    categorySlug: "estetica",
+    image: "/products/SCU-150MG/main.jpg",
+    description: {
+      es: "Ácido poli-L-láctico, apresentação de 150 mg",
+      pt: "Ácido poli-L-láctico, apresentação de 150 mg",
+    },
+    fullDescription: {
+      es: "Sculptra é um bioestimulador à base de ácido poli-L-láctico, apresentado em vial de 150 mg.",
+      pt: "Sculptra é um bioestimulador à base de ácido poli-L-láctico, apresentado em vial de 150 mg.",
+    },
+    featured: false,
+    bestSeller: false,
+    newLaunch: true,
+    onSale: false,
+    tags: ["estetica", "galderma", "bioestimulador"],
+  },
+  {
+    id: "LIN-55",
+    name: "Line Body Safe & Easy 55",
+    slug: "lin-55",
+    brand: "Stunmedical",
+    dosage: "",
+    unit: "",
+    categorySlug: "estetica",
+    image: "/products/LIN-55/main.jpg",
+    description: {
+      es: "Preenchedor de ácido hialurônico reticulado, apresentação de 55 mL",
+      pt: "Preenchedor de ácido hialurônico reticulado, apresentação de 55 mL",
+    },
+    fullDescription: {
+      es: "Line Body Safe & Easy 55 é um produto à base de ácido hialurônico reticulado, apresentado pelo fabricante como filler do tipo hard.",
+      pt: "Line Body Safe & Easy 55 é um produto à base de ácido hialurônico reticulado, apresentado pelo fabricante como filler do tipo hard.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["estetica", "stunmedical", "preenchedor"],
+  },
+  {
+    id: "ISR-00",
+    name: "Israderm 100 Ui",
+    slug: "isr-00",
+    brand: "Israderm",
+    dosage: "",
+    unit: "",
+    price: 500,
+    categorySlug: "estetica",
+    description: {
+      es: "",
+      pt: "",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["estetica", "israderm", "preenchedor"],
+  },
+  {
+    id: "ISR-01",
+    name: "Israderm 150 Ui",
+    slug: "isr-01",
+    brand: "Israderm",
+    dosage: "",
+    unit: "",
+    price: 600,
+    categorySlug: "estetica",
+    image: "/products/ISR-01/main.jpg",
+    description: {
+      es: "Produto apresentado como Biological Face-Lifting",
+      pt: "Produto apresentado como Biological Face-Lifting",
+    },
+    fullDescription: {
+      es: "Israderm é apresentado na embalagem como um produto para aplicações estéticas faciais, com tecnologia à base de ácido hialurônico.",
+      pt: "Israderm é apresentado na embalagem como um produto para aplicações estéticas faciais, com tecnologia à base de ácido hialurônico.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["estetica", "israderm", "preenchedor"],
+  },
+  {
+    id: "MOMM-1100",
+    name: "MOMM Body Firm 1100 mL",
+    slug: "momm-1100",
+    brand: "MOMM",
+    dosage: "",
+    unit: "",
+    categorySlug: "estetica",
+    image: "/products/MOMM-1100/main.jpg",
+    description: {
+      es: "Produto corporal com Lactobac 1100 mL",
+      pt: "Produto corporal com Lactobac 1100 mL",
+    },
+    fullDescription: {
+      es: "MOMM Body Firm é um produto corporal apresentado em embalagem de 1100 mL, com Lactobac indicado na apresentação do produto.",
+      pt: "MOMM Body Firm é um produto corporal apresentado em embalagem de 1100 mL, com Lactobac indicado na apresentação do produto.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["estetica", "momm", "corporal"],
+  },
+  {
+    id: "ORFOGLIP-17.2MG",
+    name: "Orfoglip 17,2 Orfoglipron 17,2 mg",
+    slug: "orfoglip-172mg",
+    brand: "Eticos",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/ORFOGLIP-17.2MG/main.jpg",
+    description: {
+      es: "",
+      pt: "",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "eticos", "emagrecedores"],
+  },
+  {
+    id: "ORFOGLIP-14.5MG",
+    name: "Orfoglip 14,5 Orforglipron 14,5 mg",
+    slug: "orfoglip-145mg",
+    brand: "Eticos",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/ORFOGLIP-14.5MG/main.jpg",
+    description: {
+      es: "",
+      pt: "",
+    },
+    fullDescription: {
+      es: "Orfoglip 14,5 contém Orforglipron 14,5 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+      pt: "Orfoglip 14,5 contém Orforglipron 14,5 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "eticos", "emagrecedores"],
+  },
+  {
+    id: "ORFOGLIP-5.5MG",
+    name: "Orfoglip 5,5 Orforglipron 5,5 mg",
+    slug: "orfoglip-55mg",
+    brand: "Eticos",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/ORFOGLIP-5.5MG/main.jpg",
+    description: {
+      es: "Orfoglip 5,5, Orforglipron 5,5 mg, apresentação com 30 comprimidos revestidos de uso oral.",
+      pt: "Orfoglip 5,5, Orforglipron 5,5 mg, apresentação com 30 comprimidos revestidos de uso oral.",
+    },
+    fullDescription: {
+      es: "Orfoglip 5,5 contém Orforglipron 5,5 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+      pt: "Orfoglip 5,5 contém Orforglipron 5,5 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "eticos", "emagrecedores"],
+  },
+  {
+    id: "ORFOGLIP-2.5MG",
+    name: "Orfoglip 2,5 Orforglipron 2,5 mg",
+    slug: "orfoglip-25mg",
+    brand: "Eticos",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/ORFOGLIP-2.5MG/main.jpg",
+    description: {
+      es: "Orfoglip 2,5, Orforglipron 2,5 mg, apresentação com 30 comprimidos revestidos de uso oral.",
+      pt: "Orfoglip 2,5, Orforglipron 2,5 mg, apresentação com 30 comprimidos revestidos de uso oral.",
+    },
+    fullDescription: {
+      es: "Orfoglip 2,5 contém Orforglipron 2,5 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+      pt: "Orfoglip 2,5 contém Orforglipron 2,5 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "eticos", "emagrecedores"],
+  },
+  {
+    id: "ORFOGLIP-0.8MG",
+    name: "Orfoglip 0,8 Orforglipron 0,8 mg",
+    slug: "orfoglip-08mg",
+    brand: "Eticos",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/ORFOGLIP-0.8MG/main.jpg",
+    description: {
+      es: "Orfoglip 0,8, Orforglipron 0,8 mg, apresentação com 30 comprimidos revestidos de uso oral.",
+      pt: "Orfoglip 0,8, Orforglipron 0,8 mg, apresentação com 30 comprimidos revestidos de uso oral.",
+    },
+    fullDescription: {
+      es: "Orfoglip 0,8 contém Orforglipron 0,8 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+      pt: "Orfoglip 0,8 contém Orforglipron 0,8 mg. Apresentação com 30 comprimidos revestidos para administração por via oral.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "eticos", "emagrecedores"],
+  },
+  {
+    id: "LIP-15MG-2ML",
+    name: "Lipoland Multidosis 15mg/0,5ml",
+    slug: "lip-15mg-2ml",
+    brand: "Landerlan",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/LIP-15MG-2ML/main.jpg",
+    description: {
+      es: "Tirzepatida 15 mg/0,5 mL com 4 frascos-ampola de 0,5 mL.",
+      pt: "Tirzepatida 15 mg/0,5 mL com 4 frascos-ampola de 0,5 mL.",
+    },
+    featured: false,
+    bestSeller: true,
+    onSale: false,
+    tags: ["emagrecedores", "landerlan", "emagrecedores"],
+  },
+  {
+    id: "TIR-150-4",
+    name: "T36 15 mg/0,5 mL",
+    slug: "tir-150-4",
+    brand: "Laboratorios Catedral",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/TIR-150-4/main.jpg",
+    description: {
+      es: "Tirzepatida 15 mg/0,5 mL com 4 frascos-ampola de 0,5 mL.",
+      pt: "Tirzepatida 15 mg/0,5 mL com 4 frascos-ampola de 0,5 mL.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "laboratorios catedral", "tirzepatida"],
+  },
+  {
+    id: "SLM-15MG",
+    name: "Slimex 15 mg   ",
+    slug: "slm-15mg",
+    brand: "Slimex  ",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/SLM-15MG/main.jpg",
+    description: {
+      es: "Slimex 15 com Tirzepatida 15 mg/0,5 mL, contendo 4 frascos de 0,5 mL de solução injetável.",
+      pt: "Slimex 15 com Tirzepatida 15 mg/0,5 mL, contendo 4 frascos de 0,5 mL de solução injetável.",
+    },
+    fullDescription: {
+      es: "Slimex 15 mg, apresentação com 4 frascos contendo 0,5 mL de solução injetável. Produto apresentado em embalagem para administração por via subcutânea.",
+      pt: "Slimex 15 mg, apresentação com 4 frascos contendo 0,5 mL de solução injetável. Produto apresentado em embalagem para administração por via subcutânea.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "slimex", "bioestimulador"],
+  },
+  {
+    id: "TIR-15MD-24",
+    name: "T36 15 mg/0,6 mL",
+    slug: "tir-15md-24",
+    brand: "Laboratorios Catedral",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/TIR-15MD-24/main.jpg",
+    description: {
+      es: "Tirzepatida 15 mg/0,6 mL, frasco multidose com 2,4 mL de solução injetável.",
+      pt: "Tirzepatida 15 mg/0,6 mL, frasco multidose com 2,4 mL de solução injetável.",
+    },
+    fullDescription: {
+      es: "Tirzepatida 15 mg/0,6 mL, apresentada em 1 frasco multidose com 2,4 mL de solução injetável, fabricada pelo Laboratorios Catedral.",
+      pt: "Tirzepatida 15 mg/0,6 mL, apresentada em 1 frasco multidose com 2,4 mL de solução injetável, fabricada pelo Laboratorios Catedral.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "laboratorios catedral", "tirzepatida"],
+  },
+  {
+    id: "TIR-15MG",
+    name: "Tirzedral 15 mg    ",
+    slug: "tir-15mg",
+    brand: "Tirzedral  ",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/TIR-15MG/main.jpg",
+    description: {
+      es: "Tirzedral 15, tirzepatida 15 mg/0,5 mL, apresentação com 4 ampolas de 2,5 mL.                ",
+      pt: "Tirzedral 15, tirzepatida 15 mg/0,5 mL, apresentação com 4 ampolas de 2,5 mL.                ",
+    },
+    fullDescription: {
+      es: "Tirzedral 15 contém tirzepatida 15 mg/0,5 mL. A embalagem apresentada contém 4 ampolas, com 2,5 mL cada, para administração por via subcutânea",
+      pt: "Tirzedral 15 contém tirzepatida 15 mg/0,5 mL. A embalagem apresentada contém 4 ampolas, com 2,5 mL cada, para administração por via subcutânea",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "tirzedral", "tirzepatida"],
+  },
+  {
+    id: "GLUCONEX-15MG",
+    name: "Gluconex 15",
+    slug: "gluconex-15mg",
+    brand: "Lasca Laboratórios",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/GLUCONEX-15MG/main.jpg",
+    description: {
+      es: "Gluconex 15, tirzepatida 15 mg/1,00 mL, apresentação com 4 frascos-viais de 1,00 mL de solução injetável.  ",
+      pt: "Gluconex 15, tirzepatida 15 mg/1,00 mL, apresentação com 4 frascos-viais de 1,00 mL de solução injetável.  ",
+    },
+    fullDescription: {
+      es: "Gluconex 15 contém tirzepatida 15 mg/1,00 mL. Apresentação com 4 frascos-viais contendo 1,00 mL de solução injetável, indicada na embalagem para administração subcutânea.",
+      pt: "Gluconex 15 contém tirzepatida 15 mg/1,00 mL. Apresentação com 4 frascos-viais contendo 1,00 mL de solução injetável, indicada na embalagem para administração subcutânea.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "lasca laboratórios", "tirzepatida"],
+  },
+  {
+    id: "GLU-15MG",
+    name: "Gluconex 15 mg",
+    slug: "glu-15mg",
+    brand: "Lasca Laboratorios",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/GLU-15MG/main.jpg",
+    description: {
+      es: "Gluconex 15 mg, solução injetável de tirzepatida para administração subcutânea.      ",
+      pt: "Gluconex 15 mg, solução injetável de tirzepatida para administração subcutânea.      ",
+    },
+    fullDescription: {
+      es: "Gluconex 15 mg é apresentado como solução injetável subcutânea contendo tirzepatida. A embalagem informa concentração de 15 mg, com 4 unidades pré-carregadas de 3,00 mL e dispositivo de segurança. Produto fabricado pela Lasca Laboratorios. A embalagem orienta conservação refrigerada entre 2 °C e 8 °C e informa venda sob receita médica.",
+      pt: "Gluconex 15 mg é apresentado como solução injetável subcutânea contendo tirzepatida. A embalagem informa concentração de 15 mg, com 4 unidades pré-carregadas de 3,00 mL e dispositivo de segurança. Produto fabricado pela Lasca Laboratorios. A embalagem orienta conservação refrigerada entre 2 °C e 8 °C e informa venda sob receita médica.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "lasca laboratorios", "tirzepatida"],
+  },
+  {
+    id: "LIP-MD15",
+    name: "Lipoless MD 15",
+    slug: "lip-md15",
+    brand: "Eticos  ",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/LIP-MD15/main.jpg",
+    description: {
+      es: "Lipoless MD 15, tirzepatida 15 mg/0,6 mL, solução injetável por via subcutânea.                                    ",
+      pt: "Lipoless MD 15, tirzepatida 15 mg/0,6 mL, solução injetável por via subcutânea.                                    ",
+    },
+    fullDescription: {
+      es: " Lipoless MD 15 contém tirzepatida 15 mg/0,6 mL e é apresentado como solução injetável para administração por via subcutânea. A embalagem informa frasco multidose de 2,4 mL, contendo 4 doses de 15 mg/0,6 mL. Produto elaborado por Lab. Prod. ETICOS S.E.",
+      pt: " Lipoless MD 15 contém tirzepatida 15 mg/0,6 mL e é apresentado como solução injetável para administração por via subcutânea. A embalagem informa frasco multidose de 2,4 mL, contendo 4 doses de 15 mg/0,6 mL. Produto elaborado por Lab. Prod. ETICOS S.E.",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "eticos", "tirzepatida"],
+  },
+  {
+    id: "VEL-RET60",
+    name: "Veltrane Gold",
+    slug: "vel-ret60",
+    brand: "Veltrane Gold ",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/VEL-RET60/main.jpg",
+    description: {
+      es: "Veltrane Gold Retatrutide 60 mg/6 mL, solução para injeção subcutânea, concentração de 10 mg/mL.     ",
+      pt: "Veltrane Gold Retatrutide 60 mg/6 mL, solução para injeção subcutânea, concentração de 10 mg/mL.     ",
+    },
+    fullDescription: {
+      es: "Veltrane Gold apresenta retatrutide na concentração de 60 mg em 6 mL, equivalente a 10 mg/mL. A embalagem identifica o produto como solução para injeção subcutânea e informa que é produzido na Bélgica. A embalagem também orienta proteção contra a luz, conservação em temperatura não superior a 25 °C e leitura da bula antes do uso. |",
+      pt: "Veltrane Gold apresenta retatrutide na concentração de 60 mg em 6 mL, equivalente a 10 mg/mL. A embalagem identifica o produto como solução para injeção subcutânea e informa que é produzido na Bélgica. A embalagem também orienta proteção contra a luz, conservação em temperatura não superior a 25 °C e leitura da bula antes do uso. |",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "veltrane gold", "retatrutide"],
+  },
+  {
+    id: "VEL-DIA120",
+    name: "Veltrane Diamond Retatrutide 120 mg / 6 mL                                ",
+    slug: "vel-dia120",
+    brand: "Veltrane Diamond  ",
+    dosage: "",
+    unit: "",
+    categorySlug: "emagrecedores",
+    image: "/products/VEL-DIA120/main.jpg",
+    description: {
+      es: "Veltrane Diamond Retatrutide 120 mg/6 mL, solução para injeção subcutânea, concentração de 20 mg/mL.",
+      pt: "Veltrane Diamond Retatrutide 120 mg/6 mL, solução para injeção subcutânea, concentração de 20 mg/mL.",
+    },
+    fullDescription: {
+      es: " Veltrane Diamond apresenta retatrutide na concentração de 120 mg em 6 mL, equivalente a 20 mg/mL. A embalagem identifica o produto como injeção subcutânea e informa que é produzido na ",
+      pt: " Veltrane Diamond apresenta retatrutide na concentração de 120 mg em 6 mL, equivalente a 20 mg/mL. A embalagem identifica o produto como injeção subcutânea e informa que é produzido na ",
+    },
+    featured: false,
+    bestSeller: false,
+    onSale: false,
+    tags: ["emagrecedores", "veltrane diamond", "retatrutide"],
+  }
 ];
 
+export function productName(product: Product, locale: Locale): string {
+  return product.nameLocalized?.[locale] ?? product.name;
+}
+
+export function productImages(product: Product): string[] {
+  const primary = product.image?.trim();
+  if (product.images?.length) {
+    return primary ? [primary, ...product.images] : [...product.images];
+  }
+  return primary ? [primary] : [];
+}
+
+export function productHasImage(product: Product): boolean {
+  return productImages(product).length > 0;
+}
+
+export function productHasPrice(product: Product): boolean {
+  return typeof product.price === "number";
+}
+
+export function productGroupId(product: Product): string | undefined {
+  return product.groupId ?? getGroupIdForCategorySlug(product.categorySlug);
+}
+
 export function productDescription(product: Product, locale: Locale): string {
+  return productShortDescription(product, locale);
+}
+
+export function productShortDescription(product: Product, locale: Locale): string {
   return product.description[locale] ?? product.description.es;
+}
+
+export function productFullDescription(
+  product: Product,
+  locale: Locale,
+): string | undefined {
+  const full = product.fullDescription?.[locale] ?? product.fullDescription?.es;
+  return full?.trim() || undefined;
+}
+
+export function productQuantityLabel(product: Product): string {
+  const parts = [product.dosage, product.unit].filter(Boolean);
+  return parts.join(" · ");
+}
+
+export function productCurrency(product: Product): string {
+  return product.currency ?? site.currency;
+}
+
+export function productIsInStock(_product: Product): boolean {
+  return true;
+}
+
+/** Resolve grupo e categoria para exibicao/filtros no cadastro. */
+export function productCatalogMeta(product: Product) {
+  return {
+    categorySlug: product.categorySlug,
+    groupId: productGroupId(product),
+    currency: productCurrency(product),
+    inStock: productIsInStock(product),
+    flags: {
+      featured: product.featured,
+      bestSeller: product.bestSeller,
+      onSale: product.onSale,
+      newLaunch: product.newLaunch === true,
+    } satisfies ProductCatalogFlags & { newLaunch: boolean },
+  };
 }

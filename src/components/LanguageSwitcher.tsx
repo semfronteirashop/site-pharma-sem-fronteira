@@ -29,11 +29,10 @@ export function LanguageSwitcher() {
           key={code}
           type="button"
           onClick={() => choose(code)}
-          className={`rounded-full px-2.5 py-1.5 text-xs font-bold ${
-            locale === code
-              ? "bg-blue text-white"
+          className={`rounded-full px-2.5 py-1.5 text-xs font-bold ${locale === code
+              ? "bg-brand-purple text-white"
               : "text-muted hover:text-foreground"
-          }`}
+            }`}
         >
           {code === "es" ? dictionary.language.es : dictionary.language.pt}
         </button>

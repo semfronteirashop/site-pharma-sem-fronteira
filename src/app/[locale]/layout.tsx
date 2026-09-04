@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
+import { FloatingContactButtons } from "@/components/FloatingContactButtons";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { NavigationProgress } from "@/components/NavigationProgress";
 import { JsonLd } from "@/components/JsonLd";
@@ -67,6 +68,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             <main className="flex-1">{children}</main>
             <Footer />
             <CartDrawer />
+            <FloatingContactButtons />
             <MobileBottomNav />
           </CartProvider>
         </LocaleProvider>

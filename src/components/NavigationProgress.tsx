@@ -82,11 +82,10 @@ function NavigationProgressInner() {
       aria-hidden
     >
       <div
-        className={`h-full bg-teal ${
-          active
+        className={`h-full bg-brand-purple ${active
             ? "w-1/2 animate-nav-progress"
             : "w-full transition-opacity duration-200"
-        }`}
+          }`}
       />
     </div>
   );

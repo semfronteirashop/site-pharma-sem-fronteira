@@ -13,15 +13,22 @@ export type Dictionary = {
   nav: {
     home: string;
     products: string;
-    categories: string;
-    bestSellers: string;
     offers: string;
-    help: string;
+    launches: string;
+    bestSellers: string;
+    about: string;
+    howToBuy: string;
   };
   footer: {
+    brandName: string;
+    brandDescription: string;
+    tagline: string;
+    contacts: string;
+    explore: string;
     institutional: string;
     policies: string;
     support: string;
+    supportHours: string;
     payments: string;
     company: string;
     myOrder: string;
@@ -51,18 +58,69 @@ export type Dictionary = {
     heroCtaProducts: string;
     heroCtaOffers: string;
     heroLead: (hours: string) => string;
+    findProductTitle: string;
+    findProductSubtitle: string;
+    findProductSearch: string;
+    launchesTitle: string;
+    launchesDesc: string;
+    seeLaunches: string;
+    howToBuyTitle: string;
+    howToBuyDesc: string;
+    seeHowToBuy: string;
+    whatsappCta: string;
+    whatsappCtaDesc: string;
+    healthSection: string;
+    instagramBannerTitle: string;
+    instagramBannerDesc: string;
+    instagramBannerCta: string;
+  };
+  instagramSection: {
+    title: string;
+    subtitle: string;
+    viewCta: string;
+    placeholderAlt: (id: string) => string;
+    cardLabel: (id: string) => string;
+  };
+  floatingContact: {
+    groupLabel: string;
+    whatsappLabel: string;
+    instagramLabel: string;
+  };
+  productFinder: {
+    category: string;
+    brand: string;
+    priceRange: string;
+    availability: string;
+    sort: string;
+    all: string;
+    inStock: string;
+    outOfStock: string;
+    priceLow: string;
+    priceMid: string;
+    priceHigh: string;
+    sortRelevance: string;
+    sortPriceAsc: string;
+    sortPriceDesc: string;
+    sortBestSellers: string;
+    results: (count: number) => string;
+    empty: string;
   };
   productsPage: {
     title: string;
+    subtitle: string;
     results: (count: number) => string;
     all: string;
     emptyFilter: string;
+    browseHint: string;
+    categoryComingSoon: string;
+    exploreCategory: string;
     categoriesTitle: string;
     metaDescription: string;
   };
   categoryPage: {
     back: string;
     empty: string;
+    emptyHint: string;
   };
   productPage: {
     related: string;
@@ -73,7 +131,12 @@ export type Dictionary = {
     discreetPack: string;
     addToCart: string;
     goCheckout: string;
+    finalizeWhatsapp: string;
     priceLabel: string;
+    categoryLabel: string;
+    quantityLabel: string;
+    shortDescriptionLabel: string;
+    fullDescriptionLabel: string;
   };
   searchPage: {
     title: string;
@@ -100,17 +163,45 @@ export type Dictionary = {
     lead: string;
     meta: string;
   };
+  launchesPage: {
+    title: string;
+    lead: string;
+    empty: string;
+    emptyHint: string;
+    meta: string;
+  };
+  aboutPage: {
+    title: string;
+    meta: string;
+    lead: string;
+    sections: { title: string; body: string }[];
+    serviceBody: (hours: string) => string;
+    ctaWhatsapp: string;
+  };
+  howToBuyPage: {
+    title: string;
+    meta: string;
+    lead: string;
+    steps: string[];
+    legalNotice: string;
+    ctaProducts: string;
+    ctaWhatsapp: string;
+  };
   privacyPage: {
     title: string;
     meta: string;
-    privacyTitle: string;
-    privacyBody: string;
-    termsTitle: string;
-    termsBody: string;
-    shippingTitle: string;
-    shippingBody: string;
-    refundsTitle: string;
-    refundsBody: (hours: string) => string;
+    lead: string;
+    sections: { title: string; body: string }[];
+    contactTitle: string;
+    contactBody: (email: string, hours: string) => string;
+  };
+  termsPage: {
+    title: string;
+    meta: string;
+    lead: string;
+    sections: { title: string; body: string }[];
+    legalNotice: string;
+    ctaWhatsapp: string;
   };
   helpPage: {
     title: string;
@@ -153,8 +244,11 @@ export type Dictionary = {
   };
   productCard: {
     bestSeller: string;
+    offer: string;
+    launch: string;
     add: string;
     out: string;
+    consultPriceWhatsapp: string;
   };
   language: {
     label: string;
@@ -183,15 +277,24 @@ const es: Dictionary = {
   nav: {
     home: "Inicio",
     products: "Productos",
-    categories: "Categorias",
-    bestSellers: "Mas vendidos",
     offers: "Ofertas",
-    help: "Ayuda",
+    launches: "Lanzamientos",
+    bestSellers: "Mas buscados",
+    about: "Sobre nosotros",
+    howToBuy: "Como comprar",
   },
   footer: {
+    brandName: "SEM FRONTEIRA SHOP",
+    brandDescription:
+      "Productos seleccionados con atención a la procedencia y autenticidad, priorizando calidad y excelencia en cada elección.",
+    tagline:
+      "Atencion personalizada | Productos seleccionados | Compra facil por WhatsApp",
+    contacts: "Contactos",
+    explore: "Explorar",
     institutional: "Institucional",
     policies: "Politicas",
     support: "Atencion",
+    supportHours: "Atencion",
     payments: "Formas de pago",
     company: "La empresa",
     myOrder: "Mi pedido",
@@ -211,10 +314,10 @@ const es: Dictionary = {
     featuredDesc: "Lo que mas sale esta semana.",
     catalog: "Catalogo",
     bestSellersTitle: "Mas vendidos",
-    seeRanking: "Ver ranking",
+    seeRanking: "Ver todos",
     offersTitle: "Ofertas",
     offersDesc: "Precio tachado = descuento activo.",
-    seeOffers: "Ver ofertas",
+    seeOffers: "Ver todos",
     authTitle: "Autenticacion por lote",
     authDesc: (hours) =>
       `Mandanos foto del embalaje por WhatsApp. Respondemos de ${hours}.`,
@@ -223,19 +326,71 @@ const es: Dictionary = {
     heroCtaOffers: "Ver ofertas",
     heroLead: (hours) =>
       `Pedi en el catalogo y cerra por WhatsApp. Embalaje discreto, soporte ${hours}.`,
+    findProductTitle: "Encuentre su producto",
+    findProductSubtitle: "Busque por nombre, marca o categoria.",
+    findProductSearch: "Buscar por nombre o categoria",
+    launchesTitle: "Nuevos productos",
+    launchesDesc: "Lo ultimo que llego al catalogo.",
+    seeLaunches: "Ver todos",
+    howToBuyTitle: "Como comprar",
+    howToBuyDesc: "Cinco pasos simples para cerrar tu pedido por WhatsApp.",
+    seeHowToBuy: "Ver como comprar",
+    whatsappCta: "Hablar por WhatsApp",
+    whatsappCtaDesc: "Atencion de lunes a domingo en horario comercial.",
+    healthSection: "Salud y Bienestar",
+    instagramBannerTitle: "Segui a Sem Fronteira",
+    instagramBannerDesc: "Contenidos, novedades y actualizaciones.",
+    instagramBannerCta: "Ver Instagram",
+  },
+  instagramSection: {
+    title: "Segui a Sem Fronteira no Instagram",
+    subtitle: "@semfronteiras.py",
+    viewCta: "Ver Instagram",
+    placeholderAlt: (id) => `Espacio reservado para contenido ${id} de Instagram`,
+    cardLabel: (id) => `Abrir Instagram — contenido ${id}`,
+  },
+  floatingContact: {
+    groupLabel: "Contacto rapido",
+    whatsappLabel: "Abrir WhatsApp de Sem Fronteira",
+    instagramLabel: "Abrir Instagram @semfronteiras.py",
+  },
+  productFinder: {
+    category: "Categoria",
+    brand: "Marca",
+    priceRange: "Rango de precio",
+    availability: "Disponibilidad",
+    sort: "Ordenar por",
+    all: "Todos",
+    inStock: "En stock",
+    outOfStock: "Sin stock",
+    priceLow: "Hasta 300 mil",
+    priceMid: "300 mil a 700 mil",
+    priceHigh: "Mas de 700 mil",
+    sortRelevance: "Mas relevantes",
+    sortPriceAsc: "Menor precio",
+    sortPriceDesc: "Mayor precio",
+    sortBestSellers: "Mas buscados",
+    results: (count) => `${count} resultado(s).`,
+    empty: "Ningun producto con ese filtro.",
   },
   productsPage: {
     title: "Productos",
+    subtitle: "Encuentre productos por categoria o busque por nombre.",
     results: (count) => `${count} resultado(s) en el catalogo.`,
     all: "Todos",
     emptyFilter: "Ningun producto con ese filtro.",
+    browseHint: "Seleccione una categoria o use la busca para encontrar productos.",
+    categoryComingSoon: "Proximamente",
+    exploreCategory: "Explorar categoria",
     categoriesTitle: "Categorias",
     metaDescription:
-      "Catalogo Sem Fronteira: anabolizantes, esteroide, hormonios y emagrecedores.",
+      "Catalogo Sem Fronteira: emagrecedores, estetica, anabolizantes, hormonios, perfumaria, vitaminas e suplementos e saude e bem-estar.",
   },
   categoryPage: {
     back: "Volver al catalogo",
     empty: "Todavia no hay productos en esta categoria.",
+    emptyHint:
+      "Pronto agregaremos novedades aqui. Explore otras categorias o escribinos por WhatsApp.",
   },
   productPage: {
     related: "Quienes vieron esto tambien llevaron",
@@ -246,7 +401,12 @@ const es: Dictionary = {
     discreetPack: "Embalaje discreto",
     addToCart: "Agregar al carrito",
     goCheckout: "Ir al checkout",
+    finalizeWhatsapp: "Finalizar por WhatsApp",
     priceLabel: "Precio",
+    categoryLabel: "Categoria",
+    quantityLabel: "Cantidad",
+    shortDescriptionLabel: "Descripcion",
+    fullDescriptionLabel: "Descripcion completa",
   },
   searchPage: {
     title: "Buscar",
@@ -264,30 +424,119 @@ const es: Dictionary = {
   },
   offersPage: {
     title: "Ofertas",
-    lead: "Descuentos activos ahora.",
-    empty: "No hay ofertas en este momento.",
+    lead: "Productos seleccionados con precio especial por tiempo limitado.",
+    empty: "No hay ofertas activas en este momento.",
     meta: "Productos con descuento en Sem Fronteira.",
   },
   bestSellersPage: {
-    title: "Mas vendidos",
-    lead: "Ranking por demanda.",
-    meta: "Los productos con mas pedidos en Sem Fronteira.",
+    title: "Mas buscados",
+    lead: "Los productos con mayor demanda en el catalogo.",
+    meta: "Los productos mas buscados en Sem Fronteira.",
+  },
+  launchesPage: {
+    title: "Lanzamientos",
+    lead: "Lo mas reciente que llego al catalogo.",
+    empty: "Pronto agregaremos nuevos productos.",
+    emptyHint: "Vuelve pronto para ver las novedades.",
+    meta: "Nuevos productos en Sem Fronteira.",
+  },
+  aboutPage: {
+    title: "Sobre Sem Fronteira Shop",
+    meta: "Conoce Sem Fronteira Shop: catalogo online de productos seleccionados.",
+    lead: "Sem Fronteira Shop es un catalogo online de productos seleccionados, con atencion personalizada y envio a todo Paraguay.",
+    sections: [
+      {
+        title: "Nuestro enfoque",
+        body: "Presentamos productos con informacion clara en cada ficha. Priorizamos procedencia, autenticidad y calidad en cada eleccion del catalogo.",
+      },
+      {
+        title: "Procedencia y autenticidad",
+        body: "Trabajamos con marcas y lineas presentes en nuestro catalogo. Cuando lo necesites, podemos confirmar lote y embalaje por WhatsApp.",
+      },
+      {
+        title: "Calidad y seleccion",
+        body: "Seleccionamos productos con criterio de calidad y excelencia. La informacion disponible en el sitio es orientativa; confirmamos detalles al atenderte.",
+      },
+      {
+        title: "Atencion",
+        body: "",
+      },
+    ],
+    serviceBody: (hours) =>
+      `Respondemos consultas por WhatsApp de ${hours}, todos los dias. Es nuestro canal para confirmar stock, condiciones y cerrar pedidos.`,
+    ctaWhatsapp: "Hablar por WhatsApp",
+  },
+  howToBuyPage: {
+    title: "Como comprar",
+    meta: "Pasos para comprar en Sem Fronteira por WhatsApp.",
+    lead: "Comprar es simple: encontra, consulta y confirma por WhatsApp.",
+    steps: [
+      "Encontre su producto",
+      "Consulte la informacion disponible",
+      "Entre en contacto por WhatsApp",
+      "Confirme disponibilidad y condiciones",
+      "Finalice su pedido",
+    ],
+    legalNotice:
+      "Algunos productos pueden requerir orientacion o documentacion segun la legislacion aplicable. Consulte antes de comprar.",
+    ctaProducts: "Ver productos",
+    ctaWhatsapp: "Hablar por WhatsApp",
   },
   privacyPage: {
-    title: "Privacidad y terminos",
-    meta: "Politicas de Sem Fronteira Suplementos.",
-    privacyTitle: "Privacidad",
-    privacyBody:
-      "Usamos tu telefono y datos de pedido solo para preparar el envio y responder soporte. No vendemos esa informacion.",
-    termsTitle: "Terminos",
-    termsBody:
-      "Para comprar tenes que ser mayor de edad. Precio y stock quedan firmes cuando confirmamos el pedido por WhatsApp.",
-    shippingTitle: "Envio",
-    shippingBody:
-      "Enviamos a todo Paraguay con embalaje discreto. En la mayoria de los casos sale en hasta 48h despues del pago.",
-    refundsTitle: "Cambios y reembolsos",
-    refundsBody: (hours) =>
-      `Pedi el cambio o reembolso por WhatsApp con foto del pedido. Producto abierto o sin lote legible puede quedar fuera. Soporte: ${hours}.`,
+    title: "Privacidad",
+    meta: "Como tratamos tu informacion en Sem Fronteira Shop.",
+    lead: "Esta pagina describe de forma general como manejamos los datos que nos compartes al usar nuestro catalogo y contactarnos.",
+    sections: [
+      {
+        title: "Datos que recopilamos",
+        body: "Recopilamos la informacion que nos envias al contactarnos: nombre, telefono y datos del pedido compartidos por WhatsApp u otros canales de contacto del sitio.",
+      },
+      {
+        title: "Como usamos tu informacion",
+        body: "Usamos esos datos solo para responder consultas, preparar pedidos y brindar soporte. No vendemos ni compartimos tu informacion con terceros para marketing.",
+      },
+      {
+        title: "Conservacion",
+        body: "Conservamos la informacion el tiempo necesario para gestionar tu pedido y el soporte relacionado.",
+      },
+      {
+        title: "Actualizaciones",
+        body: "Podemos actualizar esta pagina cuando sea necesario. La version publicada en el sitio es la vigente.",
+      },
+    ],
+    contactTitle: "Contacto",
+    contactBody: (email, hours) =>
+      `Para consultas sobre privacidad, escribinos por WhatsApp o a ${email} en horario de ${hours}.`,
+  },
+  termsPage: {
+    title: "Terminos de uso",
+    meta: "Terminos generales de uso de Sem Fronteira Shop.",
+    lead: "Al usar este sitio y contactarnos, aceptas estos terminos generales de uso del catalogo.",
+    sections: [
+      {
+        title: "Catalogo online",
+        body: "Sem Fronteira Shop es un catalogo online de productos seleccionados. La informacion en cada ficha es orientativa; confirmamos detalles por WhatsApp.",
+      },
+      {
+        title: "Pedidos y compras",
+        body: "Los pedidos y orientaciones de compra se realizan por WhatsApp cuando corresponda. Precio, stock y condiciones se confirman al cerrar el pedido.",
+      },
+      {
+        title: "Edad minima",
+        body: "Para realizar compras debes ser mayor de edad segun la legislacion aplicable.",
+      },
+      {
+        title: "Informacion de productos",
+        body: "El contenido del sitio no sustituye orientacion profesional. Consulta la informacion disponible y contactanos antes de comprar cuando tengas dudas.",
+      },
+      {
+        title: "Cambios en los terminos",
+        body: "Podemos actualizar estos terminos. La version publicada en el sitio es la vigente.",
+      },
+    ],
+    legalNotice:
+      "Algunos productos pueden requerir orientacion o documentacion segun la legislacion aplicable. Consulte antes de comprar.",
+    ctaWhatsapp: "Hablar por WhatsApp",
   },
   helpPage: {
     title: "Ayuda y autenticacion",
@@ -337,8 +586,11 @@ const es: Dictionary = {
   },
   productCard: {
     bestSeller: "Mas vendido",
+    offer: "Oferta",
+    launch: "Lanzamiento",
     add: "Agregar",
     out: "Sin stock",
+    consultPriceWhatsapp: "Consulte el precio en WhatsApp",
   },
   language: {
     label: "Idioma",
@@ -367,15 +619,24 @@ const pt: Dictionary = {
   nav: {
     home: "Inicio",
     products: "Produtos",
-    categories: "Categorias",
-    bestSellers: "Mais vendidos",
     offers: "Ofertas",
-    help: "Ajuda",
+    launches: "Lancamentos",
+    bestSellers: "Mais procurados",
+    about: "Sobre nos",
+    howToBuy: "Como comprar",
   },
   footer: {
+    brandName: "SEM FRONTEIRA SHOP",
+    brandDescription:
+      "Produtos selecionados com atenção à procedência e autenticidade, priorizando qualidade e excelência em cada escolha.",
+    tagline:
+      "Atendimento personalizado | Produtos selecionados | Compra facil pelo WhatsApp",
+    contacts: "Contatos",
+    explore: "Explorar",
     institutional: "Institucional",
     policies: "Politicas",
     support: "Atendimento",
+    supportHours: "Atendimento",
     payments: "Formas de pagamento",
     company: "A empresa",
     myOrder: "Meu pedido",
@@ -395,10 +656,10 @@ const pt: Dictionary = {
     featuredDesc: "O que mais sai nesta semana.",
     catalog: "Catalogo",
     bestSellersTitle: "Mais vendidos",
-    seeRanking: "Ver ranking",
+    seeRanking: "Ver todos",
     offersTitle: "Ofertas",
     offersDesc: "Preco riscado = desconto ativo.",
-    seeOffers: "Ver ofertas",
+    seeOffers: "Ver todos",
     authTitle: "Autenticacao por lote",
     authDesc: (hours) =>
       `Mande foto da embalagem no WhatsApp. Respondemos de ${hours}.`,
@@ -407,19 +668,71 @@ const pt: Dictionary = {
     heroCtaOffers: "Ver ofertas",
     heroLead: (hours) =>
       `Peca no catalogo e feche pelo WhatsApp. Embalagem discreta, suporte ${hours}.`,
+    findProductTitle: "Encontre seu produto",
+    findProductSubtitle: "Busque por nome, marca ou categoria.",
+    findProductSearch: "Buscar por nome ou categoria",
+    launchesTitle: "Novos produtos",
+    launchesDesc: "O que chegou recentemente ao catalogo.",
+    seeLaunches: "Ver todos",
+    howToBuyTitle: "Como comprar",
+    howToBuyDesc: "Cinco passos simples para fechar seu pedido pelo WhatsApp.",
+    seeHowToBuy: "Ver como comprar",
+    whatsappCta: "Falar no WhatsApp",
+    whatsappCtaDesc: "Atendimento todos os dias no horario comercial.",
+    healthSection: "Saude e Bem-Estar",
+    instagramBannerTitle: "Siga a Sem Fronteira",
+    instagramBannerDesc: "Conteudos, novidades e atualizacoes.",
+    instagramBannerCta: "Ver Instagram",
+  },
+  instagramSection: {
+    title: "Siga a Sem Fronteira no Instagram",
+    subtitle: "@semfronteiras.py",
+    viewCta: "Ver Instagram",
+    placeholderAlt: (id) => `Espaco reservado para conteudo ${id} do Instagram`,
+    cardLabel: (id) => `Abrir Instagram — conteudo ${id}`,
+  },
+  floatingContact: {
+    groupLabel: "Contato rapido",
+    whatsappLabel: "Abrir WhatsApp da Sem Fronteira",
+    instagramLabel: "Abrir Instagram @semfronteiras.py",
+  },
+  productFinder: {
+    category: "Categoria",
+    brand: "Marca",
+    priceRange: "Faixa de preço",
+    availability: "Disponibilidade",
+    sort: "Ordenar por",
+    all: "Todos",
+    inStock: "Em estoque",
+    outOfStock: "Indisponível",
+    priceLow: "Até 300 mil",
+    priceMid: "300 mil a 700 mil",
+    priceHigh: "Acima de 700 mil",
+    sortRelevance: "Mais relevantes",
+    sortPriceAsc: "Menor preço",
+    sortPriceDesc: "Maior preço",
+    sortBestSellers: "Mais procurados",
+    results: (count) => `${count} resultado(s).`,
+    empty: "Nenhum produto com esse filtro.",
   },
   productsPage: {
     title: "Produtos",
+    subtitle: "Encontre produtos por categoria ou pesquise pelo nome.",
     results: (count) => `${count} resultado(s) no catalogo.`,
     all: "Todos",
     emptyFilter: "Nenhum produto com esse filtro.",
+    browseHint: "Selecione uma categoria ou use a busca para encontrar produtos.",
+    categoryComingSoon: "Em breve",
+    exploreCategory: "Explorar categoria",
     categoriesTitle: "Categorias",
     metaDescription:
-      "Catalogo Sem Fronteira: anabolizantes, esteroide, hormonios e emagrecedores.",
+      "Catalogo Sem Fronteira: emagrecedores, estetica, anabolizantes, hormonios, perfumaria, vitaminas e suplementos e saude e bem-estar.",
   },
   categoryPage: {
     back: "Voltar ao catalogo",
     empty: "Ainda nao ha produtos nesta categoria.",
+    emptyHint:
+      "Novidades serao adicionadas em breve. Explore outras categorias ou fale conosco pelo WhatsApp.",
   },
   productPage: {
     related: "Quem viu isso tambem levou",
@@ -430,7 +743,12 @@ const pt: Dictionary = {
     discreetPack: "Embalagem discreta",
     addToCart: "Adicionar ao carrinho",
     goCheckout: "Ir ao checkout",
+    finalizeWhatsapp: "Finalizar pelo WhatsApp",
     priceLabel: "Preco",
+    categoryLabel: "Categoria",
+    quantityLabel: "Quantidade",
+    shortDescriptionLabel: "Descricao",
+    fullDescriptionLabel: "Descricao completa",
   },
   searchPage: {
     title: "Buscar",
@@ -448,30 +766,119 @@ const pt: Dictionary = {
   },
   offersPage: {
     title: "Ofertas",
-    lead: "Descontos ativos agora.",
-    empty: "Nao ha ofertas no momento.",
+    lead: "Produtos selecionados com preço especial por tempo limitado.",
+    empty: "Não há ofertas ativas no momento.",
     meta: "Produtos com desconto na Sem Fronteira.",
   },
   bestSellersPage: {
-    title: "Mais vendidos",
-    lead: "Ranking por demanda.",
-    meta: "Os produtos com mais pedidos na Sem Fronteira.",
+    title: "Mais procurados",
+    lead: "Os produtos com maior demanda no catalogo.",
+    meta: "Os produtos mais procurados na Sem Fronteira.",
+  },
+  launchesPage: {
+    title: "Lançamentos",
+    lead: "O que chegou recentemente ao catálogo.",
+    empty: "Novos produtos serão adicionados em breve.",
+    emptyHint: "Volte em breve para conferir as novidades.",
+    meta: "Novos produtos na Sem Fronteira.",
+  },
+  aboutPage: {
+    title: "Sobre a Sem Fronteira Shop",
+    meta: "Conheca a Sem Fronteira Shop: catalogo online de produtos selecionados.",
+    lead: "A Sem Fronteira Shop e um catalogo online de produtos selecionados, com atendimento personalizado e envio para todo o Paraguai.",
+    sections: [
+      {
+        title: "Nosso enfoque",
+        body: "Apresentamos produtos com informacoes claras em cada ficha. Priorizamos procedencia, autenticidade e qualidade em cada escolha do catalogo.",
+      },
+      {
+        title: "Procedencia e autenticidade",
+        body: "Trabalhamos com marcas e linhas presentes no nosso catalogo. Quando precisar, podemos confirmar lote e embalagem pelo WhatsApp.",
+      },
+      {
+        title: "Qualidade e selecao",
+        body: "Selecionamos produtos com criterio de qualidade e excelencia. As informacoes disponiveis no site sao orientativas; confirmamos detalhes no atendimento.",
+      },
+      {
+        title: "Atendimento",
+        body: "",
+      },
+    ],
+    serviceBody: (hours) =>
+      `Respondemos consultas pelo WhatsApp das ${hours}, todos os dias. E nosso canal para confirmar estoque, condicoes e fechar pedidos.`,
+    ctaWhatsapp: "Falar no WhatsApp",
+  },
+  howToBuyPage: {
+    title: "Como comprar",
+    meta: "Passos para comprar na Sem Fronteira pelo WhatsApp.",
+    lead: "Comprar e simples: encontre, consulte e confirme pelo WhatsApp.",
+    steps: [
+      "Encontre seu produto",
+      "Consulte as informacoes disponiveis",
+      "Entre em contato pelo WhatsApp",
+      "Confirme disponibilidade e condicoes",
+      "Finalize seu pedido",
+    ],
+    legalNotice:
+      "Alguns produtos podem exigir orientacao ou documentacao conforme a legislacao aplicavel. Consulte antes de comprar.",
+    ctaProducts: "Ver produtos",
+    ctaWhatsapp: "Falar no WhatsApp",
   },
   privacyPage: {
-    title: "Privacidade e termos",
-    meta: "Politicas da Sem Fronteira Suplementos.",
-    privacyTitle: "Privacidade",
-    privacyBody:
-      "Usamos seu telefone e dados do pedido so para preparar o envio e responder suporte. Nao vendemos essas informacoes.",
-    termsTitle: "Termos",
-    termsBody:
-      "Para comprar voce precisa ser maior de idade. Preco e estoque ficam firmes quando confirmamos o pedido no WhatsApp.",
-    shippingTitle: "Envio",
-    shippingBody:
-      "Enviamos para todo o Paraguai com embalagem discreta. Na maioria dos casos sai em ate 48h depois do pagamento.",
-    refundsTitle: "Trocas e reembolsos",
-    refundsBody: (hours) =>
-      `Peca a troca ou reembolso no WhatsApp com foto do pedido. Produto aberto ou sem lote legivel pode ficar de fora. Suporte: ${hours}.`,
+    title: "Privacidade",
+    meta: "Como tratamos suas informacoes na Sem Fronteira Shop.",
+    lead: "Esta pagina descreve de forma geral como tratamos os dados que voce compartilha ao usar nosso catalogo e entrar em contato conosco.",
+    sections: [
+      {
+        title: "Dados que coletamos",
+        body: "Coletamos as informacoes que voce envia ao nos contatar: nome, telefone e dados do pedido compartilhados pelo WhatsApp ou outros canais de contato do site.",
+      },
+      {
+        title: "Como usamos suas informacoes",
+        body: "Usamos esses dados apenas para responder consultas, preparar pedidos e oferecer suporte. Nao vendemos nem compartilhamos suas informacoes com terceiros para marketing.",
+      },
+      {
+        title: "Conservacao",
+        body: "Conservamos as informacoes pelo tempo necessario para gerenciar seu pedido e o suporte relacionado.",
+      },
+      {
+        title: "Atualizacoes",
+        body: "Podemos atualizar esta pagina quando necessario. A versao publicada no site e a vigente.",
+      },
+    ],
+    contactTitle: "Contato",
+    contactBody: (email, hours) =>
+      `Para consultas sobre privacidade, fale conosco pelo WhatsApp ou em ${email}, no horario de ${hours}.`,
+  },
+  termsPage: {
+    title: "Termos de uso",
+    meta: "Termos gerais de uso da Sem Fronteira Shop.",
+    lead: "Ao usar este site e entrar em contato conosco, voce aceita estes termos gerais de uso do catalogo.",
+    sections: [
+      {
+        title: "Catalogo online",
+        body: "A Sem Fronteira Shop e um catalogo online de produtos selecionados. As informacoes em cada ficha sao orientativas; confirmamos detalhes pelo WhatsApp.",
+      },
+      {
+        title: "Pedidos e compras",
+        body: "Pedidos e orientacoes de compra sao realizados pelo WhatsApp quando aplicavel. Preco, estoque e condicoes sao confirmados ao fechar o pedido.",
+      },
+      {
+        title: "Idade minima",
+        body: "Para realizar compras, voce deve ser maior de idade conforme a legislacao aplicavel.",
+      },
+      {
+        title: "Informacoes de produtos",
+        body: "O conteudo do site nao substitui orientacao profissional. Consulte as informacoes disponiveis e entre em contato antes de comprar quando tiver duvidas.",
+      },
+      {
+        title: "Alteracoes nos termos",
+        body: "Podemos atualizar estes termos. A versao publicada no site e a vigente.",
+      },
+    ],
+    legalNotice:
+      "Alguns produtos podem exigir orientacao ou documentacao conforme a legislacao aplicavel. Consulte antes de comprar.",
+    ctaWhatsapp: "Falar no WhatsApp",
   },
   helpPage: {
     title: "Ajuda e autenticacao",
@@ -521,8 +928,11 @@ const pt: Dictionary = {
   },
   productCard: {
     bestSeller: "Mais vendido",
+    offer: "Oferta",
+    launch: "Lançamento",
     add: "Adicionar",
     out: "Sem estoque",
+    consultPriceWhatsapp: "Consulte o preço no WhatsApp",
   },
   language: {
     label: "Idioma",

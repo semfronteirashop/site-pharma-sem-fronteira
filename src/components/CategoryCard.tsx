@@ -7,10 +7,13 @@ import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 const pastelBySlug: Record<string, string> = {
-  anabolizantes: "bg-pastel-1",
-  esteroide: "bg-pastel-2",
   emagrecedores: "bg-pastel-3",
+  estetica: "bg-pastel-2",
+  anabolizantes: "bg-pastel-1",
   hormonios: "bg-pastel-4",
+  perfumaria: "bg-pastel-2",
+  "vitaminas-suplementos": "bg-pastel-3",
+  "saude-bem-estar": "bg-pastel-4",
 };
 
 type CategoryCardProps = {
@@ -38,7 +41,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
       </div>
 
       <div className="min-w-0 w-full">
-        <h3 className="truncate text-sm font-bold text-foreground group-hover:text-blue sm:text-base">
+        <h3 className="truncate text-sm font-bold text-foreground group-hover:text-brand-purple sm:text-base">
           {name}
         </h3>
         <p className="mt-0.5 hidden text-xs text-muted sm:line-clamp-2 sm:block">
