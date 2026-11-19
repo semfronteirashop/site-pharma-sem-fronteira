@@ -5,12 +5,12 @@ import { FadeInSection } from "@/components/FadeInSection";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import { ProductGroupCard } from "@/components/ProductGroupCard";
 import { SectionHeading } from "@/components/SectionHeading";
-import { productGroups } from "@/data/productGroups";
 import { site, tSite } from "@/data/site";
 import {
   getBestSellers,
   getNewLaunches,
   getSaleProducts,
+  getVisibleProductGroups,
 } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -40,7 +40,7 @@ export default async function HomePage({ params }: { params: Params }) {
   const locale = raw as Locale;
   const dictionary = getDictionary(locale);
 
-  const groups = [...productGroups].sort((a, b) => a.sortOrder - b.sortOrder);
+  const groups = getVisibleProductGroups();
   const bestSellers = getBestSellers().slice(0, 8);
   const offers = getSaleProducts().slice(0, 8);
   const launches = getNewLaunches().slice(0, 8);

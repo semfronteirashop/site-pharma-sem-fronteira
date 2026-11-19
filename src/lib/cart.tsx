@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Product } from "@/data/products";
-import { productHasImage, productHasPrice } from "@/data/products";
+import { productHasImage } from "@/data/products";
 
 export type CartItem = {
   productId: string;
@@ -106,7 +106,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const toggleCart = useCallback(() => setIsOpen((v) => !v), []);
 
   const addItem = useCallback((product: Product, quantity = 1) => {
-    if (!productHasPrice(product)) return;
     setItems((prev) => {
       const existing = prev.find((item) => item.productId === product.id);
       if (existing) {
@@ -123,7 +122,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           slug: product.slug,
           name: product.name,
           brand: product.brand,
-          price: product.price!,
+          price: product.price ?? 0,
           image: productHasImage(product) ? product.image! : "",
           quantity,
         },

@@ -8,7 +8,6 @@ import {
   filterProductsList,
   sortProductsList,
   type AvailabilityFilter,
-  type PriceRangeId,
   type ProductSortOption,
 } from "@/lib/catalog";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -45,7 +44,6 @@ export function ProductFinder({
   const [query, setQuery] = useState("");
   const [groupId, setGroupId] = useState(initialGroup);
   const [brand, setBrand] = useState(initialBrand);
-  const [priceRange, setPriceRange] = useState<PriceRangeId>("all");
   const [availability, setAvailability] = useState<AvailabilityFilter>("all");
   const [sort, setSort] = useState<ProductSortOption>("relevance");
 
@@ -55,11 +53,7 @@ export function ProductFinder({
   }, [initialGroup, initialBrand]);
 
   const hasActiveFilter = Boolean(
-    query.trim() ||
-      groupId ||
-      brand ||
-      priceRange !== "all" ||
-      availability !== "all",
+    query.trim() || groupId || brand || availability !== "all",
   );
 
   const filtered = useMemo(() => {
@@ -67,12 +61,11 @@ export function ProductFinder({
       query,
       groupId: groupId || undefined,
       brand: brand || undefined,
-      priceRange,
       availability,
       locale,
     });
     return sortProductsList(list, sort);
-  }, [products, query, groupId, brand, priceRange, availability, sort, locale]);
+  }, [products, query, groupId, brand, availability, sort, locale]);
 
   const isHero = variant === "hero";
 
@@ -148,29 +141,6 @@ export function ProductFinder({
           ))}
         </FilterRow>
 
-        <FilterRow label={dictionary.productFinder.priceRange}>
-          <FilterButton
-            active={priceRange === "all"}
-            onClick={() => setPriceRange("all")}
-            label={dictionary.productFinder.all}
-          />
-          <FilterButton
-            active={priceRange === "low"}
-            onClick={() => setPriceRange("low")}
-            label={dictionary.productFinder.priceLow}
-          />
-          <FilterButton
-            active={priceRange === "mid"}
-            onClick={() => setPriceRange("mid")}
-            label={dictionary.productFinder.priceMid}
-          />
-          <FilterButton
-            active={priceRange === "high"}
-            onClick={() => setPriceRange("high")}
-            label={dictionary.productFinder.priceHigh}
-          />
-        </FilterRow>
-
         <FilterRow label={dictionary.productFinder.availability}>
           <FilterButton
             active={availability === "all"}
@@ -209,12 +179,6 @@ export function ProductFinder({
             >
               <option value="relevance">
                 {dictionary.productFinder.sortRelevance}
-              </option>
-              <option value="price-asc">
-                {dictionary.productFinder.sortPriceAsc}
-              </option>
-              <option value="price-desc">
-                {dictionary.productFinder.sortPriceDesc}
               </option>
               <option value="best-sellers">
                 {dictionary.productFinder.sortBestSellers}
@@ -259,9 +223,7 @@ function FilterRow({
       <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
         {label}
       </p>
-      <div className="flex flex-wrap gap-1.5">
-        {children}
-      </div>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   );
 }

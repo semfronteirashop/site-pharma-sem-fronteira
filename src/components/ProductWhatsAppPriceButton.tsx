@@ -2,7 +2,7 @@
 
 import type { Product } from "@/data/products";
 import { productName } from "@/data/products";
-import { buildSupportMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
+import { buildProductPriceInquiryMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { useLocale } from "@/components/LocaleProvider";
 
 type ProductWhatsAppPriceButtonProps = {
@@ -17,8 +17,9 @@ export function ProductWhatsAppPriceButton({
   variant = "detail",
 }: ProductWhatsAppPriceButtonProps) {
   const { locale, dictionary } = useLocale();
+  const nome = productName(product, locale);
   const whatsappUrl = buildWhatsAppUrl(
-    buildSupportMessage(locale, productName(product, locale)),
+    buildProductPriceInquiryMessage(nome, locale),
   );
 
   const variantClasses =

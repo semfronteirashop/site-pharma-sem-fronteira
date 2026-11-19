@@ -1,7 +1,7 @@
 "use client";
 
 import type { Product } from "@/data/products";
-import { productHasPrice, productIsInStock } from "@/data/products";
+import { productIsInStock } from "@/data/products";
 import { useCart } from "@/lib/cart";
 import { useLocale } from "@/components/LocaleProvider";
 
@@ -22,10 +22,6 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const { addItem } = useCart();
   const { dictionary } = useLocale();
-
-  if (!productHasPrice(product)) {
-    return null;
-  }
 
   const disabled = !productIsInStock(product);
 

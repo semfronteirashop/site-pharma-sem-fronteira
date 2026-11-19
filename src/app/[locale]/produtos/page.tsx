@@ -3,10 +3,11 @@ import { ProductFinder } from "@/components/ProductFinder";
 import { ProductGroupCard } from "@/components/ProductGroupCard";
 import { FadeInSection } from "@/components/FadeInSection";
 import { SectionHeading } from "@/components/SectionHeading";
-import { productGroups, resolveProductGroupId } from "@/data/productGroups";
+import { resolveProductGroupId } from "@/data/productGroups";
 import {
   getAllProducts,
   getBrands,
+  getVisibleProductGroups,
 } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -44,7 +45,7 @@ export default async function ProductsPage({
 
   const products = getAllProducts();
   const brands = getBrands();
-  const groups = [...productGroups].sort((a, b) => a.sortOrder - b.sortOrder);
+  const groups = getVisibleProductGroups();
 
   return (
     <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">

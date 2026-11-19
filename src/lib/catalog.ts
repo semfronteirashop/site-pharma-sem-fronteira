@@ -21,29 +21,14 @@ import {
 import type { Locale } from "@/i18n/config";
 import { categoryName } from "@/data/categories";
 
-export type PriceRangeId = "all" | "low" | "mid" | "high";
 export type AvailabilityFilter = "all" | "in-stock" | "out-of-stock";
-export type ProductSortOption =
-  | "relevance"
-  | "price-asc"
-  | "price-desc"
-  | "best-sellers";
-
-export const PRICE_RANGE_BOUNDS: Record<
-  Exclude<PriceRangeId, "all">,
-  { min: number; max: number }
-> = {
-  low: { min: 0, max: 300_000 },
-  mid: { min: 300_001, max: 700_000 },
-  high: { min: 700_001, max: Number.MAX_SAFE_INTEGER },
-};
+export type ProductSortOption = "relevance" | "best-sellers";
 
 export type ProductListFilters = {
   query?: string;
   groupId?: string;
   categorySlug?: string;
   brand?: string;
-  priceRange?: PriceRangeId;
   availability?: AvailabilityFilter;
   locale: Locale;
 };
@@ -91,7 +76,6 @@ export function filterProductsList(
     groupId,
     categorySlug,
     brand,
-    priceRange = "all",
     availability = "all",
     locale,
   }: ProductListFilters,
@@ -114,13 +98,6 @@ export function filterProductsList(
   if (brand) {
     result = result.filter(
       (p) => p.brand.toLowerCase() === brand.toLowerCase(),
-    );
-  }
-
-  if (priceRange !== "all") {
-    const { min, max } = PRICE_RANGE_BOUNDS[priceRange];
-    result = result.filter(
-      (p) => typeof p.price === "number" && p.price >= min && p.price <= max,
     );
   }
 
@@ -160,17 +137,6 @@ export function sortProductsList(
   const copy = [...list];
 
   switch (sort) {
-    case "price-asc":
-      return copy.sort(
-        (a, b) =>
-          (a.price ?? Number.MAX_SAFE_INTEGER) -
-          (b.price ?? Number.MAX_SAFE_INTEGER),
-      );
-    case "price-desc":
-      return copy.sort(
-        (a, b) =>
-          (b.price ?? -1) - (a.price ?? -1),
-      );
     case "best-sellers":
       return copy.sort(
         (a, b) =>
@@ -211,7 +177,28 @@ export function getAllCategories(): Category[] {
 }
 
 export function getFeaturedCategories(): Category[] {
-  return getAllCategories().filter((c) => c.featured);
+  return getVisibleCategories();
+}
+
+/** Categorias com pelo menos 1 produto no catalogo. */
+export function getCategoryProductCount(slug: string): number {
+  return getProductsByCategory(slug).length;
+}
+
+export function getProductGroupProductCount(groupId: string): number {
+  return getProductsByGroupId(groupId).length;
+}
+
+export function getVisibleProductGroups(): ReturnType<typeof getAllProductGroups> {
+  return getAllProductGroups().filter(
+    (g) => getProductGroupProductCount(g.id) > 0,
+  );
+}
+
+export function getVisibleCategories(): Category[] {
+  return getAllCategories().filter(
+    (c) => getCategoryProductCount(c.slug) > 0,
+  );
 }
 
 export function getCategoryBySlug(slug: string): Category | undefined {

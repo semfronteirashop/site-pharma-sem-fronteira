@@ -2,13 +2,12 @@
 
 import Image from "next/image";
 import { useCart } from "@/lib/cart";
-import { formatPrice } from "@/lib/format";
-import { buildCheckoutMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
+import { buildCartQuoteMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function CheckoutClient() {
-  const { items, subtotal, updateQuantity, removeItem, clearCart } = useCart();
+  const { items, updateQuantity, removeItem, clearCart } = useCart();
   const { dictionary, href, locale } = useLocale();
 
   if (items.length === 0) {
@@ -26,13 +25,11 @@ export function CheckoutClient() {
     );
   }
 
-  const message = buildCheckoutMessage(
+  const message = buildCartQuoteMessage(
     items.map((item) => ({
       name: item.name,
       quantity: item.quantity,
-      price: item.price,
     })),
-    subtotal,
     locale,
   );
   const whatsappUrl = buildWhatsAppUrl(message);
@@ -57,7 +54,6 @@ export function CheckoutClient() {
             <div className="min-w-0 flex-1">
               <h2 className="font-semibold">{item.name}</h2>
               <p className="mt-1 text-sm text-muted">{item.brand}</p>
-              <p className="mt-2 font-bold">{formatPrice(item.price, locale)}</p>
               <div className="mt-2 flex items-center gap-2">
                 <button
                   type="button"
@@ -92,17 +88,7 @@ export function CheckoutClient() {
       </ul>
 
       <div className="rounded-xl border border-border bg-surface p-4">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-muted">
-            {dictionary.cartDrawer.subtotal}
-          </span>
-          <span className="text-xl font-extrabold">
-            {formatPrice(subtotal, locale)}
-          </span>
-        </div>
-        <p className="mt-2 text-sm text-muted">
-          {dictionary.checkout.shippingNote}
-        </p>
+        <p className="text-sm text-muted">{dictionary.checkout.shippingNote}</p>
         <div className="mt-4 space-y-2">
           <a
             href={whatsappUrl}
@@ -110,7 +96,7 @@ export function CheckoutClient() {
             rel="noopener noreferrer"
             className="inline-flex h-12 w-full items-center justify-center rounded-full bg-brand-green text-sm font-bold text-white hover:bg-brand-green-dark"
           >
-            {dictionary.checkout.sendWhatsapp}
+            {dictionary.checkout.requestQuoteWhatsapp}
           </a>
           <div className="flex gap-2">
             <AppLink

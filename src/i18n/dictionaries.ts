@@ -121,6 +121,8 @@ export type Dictionary = {
     back: string;
     empty: string;
     emptyHint: string;
+    comingSoon: string;
+    comingSoonWhatsapp: string;
   };
   productPage: {
     related: string;
@@ -239,6 +241,7 @@ export type Dictionary = {
     seeProducts: string;
     shippingNote: string;
     sendWhatsapp: string;
+    requestQuoteWhatsapp: string;
     keepShopping: string;
     clear: string;
   };
@@ -261,6 +264,9 @@ export type Dictionary = {
     confirm: string;
     support: (topic: string, name: string) => string;
     defaultTopic: string;
+    productPriceInquiry: (productName: string) => string;
+    cartQuoteIntro: (storeName: string) => string;
+    cartQuoteClosing: string;
   };
 };
 
@@ -391,6 +397,9 @@ const es: Dictionary = {
     empty: "Todavia no hay productos en esta categoria.",
     emptyHint:
       "Pronto agregaremos novedades aqui. Explore otras categorias o escribinos por WhatsApp.",
+    comingSoon:
+      "Pronto nuevos productos. Hable con nosotros por WhatsApp.",
+    comingSoonWhatsapp: "WhatsApp",
   },
   productPage: {
     related: "Quienes vieron esto tambien llevaron",
@@ -581,6 +590,7 @@ const es: Dictionary = {
     seeProducts: "Ver productos",
     shippingNote: "El envio se confirma en el chat de WhatsApp.",
     sendWhatsapp: "Enviar pedido por WhatsApp",
+    requestQuoteWhatsapp: "Pedir presupuesto por WhatsApp",
     keepShopping: "Seguir comprando",
     clear: "Vaciar",
   },
@@ -590,7 +600,7 @@ const es: Dictionary = {
     launch: "Lanzamiento",
     add: "Agregar",
     out: "Sin stock",
-    consultPriceWhatsapp: "Consulte el precio en WhatsApp",
+    consultPriceWhatsapp: "Consultar precio por WhatsApp",
   },
   language: {
     label: "Idioma",
@@ -603,6 +613,10 @@ const es: Dictionary = {
     confirm: "Confirmen stock, envio y forma de pago.",
     support: (topic, name) => `Hola, necesito ${topic} de ${name}.`,
     defaultTopic: "ayuda",
+    productPriceInquiry: (productName) =>
+      `¡Hola! Quisiera saber el precio de ${productName}.`,
+    cartQuoteIntro: (name) => `Hola, quiero pedir presupuesto en ${name}:`,
+    cartQuoteClosing: "Quisiera saber el precio de estos productos.",
   },
 };
 
@@ -733,6 +747,9 @@ const pt: Dictionary = {
     empty: "Ainda nao ha produtos nesta categoria.",
     emptyHint:
       "Novidades serao adicionadas em breve. Explore outras categorias ou fale conosco pelo WhatsApp.",
+    comingSoon:
+      "Em breve novos produtos. Fale com a gente no WhatsApp.",
+    comingSoonWhatsapp: "WhatsApp",
   },
   productPage: {
     related: "Quem viu isso tambem levou",
@@ -923,6 +940,7 @@ const pt: Dictionary = {
     seeProducts: "Ver produtos",
     shippingNote: "O frete se confirma no chat do WhatsApp.",
     sendWhatsapp: "Enviar pedido pelo WhatsApp",
+    requestQuoteWhatsapp: "Pedir orçamento no WhatsApp",
     keepShopping: "Continuar comprando",
     clear: "Esvaziar",
   },
@@ -932,7 +950,7 @@ const pt: Dictionary = {
     launch: "Lançamento",
     add: "Adicionar",
     out: "Sem estoque",
-    consultPriceWhatsapp: "Consulte o preço no WhatsApp",
+    consultPriceWhatsapp: "Consultar preço no WhatsApp",
   },
   language: {
     label: "Idioma",
@@ -945,6 +963,10 @@ const pt: Dictionary = {
     confirm: "Confirmem estoque, frete e forma de pagamento.",
     support: (topic, name) => `Ola, preciso de ${topic} da ${name}.`,
     defaultTopic: "ajuda",
+    productPriceInquiry: (productName) =>
+      `Olá! Gostaria de saber o preço do ${productName}.`,
+    cartQuoteIntro: (name) => `Olá, quero pedir orçamento na ${name}:`,
+    cartQuoteClosing: "Gostaria de saber o valor desses produtos.",
   },
 };
 

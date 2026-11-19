@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { site, tSite } from "@/data/site";
 import type { Product } from "@/data/products";
-import { productDescription, productHasPrice } from "@/data/products";
+import { productDescription } from "@/data/products";
 import type { Category } from "@/data/categories";
 import { categoryDescription, categoryName } from "@/data/categories";
 import type { ProductGroup } from "@/data/productGroups";
 import { groupDescription, groupName } from "@/data/productGroups";
 import { locales, localeToOg, type Locale } from "@/i18n/config";
 import { localizePath } from "@/i18n/paths";
-import { formatPrice } from "@/lib/format";
 
 const defaultOg = "/og-default.svg";
 
@@ -110,21 +109,6 @@ export function productJsonLd(product: Product, locale: Locale) {
     json.image = [absoluteUrl(product.image)];
   }
 
-  if (productHasPrice(product)) {
-    json.offers = {
-      "@type": "Offer",
-      url: absoluteUrl(localizePath(locale, `/produto/${product.slug}`)),
-      priceCurrency: "BRL",
-      price: product.price,
-      availability: "https://schema.org/InStock",
-      priceValidUntil: new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1),
-      )
-        .toISOString()
-        .slice(0, 10),
-    };
-  }
-
   return json;
 }
 
@@ -151,12 +135,9 @@ export function groupMetadata(group: ProductGroup, locale: Locale): Metadata {
 }
 
 export function productMetadata(product: Product, locale: Locale): Metadata {
-  const priceSuffix = productHasPrice(product)
-    ? ` ${formatPrice(product.price, locale)}.`
-    : "";
   return createMetadata({
     title: product.name,
-    description: `${productDescription(product, locale)}${priceSuffix}`,
+    description: productDescription(product, locale),
     path: `/produto/${product.slug}`,
     image: product.image ?? defaultOg,
     locale,

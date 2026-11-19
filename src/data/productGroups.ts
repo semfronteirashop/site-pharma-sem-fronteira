@@ -13,23 +13,23 @@ export type ProductGroup = {
 /** Taxonomia principal de navegacao (Home, Produtos e /categoria/[slug]). */
 export const productGroups: ProductGroup[] = [
   {
-    id: "emagrecedores",
+    id: "vitaminas-suplementos",
     name: {
-      es: "Emagrecedores",
-      pt: "Emagrecedores",
+      es: "Vitaminas y Suplementos",
+      pt: "Vitaminas e Suplementos",
     },
     description: {
-      es: "Opciones para corte y control de peso.",
-      pt: "Opcoes para corte e controle de peso.",
+      es: "Vitaminas y suplementos para tu rutina.",
+      pt: "Vitaminas e suplementos para sua rotina.",
     },
-    categorySlugs: ["emagrecedores"],
+    categorySlugs: [],
     sortOrder: 1,
   },
   {
     id: "estetica",
     name: {
-      es: "Estetica",
-      pt: "Estetica",
+      es: "Estética",
+      pt: "Estética",
     },
     description: {
       es: "Linea estetica y productos de cuidado avanzado.",
@@ -37,6 +37,19 @@ export const productGroups: ProductGroup[] = [
     },
     categorySlugs: ["estetica"],
     sortOrder: 2,
+  },
+  {
+    id: "hormonios",
+    name: {
+      es: "Hormonas",
+      pt: "Hormônios",
+    },
+    description: {
+      es: "Soporte hormonal. Confirmamos lote por WhatsApp.",
+      pt: "Suporte hormonal. Confirmamos lote pelo WhatsApp.",
+    },
+    categorySlugs: ["hormonios"],
+    sortOrder: 3,
   },
   {
     id: "anabolizantes",
@@ -48,26 +61,26 @@ export const productGroups: ProductGroup[] = [
       es: "Linea anabolica con stock rotativo.",
       pt: "Linha anabolica com estoque rotativo.",
     },
-    categorySlugs: ["anabolizantes", "esteroide"],
-    sortOrder: 3,
+    categorySlugs: ["anabolizantes"],
+    sortOrder: 4,
   },
   {
-    id: "hormonios",
+    id: "emagrecedores",
     name: {
-      es: "Hormonios",
-      pt: "Hormonios",
+      es: "Adelgazantes",
+      pt: "Emagrecedores",
     },
     description: {
-      es: "Soporte hormonal. Confirmamos lote por WhatsApp.",
-      pt: "Suporte hormonal. Confirmamos lote pelo WhatsApp.",
+      es: "Opciones para corte y control de peso.",
+      pt: "Opcoes para corte e controle de peso.",
     },
-    categorySlugs: ["hormonios"],
-    sortOrder: 4,
+    categorySlugs: ["emagrecedores"],
+    sortOrder: 5,
   },
   {
     id: "perfumaria",
     name: {
-      es: "Perfumeria",
+      es: "Perfumería",
       pt: "Perfumaria",
     },
     description: {
@@ -75,43 +88,34 @@ export const productGroups: ProductGroup[] = [
       pt: "Fragrancias e perfumaria selecionada.",
     },
     categorySlugs: [],
-    sortOrder: 5,
-  },
-  {
-    id: "vitaminas-suplementos",
-    name: {
-      es: "Vitaminas y Suplementos",
-      pt: "Vitaminas e Suplementos",
-    },
-    description: {
-      es: "Vitaminas y suplementos para tu rutina.",
-      pt: "Vitaminas e suplementos para sua rotina.",
-    },
-    categorySlugs: [],
     sortOrder: 6,
   },
   {
-    id: "saude-bem-estar",
+    id: "cosmeticos",
     name: {
-      es: "Salud y Bienestar",
-      pt: "Saude e Bem-estar",
+      es: "Cosméticos",
+      pt: "Cosméticos",
     },
     description: {
-      es: "Productos para salud y bienestar.",
-      pt: "Produtos para saude e bem-estar.",
+      es: "Dermocosmetica y cuidado de la piel.",
+      pt: "Dermocosmetica e cuidados com a pele.",
     },
-    categorySlugs: [],
+    categorySlugs: ["cosmeticos"],
     sortOrder: 7,
   },
 ];
 
-/** IDs antigos — compatibilidade com links e filtros anteriores. */
+/**
+ * Rotas legadas → grupo atual (redirect em /categoria/[slug]).
+ * Revisado para a arvore de 7 categorias.
+ */
 export const productGroupIdAliases: Record<string, string> = {
   "controle-peso": "emagrecedores",
   performance: "anabolizantes",
   esteroide: "anabolizantes",
   suplementos: "vitaminas-suplementos",
-  outros: "saude-bem-estar",
+  outros: "vitaminas-suplementos",
+  "saude-bem-estar": "vitaminas-suplementos",
 };
 
 export function resolveProductGroupId(id: string): string {
