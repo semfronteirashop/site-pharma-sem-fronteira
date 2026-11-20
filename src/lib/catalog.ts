@@ -3,6 +3,7 @@ import {
   products,
   productName,
   productDescription,
+  productGroupId,
   type Product,
 } from "@/data/products";
 import {
@@ -63,6 +64,28 @@ export function getBestSellers(): Product[] {
 
 export function getSaleProducts(): Product[] {
   return products.filter((p) => p.onSale);
+}
+
+/** Oferta ativa no cadastro (`onSale`). */
+export function hasActiveSaleProducts(): boolean {
+  return products.some((p) => p.onSale);
+}
+
+/** Grupos exibidos nos destaques da Home (nao inclui hormonios, anabolizantes, emagrecedores). */
+export const HOME_HIGHLIGHT_GROUP_IDS = new Set([
+  "cosmeticos",
+  "estetica",
+  "vitaminas-suplementos",
+  "perfumaria",
+]);
+
+export function isHomeHighlightProduct(product: Product): boolean {
+  const groupId = productGroupId(product);
+  return groupId !== undefined && HOME_HIGHLIGHT_GROUP_IDS.has(groupId);
+}
+
+export function filterHomeHighlightProducts(list: Product[]): Product[] {
+  return list.filter(isHomeHighlightProduct);
 }
 
 export function getNewLaunches(): Product[] {

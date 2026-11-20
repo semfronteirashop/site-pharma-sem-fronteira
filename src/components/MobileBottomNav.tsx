@@ -6,6 +6,7 @@ import { useCart } from "@/lib/cart";
 import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 import { stripLocalePrefix } from "@/i18n/paths";
+import { hasActiveSaleProducts } from "@/lib/catalog";
 
 function IconHome({ active }: { active?: boolean }) {
   return (
@@ -103,21 +104,29 @@ export function MobileBottomNav() {
         bare.startsWith("/mas-vendidos"),
       icon: <IconGrid />,
     },
-    {
-      key: "offers",
-      label: dictionary.nav.offers,
-      href: href("/ofertas"),
-      active: bare.startsWith("/ofertas"),
-      icon: <IconTag />,
-    },
-  ] as const;
+    ...(hasActiveSaleProducts()
+      ? [
+          {
+            key: "offers" as const,
+            label: dictionary.nav.offers,
+            href: href("/ofertas"),
+            active: bare.startsWith("/ofertas"),
+            icon: <IconTag />,
+          },
+        ]
+      : []),
+  ];
 
   return (
     <nav
       className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 backdrop-blur md:hidden"
       style={{ paddingBottom: "max(0.35rem, env(safe-area-inset-bottom))" }}
     >
-      <div className="mx-auto grid max-w-lg grid-cols-5 gap-0.5 px-1.5 pt-1.5">
+      <div
+        className={`mx-auto grid max-w-lg gap-0.5 px-1.5 pt-1.5 ${
+          hasActiveSaleProducts() ? "grid-cols-5" : "grid-cols-4"
+        }`}
+      >
         {items.map((item) => (
           <AppLink
             key={item.key}

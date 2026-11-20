@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { navHrefs, site } from "@/data/site";
 import { useCart } from "@/lib/cart";
@@ -10,6 +10,7 @@ import { SearchForm } from "@/components/SearchForm";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLocale } from "@/components/LocaleProvider";
 import { stripLocalePrefix } from "@/i18n/paths";
+import { hasActiveSaleProducts } from "@/lib/catalog";
 
 function isNavLinkActive(barePath: string, linkHref: string): boolean {
   if (linkHref === "/") {
@@ -42,6 +43,14 @@ export function Header() {
   const { itemCount, openCart } = useCart();
   const { dictionary, href } = useLocale();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const mainNavLinks = useMemo(
+    () =>
+      hasActiveSaleProducts()
+        ? navHrefs
+        : navHrefs.filter((link) => link.key !== "offers"),
+    [],
+  );
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -149,7 +158,7 @@ export function Header() {
 
         <div className="px-3 pb-2 lg:hidden">
           <div className="-mx-0.5 flex gap-1.5 overflow-x-auto px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {navHrefs.map((link) => {
+            {mainNavLinks.map((link) => {
               const active = isNavLinkActive(barePath, link.href);
               return (
                 <AppLink
@@ -167,7 +176,7 @@ export function Header() {
 
         <nav className="hidden border-t border-border lg:block">
           <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-2 md:px-6">
-            {navHrefs.map((link) => {
+            {mainNavLinks.map((link) => {
               const active = isNavLinkActive(barePath, link.href);
               return (
                 <AppLink
@@ -191,7 +200,7 @@ export function Header() {
               </Suspense>
             </div>
             <nav className="flex flex-col gap-0.5">
-              {navHrefs.map((link) => {
+              {mainNavLinks.map((link) => {
                 const active = isNavLinkActive(barePath, link.href);
                 return (
                   <AppLink
