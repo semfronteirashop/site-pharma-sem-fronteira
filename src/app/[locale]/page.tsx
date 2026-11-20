@@ -7,10 +7,11 @@ import { ProductGroupCard } from "@/components/ProductGroupCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { site, tSite } from "@/data/site";
 import {
+  getAllProductGroups,
   getBestSellers,
   getNewLaunches,
+  getProductGroupProductCount,
   getSaleProducts,
-  getVisibleProductGroups,
 } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -40,7 +41,7 @@ export default async function HomePage({ params }: { params: Params }) {
   const locale = raw as Locale;
   const dictionary = getDictionary(locale);
 
-  const groups = getVisibleProductGroups();
+  const groups = getAllProductGroups();
   const bestSellers = getBestSellers().slice(0, 8);
   const offers = getSaleProducts().slice(0, 8);
   const launches = getNewLaunches().slice(0, 8);
@@ -61,7 +62,11 @@ export default async function HomePage({ params }: { params: Params }) {
           />
           <div className="grid grid-cols-2 gap-2 sm:gap-2.5 md:grid-cols-3 lg:grid-cols-4 lg:gap-3">
             {groups.map((group) => (
-              <ProductGroupCard key={group.id} group={group} />
+              <ProductGroupCard
+                key={group.id}
+                group={group}
+                productCount={getProductGroupProductCount(group.id)}
+              />
             ))}
           </div>
         </div>

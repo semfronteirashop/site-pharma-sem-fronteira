@@ -5,9 +5,11 @@ import { FadeInSection } from "@/components/FadeInSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { resolveProductGroupId } from "@/data/productGroups";
 import {
+  getAllProductGroups,
   getAllProducts,
   getBrands,
-  getVisibleProductGroups,
+  getBrandsByGroupId,
+  getProductGroupProductCount,
 } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -45,7 +47,7 @@ export default async function ProductsPage({
 
   const products = getAllProducts();
   const brands = getBrands();
-  const groups = getVisibleProductGroups();
+  const groups = getAllProductGroups();
 
   return (
     <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-10">
@@ -61,7 +63,11 @@ export default async function ProductsPage({
           </h2>
           <div className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-3 lg:grid-cols-4">
             {groups.map((group) => (
-              <ProductGroupCard key={group.id} group={group} />
+              <ProductGroupCard
+                key={group.id}
+                group={group}
+                productCount={getProductGroupProductCount(group.id)}
+              />
             ))}
           </div>
         </div>
@@ -70,6 +76,7 @@ export default async function ProductsPage({
           <ProductFinder
             products={products}
             brands={brands}
+            brandsByGroup={{ cosmeticos: getBrandsByGroupId("cosmeticos") }}
             groups={groups}
             showHeading={false}
             showAllByDefault={false}

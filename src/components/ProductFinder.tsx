@@ -16,6 +16,8 @@ import { useLocale } from "@/components/LocaleProvider";
 type ProductFinderProps = {
   products: Product[];
   brands: string[];
+  /** Marcas por grupo (ex.: Cosméticos com 25 marcas). */
+  brandsByGroup?: Record<string, string[]>;
   groups: ProductGroup[];
   variant?: "default" | "hero";
   showHeading?: boolean;
@@ -30,6 +32,7 @@ type ProductFinderProps = {
 export function ProductFinder({
   products,
   brands,
+  brandsByGroup,
   groups,
   variant = "default",
   showHeading = true,
@@ -51,6 +54,13 @@ export function ProductFinder({
     setGroupId(initialGroup);
     setBrand(initialBrand);
   }, [initialGroup, initialBrand]);
+
+  const brandOptions = useMemo(() => {
+    if (groupId && brandsByGroup?.[groupId]?.length) {
+      return brandsByGroup[groupId];
+    }
+    return brands;
+  }, [groupId, brands, brandsByGroup]);
 
   const hasActiveFilter = Boolean(
     query.trim() || groupId || brand || availability !== "all",
@@ -131,7 +141,7 @@ export function ProductFinder({
             onClick={() => setBrand("")}
             label={dictionary.productFinder.all}
           />
-          {brands.map((item) => (
+          {brandOptions.map((item) => (
             <FilterButton
               key={item}
               active={brand === item}

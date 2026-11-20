@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import type { Product } from "@/data/products";
-import { productHasImage } from "@/data/products";
+import { ProductMedia } from "@/components/ProductMedia";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { AppLink } from "@/components/AppLink";
 import { ProductWhatsAppPriceButton } from "@/components/ProductWhatsAppPriceButton";
@@ -27,15 +26,11 @@ export function ProductCard({ product, variant = "default" }: ProductCardProps) 
           className="relative block aspect-[1/1.05] overflow-hidden bg-brand-light"
         >
           <div className="absolute inset-x-3 bottom-0 top-3 rounded-t-[999px] bg-white/70 sm:inset-x-4 sm:top-4" />
-          {productHasImage(product) ? (
-            <Image
-              src={product.image!}
-              alt={product.name}
-              fill
-              sizes="(max-width: 419px) 100vw, (max-width: 768px) 50vw, 25vw"
-              className="object-contain p-3 transition duration-300 group-hover:scale-[1.03] sm:p-4"
-            />
-          ) : null}
+          <ProductMedia
+            product={product}
+            className="absolute inset-0"
+            sizes="(max-width: 419px) 100vw, (max-width: 768px) 50vw, 25vw"
+          />
         </AppLink>
 
         <div className="absolute left-2 top-2 z-10 flex max-w-[70%] flex-col gap-1">

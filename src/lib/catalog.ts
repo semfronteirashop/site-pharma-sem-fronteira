@@ -238,3 +238,9 @@ export function getRelatedProducts(product: Product, limit = 4): Product[] {
 export function getBrands(): string[] {
   return [...new Set(products.map((p) => p.brand))].sort();
 }
+
+export function getBrandsByGroupId(groupId: string): string[] {
+  return [
+    ...new Set(getProductsByGroupId(groupId).map((p) => p.brand.trim()).filter(Boolean)),
+  ].sort((a, b) => a.localeCompare(b));
+}

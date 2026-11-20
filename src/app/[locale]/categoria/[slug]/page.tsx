@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { CategoryEmptyCta } from "@/components/CategoryEmptyCta";
+import { ProductFinder } from "@/components/ProductFinder";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
@@ -14,6 +15,7 @@ import {
   resolveProductGroupId,
 } from "@/data/productGroups";
 import {
+  getBrandsByGroupId,
   getCategoryBySlug,
   getProductsByCategory,
   getProductsByGroupId,
@@ -75,6 +77,17 @@ export default async function CategoryPage({ params }: { params: Params }) {
         />
         {products.length === 0 ? (
           <CategoryEmptyCta />
+        ) : group.id === "cosmeticos" ? (
+          <div className="mt-6">
+            <ProductFinder
+              products={products}
+              brands={getBrandsByGroupId("cosmeticos")}
+              groups={[group]}
+              initialGroup={group.id}
+              showHeading={false}
+              showAllByDefault
+            />
+          </div>
         ) : (
           <ProductGrid
             products={products}

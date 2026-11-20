@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Product } from "@/data/products";
-import { productHasImage } from "@/data/products";
+import { productCartImage } from "@/data/products";
 
 export type CartItem = {
   productId: string;
@@ -123,7 +123,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           name: product.name,
           brand: product.brand,
           price: product.price ?? 0,
-          image: productHasImage(product) ? product.image! : "",
+          image: productCartImage(product),
           quantity,
         },
       ];

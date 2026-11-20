@@ -387,7 +387,7 @@ const es: Dictionary = {
     emptyFilter: "Ningun producto con ese filtro.",
     browseHint: "Seleccione una categoria o use la busca para encontrar productos.",
     categoryComingSoon: "Proximamente",
-    exploreCategory: "Explorar categoria",
+    exploreCategory: "Explorar categoría",
     categoriesTitle: "Categorias",
     metaDescription:
       "Catalogo Sem Fronteira: emagrecedores, estetica, anabolizantes, hormonios, perfumaria, vitaminas e suplementos e saude e bem-estar.",

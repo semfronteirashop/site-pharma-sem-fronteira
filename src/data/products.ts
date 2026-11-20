@@ -2,6 +2,7 @@ import type { LocalizedString } from "@/data/site";
 import { site } from "@/data/site";
 import type { Locale } from "@/i18n/config";
 import { getGroupIdForCategorySlug } from "@/data/productGroups";
+import { skincareProducts } from "@/data/skincareProducts";
 
 /** Versao do schema — incrementar se campos obrigatorios mudarem no futuro. */
 export const PRODUCT_CATALOG_SCHEMA_VERSION = 1;
@@ -2125,15 +2126,34 @@ export const products: Product[] = [
     bestSeller: false,
     onSale: false,
     tags: ["emagrecedores", "veltrane diamond", "retatrutide"],
-  }
+  },
+  ...skincareProducts,
 ];
 
 export function productName(product: Product, locale: Locale): string {
   return product.nameLocalized?.[locale] ?? product.name;
 }
 
+/** Caminho automático para fotos arrastadas em public/produtos/skincare/{slug}.webp */
+export function skincareImagePath(slug: string): string {
+  return `/produtos/skincare/${slug}.webp`;
+}
+
+export function productImageSrc(product: Product): string | undefined {
+  const explicit = product.image?.trim();
+  if (explicit) return explicit;
+  if (product.categorySlug === "cosmeticos") {
+    return skincareImagePath(product.slug);
+  }
+  return undefined;
+}
+
+export function productShowsCatalogVisual(product: Product): boolean {
+  return Boolean(productImageSrc(product));
+}
+
 export function productImages(product: Product): string[] {
-  const primary = product.image?.trim();
+  const primary = productImageSrc(product);
   if (product.images?.length) {
     return primary ? [primary, ...product.images] : [...product.images];
   }
@@ -2141,7 +2161,15 @@ export function productImages(product: Product): string[] {
 }
 
 export function productHasImage(product: Product): boolean {
-  return productImages(product).length > 0;
+  return productShowsCatalogVisual(product);
+}
+
+/** Imagem para carrinho/checkout (foto real ou skincare explícita). */
+export function productCartImage(product: Product): string {
+  const explicit = product.image?.trim();
+  if (explicit) return explicit;
+  const src = productImageSrc(product);
+  return src ?? "";
 }
 
 export function productHasPrice(product: Product): boolean {

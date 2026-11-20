@@ -3,10 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import type { Product } from "@/data/products";
-import {
-  productImages,
-  productName,
-} from "@/data/products";
+import { productImages, productName } from "@/data/products";
+import { ProductImagePlaceholder } from "@/components/ProductImagePlaceholder";
 import { useLocale } from "@/components/LocaleProvider";
 
 type ProductDetailGalleryProps = {
@@ -17,14 +15,18 @@ export function ProductDetailGallery({ product }: ProductDetailGalleryProps) {
   const { locale } = useLocale();
   const images = productImages(product);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [failedSrc, setFailedSrc] = useState<Record<string, boolean>>({});
   const activeImage = images[activeIndex];
   const alt = productName(product, locale);
+  const showPlaceholder = !activeImage || failedSrc[activeImage];
 
   return (
     <div className="min-w-0">
       <div className="relative aspect-square overflow-hidden rounded-2xl bg-brand-light">
         <div className="absolute inset-x-6 bottom-0 top-6 rounded-t-[999px] bg-white/70 sm:inset-x-8 sm:top-8" />
-        {activeImage ? (
+        {showPlaceholder ? (
+          <ProductImagePlaceholder product={product} className="absolute inset-0" />
+        ) : (
           <Image
             key={activeImage}
             src={activeImage}
@@ -33,8 +35,11 @@ export function ProductDetailGallery({ product }: ProductDetailGalleryProps) {
             priority
             className="object-contain p-4 sm:p-6"
             sizes="(max-width: 1024px) 100vw, 50vw"
+            onError={() =>
+              setFailedSrc((prev) => ({ ...prev, [activeImage]: true }))
+            }
           />
-        ) : null}
+        )}
       </div>
 
       {images.length > 1 ? (
@@ -52,13 +57,24 @@ export function ProductDetailGallery({ product }: ProductDetailGalleryProps) {
                   : "border-border hover:border-brand-purple/30"
               }`}
             >
-              <Image
-                src={src}
-                alt=""
-                fill
-                className="object-contain p-1.5"
-                sizes="72px"
-              />
+              {failedSrc[src] ? (
+                <ProductImagePlaceholder
+                  product={product}
+                  className="absolute inset-0"
+                  compact
+                />
+              ) : (
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  className="object-contain p-1.5"
+                  sizes="72px"
+                  onError={() =>
+                    setFailedSrc((prev) => ({ ...prev, [src]: true }))
+                  }
+                />
+              )}
             </button>
           ))}
         </div>
