@@ -14,25 +14,25 @@ export type Category = {
 /** Categorias principais alinhadas a productGroups (fallback de rota /categoria/[slug]). */
 export const categories: Category[] = [
   {
-    id: "cat-emagrecedores",
+    id: "cat-vitaminas-suplementos",
     name: {
-      es: "Emagrecedores",
-      pt: "Emagrecedores",
+      es: "Vitaminas y Suplementos",
+      pt: "Vitaminas e Suplementos",
     },
-    slug: "emagrecedores",
+    slug: "vitaminas-suplementos",
     description: {
-      es: "Opciones para corte y control de peso.",
-      pt: "Opcoes para corte e controle de peso.",
+      es: "Vitaminas y suplementos para tu rutina.",
+      pt: "Vitaminas e suplementos para sua rotina.",
     },
-    image: "/categories/emagrecedores.svg",
+    image: "/categories/orales.svg",
     featured: true,
     sortOrder: 1,
   },
   {
     id: "cat-estetica",
     name: {
-      es: "Estetica",
-      pt: "Estetica",
+      es: "Estética",
+      pt: "Estética",
     },
     slug: "estetica",
     description: {
@@ -42,6 +42,21 @@ export const categories: Category[] = [
     image: "/categories/combos.svg",
     featured: true,
     sortOrder: 2,
+  },
+  {
+    id: "cat-hormonios",
+    name: {
+      es: "Hormonas",
+      pt: "Hormônios",
+    },
+    slug: "hormonios",
+    description: {
+      es: "Soporte hormonal. Confirmamos lote por WhatsApp.",
+      pt: "Suporte hormonal. Confirmamos lote pelo WhatsApp.",
+    },
+    image: "/categories/hormonios.svg",
+    featured: true,
+    sortOrder: 3,
   },
   {
     id: "cat-anabolizantes",
@@ -56,27 +71,27 @@ export const categories: Category[] = [
     },
     image: "/categories/anabolizantes.svg",
     featured: true,
-    sortOrder: 3,
+    sortOrder: 4,
   },
   {
-    id: "cat-hormonios",
+    id: "cat-emagrecedores",
     name: {
-      es: "Hormonios",
-      pt: "Hormonios",
+      es: "Adelgazantes",
+      pt: "Emagrecedores",
     },
-    slug: "hormonios",
+    slug: "emagrecedores",
     description: {
-      es: "Soporte hormonal. Confirmamos lote por WhatsApp.",
-      pt: "Suporte hormonal. Confirmamos lote pelo WhatsApp.",
+      es: "Opciones para corte y control de peso.",
+      pt: "Opcoes para corte e controle de peso.",
     },
-    image: "/categories/hormonios.svg",
+    image: "/categories/emagrecedores.svg",
     featured: true,
-    sortOrder: 4,
+    sortOrder: 5,
   },
   {
     id: "cat-perfumaria",
     name: {
-      es: "Perfumeria",
+      es: "Perfumería",
       pt: "Perfumaria",
     },
     slug: "perfumaria",
@@ -86,33 +101,18 @@ export const categories: Category[] = [
     },
     image: "/categories/combos.svg",
     featured: true,
-    sortOrder: 5,
-  },
-  {
-    id: "cat-vitaminas-suplementos",
-    name: {
-      es: "Vitaminas y Suplementos",
-      pt: "Vitaminas e Suplementos",
-    },
-    slug: "vitaminas-suplementos",
-    description: {
-      es: "Vitaminas y suplementos para tu rutina.",
-      pt: "Vitaminas e suplementos para sua rotina.",
-    },
-    image: "/categories/orales.svg",
-    featured: true,
     sortOrder: 6,
   },
   {
-    id: "cat-saude-bem-estar",
+    id: "cat-cosmeticos",
     name: {
-      es: "Salud y Bienestar",
-      pt: "Saude e Bem-estar",
+      es: "Cosméticos",
+      pt: "Cosméticos",
     },
-    slug: "saude-bem-estar",
+    slug: "cosmeticos",
     description: {
-      es: "Productos para salud y bienestar.",
-      pt: "Produtos para saude e bem-estar.",
+      es: "Dermocosmetica y cuidado de la piel.",
+      pt: "Dermocosmetica e cuidados com a pele.",
     },
     image: "/categories/combos.svg",
     featured: true,

@@ -3,21 +3,13 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import { useCart } from "@/lib/cart";
-import { formatPrice } from "@/lib/format";
 import { AppLink } from "@/components/AppLink";
 import { useLocale } from "@/components/LocaleProvider";
 
 export function CartDrawer() {
-  const {
-    items,
-    isOpen,
-    closeCart,
-    removeItem,
-    updateQuantity,
-    subtotal,
-    itemCount,
-  } = useCart();
-  const { dictionary, href, locale } = useLocale();
+  const { items, isOpen, closeCart, removeItem, updateQuantity, itemCount } =
+    useCart();
+  const { dictionary, href } = useLocale();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -94,9 +86,6 @@ export function CartDrawer() {
                       {item.name}
                     </AppLink>
                     <p className="mt-1 text-xs text-muted">{item.brand}</p>
-                    <p className="mt-1 text-sm font-bold">
-                      {formatPrice(item.price, locale)}
-                    </p>
                     <div className="mt-2 flex items-center gap-2">
                       <button
                         type="button"
@@ -138,14 +127,6 @@ export function CartDrawer() {
           className="border-t border-border px-4 py-4"
           style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
         >
-          <div className="mb-3 flex items-center justify-between">
-            <span className="text-sm text-muted">
-              {dictionary.cartDrawer.subtotal}
-            </span>
-            <span className="text-lg font-extrabold">
-              {formatPrice(subtotal, locale)}
-            </span>
-          </div>
           <AppLink
             href={href("/checkout")}
             onClick={closeCart}

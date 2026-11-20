@@ -2,6 +2,7 @@ import type { LocalizedString } from "@/data/site";
 import { site } from "@/data/site";
 import type { Locale } from "@/i18n/config";
 import { getGroupIdForCategorySlug } from "@/data/productGroups";
+import { skincareProducts } from "@/data/skincareProducts";
 
 /** Versao do schema — incrementar se campos obrigatorios mudarem no futuro. */
 export const PRODUCT_CATALOG_SCHEMA_VERSION = 1;
@@ -1278,7 +1279,7 @@ export const products: Product[] = [
     dosage: "200mg",
     unit: "un",
     price: 360,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/trembolona-enantato-200mg.webp",
     description: {
       es: "Trembolona Enantato 200mg. 200mg · un. Pedi por WhatsApp.",
@@ -1298,7 +1299,7 @@ export const products: Product[] = [
     dosage: "100mg",
     unit: "un",
     price: 280,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/trembolona-acetato-100mg.webp",
     description: {
       es: "Trembolona Acetato 100mg. 100mg · un. Pedi por WhatsApp.",
@@ -1318,7 +1319,7 @@ export const products: Product[] = [
     dosage: "10mg",
     unit: "un",
     price: 280,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/stanozolol-10mg-50cp.webp",
     description: {
       es: "Stanozolol 10mg 50cp. 10mg · un. Pedi por WhatsApp.",
@@ -1338,7 +1339,7 @@ export const products: Product[] = [
     dosage: "100mg",
     unit: "un",
     price: 288,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/propionato-de-testo-100mg.webp",
     description: {
       es: "Propionato de Testo 100mg. 100mg · un. Pedi por WhatsApp.",
@@ -1358,7 +1359,7 @@ export const products: Product[] = [
     dosage: "100mg",
     unit: "un",
     price: 712,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/primobolan-100mg.webp",
     description: {
       es: "Primobolan 100mg. 100mg · un. Pedi por WhatsApp.",
@@ -1378,7 +1379,7 @@ export const products: Product[] = [
     dosage: "25mg",
     unit: "un",
     price: 712,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/primobolan-25mg-50cp.webp",
     description: {
       es: "Primobolan 25mg 50cp. 25mg · un. Pedi por WhatsApp.",
@@ -1398,7 +1399,7 @@ export const products: Product[] = [
     dosage: "10mg",
     unit: "un",
     price: 240,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/oxandrolona-10mg-50cp-cooper.webp",
     description: {
       es: "Oxandrolona 10mg 50cp. 10mg · un. Pedi por WhatsApp.",
@@ -1418,7 +1419,7 @@ export const products: Product[] = [
     dosage: "100mg",
     unit: "un",
     price: 312,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/npp-100mg.webp",
     description: {
       es: "NPP 100mg. 100mg · un. Pedi por WhatsApp.",
@@ -1438,7 +1439,7 @@ export const products: Product[] = [
     dosage: "200mg",
     unit: "un",
     price: 480,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/masteron-enantato-200mg.webp",
     description: {
       es: "Masteron Enantato 200mg. 200mg · un. Pedi por WhatsApp.",
@@ -1458,7 +1459,7 @@ export const products: Product[] = [
     dosage: "100mg",
     unit: "un",
     price: 400,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/masteron-100mg.webp",
     description: {
       es: "Masteron 100mg. 100mg · un. Pedi por WhatsApp.",
@@ -1478,7 +1479,7 @@ export const products: Product[] = [
     dosage: "50mg",
     unit: "un",
     price: 312,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/hemogenin-50mg-50cp.webp",
     description: {
       es: "Hemogenin 50mg 50cp. 50mg · un. Pedi por WhatsApp.",
@@ -1498,7 +1499,7 @@ export const products: Product[] = [
     dosage: "450mg",
     unit: "un",
     price: 360,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/halorestin-5mg-50cp.webp",
     description: {
       es: "Halorestin 5mg 50cp. 450mg · un. Pedi por WhatsApp.",
@@ -1518,7 +1519,7 @@ export const products: Product[] = [
     dosage: "250mg",
     unit: "un",
     price: 312,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/enantato-de-testo-250mg.webp",
     description: {
       es: "Enantato de Testo 250mg. 250mg · un. Pedi por WhatsApp.",
@@ -1538,7 +1539,7 @@ export const products: Product[] = [
     dosage: "250mg",
     unit: "un",
     price: 312,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/durateston-250mg.webp",
     description: {
       es: "Durateston 250mg. 250mg · un. Pedi por WhatsApp.",
@@ -1558,7 +1559,7 @@ export const products: Product[] = [
     dosage: "10mg",
     unit: "un",
     price: 144,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/dianabol-10mg-50cp.webp",
     description: {
       es: "Dianabol 10mg 50cp. 10mg · un. Pedi por WhatsApp.",
@@ -1578,7 +1579,7 @@ export const products: Product[] = [
     dosage: "250mg",
     unit: "un",
     price: 312,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/deca-250mg.webp",
     description: {
       es: "Deca 250mg. 250mg · un. Pedi por WhatsApp.",
@@ -1598,7 +1599,7 @@ export const products: Product[] = [
     dosage: "250mg",
     unit: "un",
     price: 288,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/cipionato-de-testo-250mg.webp",
     description: {
       es: "Cipionato de Testo 250mg. 250mg · un. Pedi por WhatsApp.",
@@ -1618,7 +1619,7 @@ export const products: Product[] = [
     dosage: "250mg",
     unit: "un",
     price: 336,
-    categorySlug: "esteroide",
+    categorySlug: "anabolizantes",
     image: "/products/remote/boldenona-250mg.webp",
     description: {
       es: "Boldenona 250mg. 250mg · un. Pedi por WhatsApp.",
@@ -2125,15 +2126,34 @@ export const products: Product[] = [
     bestSeller: false,
     onSale: false,
     tags: ["emagrecedores", "veltrane diamond", "retatrutide"],
-  }
+  },
+  ...skincareProducts,
 ];
 
 export function productName(product: Product, locale: Locale): string {
   return product.nameLocalized?.[locale] ?? product.name;
 }
 
+/** Caminho automático para fotos arrastadas em public/produtos/skincare/{slug}.webp */
+export function skincareImagePath(slug: string): string {
+  return `/produtos/skincare/${slug}.webp`;
+}
+
+export function productImageSrc(product: Product): string | undefined {
+  const explicit = product.image?.trim();
+  if (explicit) return explicit;
+  if (product.categorySlug === "cosmeticos") {
+    return skincareImagePath(product.slug);
+  }
+  return undefined;
+}
+
+export function productShowsCatalogVisual(product: Product): boolean {
+  return Boolean(productImageSrc(product));
+}
+
 export function productImages(product: Product): string[] {
-  const primary = product.image?.trim();
+  const primary = productImageSrc(product);
   if (product.images?.length) {
     return primary ? [primary, ...product.images] : [...product.images];
   }
@@ -2141,7 +2161,15 @@ export function productImages(product: Product): string[] {
 }
 
 export function productHasImage(product: Product): boolean {
-  return productImages(product).length > 0;
+  return productShowsCatalogVisual(product);
+}
+
+/** Imagem para carrinho/checkout (foto real ou skincare explícita). */
+export function productCartImage(product: Product): string {
+  const explicit = product.image?.trim();
+  if (explicit) return explicit;
+  const src = productImageSrc(product);
+  return src ?? "";
 }
 
 export function productHasPrice(product: Product): boolean {

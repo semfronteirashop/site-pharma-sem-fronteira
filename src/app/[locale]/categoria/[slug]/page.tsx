@@ -1,4 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { CategoryEmptyCta } from "@/components/CategoryEmptyCta";
+import { ProductFinder } from "@/components/ProductFinder";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
@@ -10,8 +12,10 @@ import {
   groupName,
   getAllCategoryRouteSlugs,
   getProductGroupById,
+  resolveProductGroupId,
 } from "@/data/productGroups";
 import {
+  getBrandsByGroupId,
   getCategoryBySlug,
   getProductsByCategory,
   getProductsByGroupId,
@@ -19,6 +23,7 @@ import {
 import { categoryMetadata, groupMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales, type Locale } from "@/i18n/config";
+import { localizePath } from "@/i18n/paths";
 
 type Params = Promise<{ locale: string; slug: string }>;
 
@@ -37,7 +42,8 @@ export async function generateMetadata({ params }: { params: Params }) {
   if (!isLocale(raw)) return {};
   const locale = raw as Locale;
 
-  const group = getProductGroupById(slug);
+  const resolved = resolveProductGroupId(slug);
+  const group = getProductGroupById(resolved);
   if (group) return groupMetadata(group, locale);
 
   const category = getCategoryBySlug(slug);
@@ -52,10 +58,14 @@ export default async function CategoryPage({ params }: { params: Params }) {
   const locale = raw as Locale;
   const dictionary = getDictionary(locale);
 
+  const resolvedGroupId = resolveProductGroupId(slug);
+  if (resolvedGroupId !== slug) {
+    redirect(localizePath(locale, `/categoria/${resolvedGroupId}`));
+  }
+
   const group = getProductGroupById(slug);
   if (group) {
     const products = getProductsByGroupId(group.id);
-    const isEmpty = group.categorySlugs.length === 0;
 
     return (
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
@@ -65,15 +75,25 @@ export default async function CategoryPage({ params }: { params: Params }) {
           href="/produtos"
           linkLabel={dictionary.categoryPage.back}
         />
-        <ProductGrid
-          products={products}
-          emptyMessage={dictionary.categoryPage.empty}
-          emptyHint={
-            isEmpty || products.length === 0
-              ? dictionary.categoryPage.emptyHint
-              : undefined
-          }
-        />
+        {products.length === 0 ? (
+          <CategoryEmptyCta />
+        ) : group.id === "cosmeticos" ? (
+          <div className="mt-6">
+            <ProductFinder
+              products={products}
+              brands={getBrandsByGroupId("cosmeticos")}
+              groups={[group]}
+              initialGroup={group.id}
+              showHeading={false}
+              showAllByDefault
+            />
+          </div>
+        ) : (
+          <ProductGrid
+            products={products}
+            emptyMessage={dictionary.categoryPage.empty}
+          />
+        )}
       </div>
     );
   }
@@ -91,13 +111,14 @@ export default async function CategoryPage({ params }: { params: Params }) {
         href="/produtos"
         linkLabel={dictionary.categoryPage.back}
       />
-      <ProductGrid
-        products={products}
-        emptyMessage={dictionary.categoryPage.empty}
-        emptyHint={
-          products.length === 0 ? dictionary.categoryPage.emptyHint : undefined
-        }
-      />
+      {products.length === 0 ? (
+        <CategoryEmptyCta />
+      ) : (
+        <ProductGrid
+          products={products}
+          emptyMessage={dictionary.categoryPage.empty}
+        />
+      )}
     </div>
   );
 }

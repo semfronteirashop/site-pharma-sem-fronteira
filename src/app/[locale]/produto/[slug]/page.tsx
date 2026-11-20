@@ -5,7 +5,6 @@ import { ProductDetailActions } from "@/components/ProductDetailActions";
 import { ProductDetailGallery } from "@/components/ProductDetailGallery";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductMobileBuyBar } from "@/components/ProductMobileBuyBar";
-import { ProductWhatsAppPriceButton } from "@/components/ProductWhatsAppPriceButton";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
   getAllProducts,
@@ -16,12 +15,10 @@ import {
   getProductGroupById,
   groupName,
 } from "@/data/productGroups";
-import { discountPercent, formatPrice } from "@/lib/format";
 import { productJsonLd, productMetadata } from "@/lib/seo";
 import {
   productFullDescription,
   productGroupId,
-  productHasPrice,
   productName,
   productQuantityLabel,
   productShortDescription,
@@ -90,7 +87,6 @@ export default async function ProductPage({ params }: { params: Params }) {
   if (!product) notFound();
 
   const related = getRelatedProducts(product);
-  const discount = discountPercent(product.price, product.originalPrice);
   const name = productName(product, locale);
   const shortDescription = productShortDescription(product, locale);
   const fullDescription = productFullDescription(product, locale);
@@ -158,33 +154,6 @@ export default async function ProductPage({ params }: { params: Params }) {
               ) : null}
 
               <ProductBadges product={product} dictionary={dictionary} />
-
-              <div className="mt-4 flex flex-wrap items-end gap-2 sm:mt-5">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                  {dictionary.productPage.priceLabel}
-                </p>
-                {productHasPrice(product) ? (
-                  <>
-                    <p className="w-full text-2xl font-extrabold text-brand-purple sm:text-3xl">
-                      {formatPrice(product.price, locale)}
-                    </p>
-                    {product.originalPrice ? (
-                      <p className="text-base text-muted line-through">
-                        {formatPrice(product.originalPrice, locale)}
-                      </p>
-                    ) : null}
-                    {discount ? (
-                      <span className="rounded-full bg-sale px-2 py-0.5 text-xs font-bold text-white">
-                        -{discount}%
-                      </span>
-                    ) : null}
-                  </>
-                ) : (
-                  <div className="w-full">
-                    <ProductWhatsAppPriceButton product={product} variant="detail" />
-                  </div>
-                )}
-              </div>
 
               <ul className="mt-4 space-y-1 text-sm text-muted sm:mt-5">
                 <li>{dictionary.productPage.shipCountry}</li>

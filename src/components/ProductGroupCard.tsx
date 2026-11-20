@@ -7,12 +7,13 @@ import { useLocale } from "@/components/LocaleProvider";
 
 type ProductGroupCardProps = {
   group: ProductGroup;
+  productCount: number;
 };
 
-export function ProductGroupCard({ group }: ProductGroupCardProps) {
+export function ProductGroupCard({ group, productCount }: ProductGroupCardProps) {
   const { href, locale, dictionary } = useLocale();
   const name = groupName(group, locale);
-  const isReady = group.categorySlugs.length > 0;
+  const hasProducts = productCount > 0;
 
   return (
     <AppLink
@@ -23,7 +24,7 @@ export function ProductGroupCard({ group }: ProductGroupCardProps) {
         {name}
       </h3>
       <p className="mt-1 text-[11px] text-muted sm:text-xs">
-        {isReady
+        {hasProducts
           ? dictionary.productsPage.exploreCategory
           : dictionary.productsPage.categoryComingSoon}
       </p>

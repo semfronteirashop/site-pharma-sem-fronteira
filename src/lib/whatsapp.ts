@@ -41,6 +41,31 @@ export function buildSupportMessage(locale: Locale, topic?: string): string {
   return t.support(topic ?? t.defaultTopic, site.name);
 }
 
+/** Consulta de preco de um produto (PT/ES). */
+export function buildProductPriceInquiryMessage(
+  productName: string,
+  locale: Locale,
+): string {
+  return getDictionary(locale).whatsappMsg.productPriceInquiry(productName);
+}
+
+export type WhatsAppQuoteLineItem = {
+  name: string;
+  quantity: number;
+};
+
+/** Pedido de orcamento do carrinho — sem valores (opcao B). */
+export function buildCartQuoteMessage(
+  items: WhatsAppQuoteLineItem[],
+  locale: Locale,
+): string {
+  const t = getDictionary(locale).whatsappMsg;
+  const lines = items.map((item) => `• ${item.quantity}x ${item.name}`);
+  return [t.cartQuoteIntro(site.name), "", ...lines, "", t.cartQuoteClosing].join(
+    "\n",
+  );
+}
+
 export function buildProductOrderMessage(
   product: {
     name: string;
