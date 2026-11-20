@@ -7,11 +7,13 @@ import { ProductGroupCard } from "@/components/ProductGroupCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { site, tSite } from "@/data/site";
 import {
+  filterHomeHighlightProducts,
   getAllProductGroups,
   getBestSellers,
   getNewLaunches,
   getProductGroupProductCount,
   getSaleProducts,
+  hasActiveSaleProducts,
 } from "@/lib/catalog";
 import { createMetadata } from "@/lib/seo";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -42,9 +44,10 @@ export default async function HomePage({ params }: { params: Params }) {
   const dictionary = getDictionary(locale);
 
   const groups = getAllProductGroups();
-  const bestSellers = getBestSellers().slice(0, 8);
-  const offers = getSaleProducts().slice(0, 8);
-  const launches = getNewLaunches().slice(0, 8);
+  const showOffers = hasActiveSaleProducts();
+  const bestSellers = filterHomeHighlightProducts(getBestSellers()).slice(0, 8);
+  const offers = filterHomeHighlightProducts(getSaleProducts()).slice(0, 8);
+  const launches = filterHomeHighlightProducts(getNewLaunches()).slice(0, 8);
   const whatsappUrl = `https://wa.me/${site.whatsapp.replace(/\D/g, "")}`;
 
   return (
@@ -72,21 +75,22 @@ export default async function HomePage({ params }: { params: Params }) {
         </div>
       </FadeInSection>
 
-      <FadeInSection delayMs={90}>
-        <div className={sectionShell}>
-          <SectionHeading
-            title={dictionary.home.offersTitle}
-            description={dictionary.home.offersDesc}
-            href="/ofertas"
-            linkLabel={dictionary.home.seeOffers}
-            accent
-          />
-          <ProductCarousel
-            products={offers}
-            emptyMessage={dictionary.offersPage.empty}
-          />
-        </div>
-      </FadeInSection>
+      {showOffers ? (
+        <FadeInSection delayMs={90}>
+          <div className={sectionShell}>
+            <SectionHeading
+              title={dictionary.home.offersTitle}
+              href="/ofertas"
+              linkLabel={dictionary.home.seeOffers}
+              accent
+            />
+            <ProductCarousel
+              products={offers}
+              emptyMessage={dictionary.offersPage.empty}
+            />
+          </div>
+        </FadeInSection>
+      ) : null}
 
       <FadeInSection className="bg-brand-light" delayMs={120}>
         <div className={sectionShell}>

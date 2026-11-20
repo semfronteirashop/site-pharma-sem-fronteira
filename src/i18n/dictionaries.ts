@@ -322,7 +322,7 @@ const es: Dictionary = {
     bestSellersTitle: "Mas vendidos",
     seeRanking: "Ver todos",
     offersTitle: "Ofertas",
-    offersDesc: "Precio tachado = descuento activo.",
+    offersDesc: "",
     seeOffers: "Ver todos",
     authTitle: "Autenticacion por lote",
     authDesc: (hours) =>
@@ -672,7 +672,7 @@ const pt: Dictionary = {
     bestSellersTitle: "Mais vendidos",
     seeRanking: "Ver todos",
     offersTitle: "Ofertas",
-    offersDesc: "Preco riscado = desconto ativo.",
+    offersDesc: "",
     seeOffers: "Ver todos",
     authTitle: "Autenticacao por lote",
     authDesc: (hours) =>
